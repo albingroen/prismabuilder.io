@@ -7,6 +7,7 @@ import { Layers } from "react-feather";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Models() {
   const { schema, setSchema } = useSchemaContext();
@@ -31,19 +32,23 @@ export default function Models() {
 
       <Button
         onClick={() => {
-          const newSchema = {
-            ...schema,
-            models: [
-              ...schema.models,
-              {
-                name: "New",
-                fields: [ID_FIELD],
-                enums: [],
-              },
-            ],
-          };
-          setSchema(newSchema);
-          router.push(`/models/${newSchema.models.length - 1}`);
+          if (schema.models.some((model) => model.name === "New")) {
+            toast.error("A model called New already exists");
+          } else {
+            const newSchema = {
+              ...schema,
+              models: [
+                ...schema.models,
+                {
+                  name: "New",
+                  fields: [ID_FIELD],
+                  enums: [],
+                },
+              ],
+            };
+            setSchema(newSchema);
+            router.push(`/models/${newSchema.models.length - 1}`);
+          }
         }}
         variant="secondary"
       >

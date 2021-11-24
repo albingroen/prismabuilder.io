@@ -2,6 +2,7 @@ import AddField from "../../components/AddField";
 import Models from "../../components/Models";
 import Tag from "../../components/Tag";
 import UpdateField from "../../components/UpdateField";
+import toast from "react-hot-toast";
 import { Button, Menu, Separator, TextField, Title } from "@prisma/lens";
 import { CheckSquare, Edit, MoreVertical } from "react-feather";
 import { FIELDS } from "../../lib/fields";
@@ -12,7 +13,7 @@ import { useSchemaContext } from "../../lib/context";
 
 const Model = () => {
   const { schema, setSchema } = useSchemaContext();
-  const { query } = useRouter();
+  const { query, asPath } = useRouter();
   const { id } = query;
 
   const model = schema.models?.[id as string];
@@ -37,10 +38,14 @@ const Model = () => {
   };
 
   useEffect(() => {
-    if (model?.name && !name) {
+    if (model?.name) {
       setName(model.name);
     }
-  }, [model, name]);
+  }, [model]);
+
+  useEffect(() => {
+    setEditingName(false);
+  }, [asPath]);
 
   return (
     <>
@@ -80,24 +85,34 @@ const Model = () => {
         {model && (
           <div className="flex-1 p-12 bg-gray-100 h-screen flex flex-col space-y-4">
             <div className="flex items-center justify-between space-x-6">
-              <div className="flex items-center space-x-4">
+              <div
+                className={`flex ${
+                  editingName ? "items-end" : "items-center"
+                } space-x-4`}
+              >
                 {editingName ? (
                   <div>
                     <TextField
                       onChange={setName}
                       placeholder="User"
                       inputMode="text"
+                      label="Name"
                       value={name}
                       autoFocus
                     />
                   </div>
                 ) : (
-                  <Title>{model?.name}</Title>
+                  <Title>{name}</Title>
                 )}
                 <button
                   onClick={() => {
-                    if (editingName) {
-                      updateModel({ name });
+                    if (editingName && name !== model.name) {
+                      if (schema.models.some((m) => m.name === name)) {
+                        toast.error(`A model called ${name} already exists`);
+                        setName(model.name);
+                      } else {
+                        updateModel({ name });
+                      }
                     }
                     setEditingName(!editingName);
                   }}
@@ -169,7 +184,7 @@ const Model = () => {
                 <h2 className="font-semibold text-xl">Add field</h2>
 
                 <div className="flex flex-col space-y-3">
-                  {FIELDS.map((field) => {
+                  {[...FIELDS, ...schema.models].map((field) => {
                     const Icon = field.name
                       ? prismaTypesToIcons[field.name] ??
                         prismaTypesToIcons.Relation

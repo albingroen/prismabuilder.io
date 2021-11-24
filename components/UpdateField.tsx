@@ -4,6 +4,7 @@ import { FIELDS } from "../lib/fields";
 import { Field } from "../lib/types";
 import { PRISMA_DEFAULT_VALUE_FNS } from "../lib/prisma";
 import { useEffect, useState } from "react";
+import { useSchemaContext } from "../lib/context";
 
 type UpdateFieldProps = {
   onSubmit: (value: Field) => void;
@@ -18,9 +19,12 @@ const UpdateField = ({
   onClose,
   open,
 }: UpdateFieldProps) => {
+  const { schema } = useSchemaContext();
+
   const [defaultValue, setDefaultValue] = useState<string>("");
   const [required, setRequired] = useState<boolean>(false);
   const [unique, setUnique] = useState<boolean>(false);
+  const [list, setList] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<string>("");
 
@@ -28,6 +32,7 @@ const UpdateField = ({
     setDefaultValue(defaultValues.default);
     setRequired(defaultValues.required);
     setUnique(defaultValues.unique);
+    setList(defaultValues.list);
     setName(defaultValues.name);
     setType(defaultValues.type);
   }, [defaultValues]);
@@ -39,6 +44,7 @@ const UpdateField = ({
         setDefaultValue("");
         setRequired(false);
         setUnique(false);
+        setList(false);
         setName("");
         setType("");
         onClose();
@@ -76,7 +82,7 @@ const UpdateField = ({
           label="Type"
           key={type}
         >
-          {FIELDS.map((field) => (
+          {[...FIELDS, ...schema.models].map((field) => (
             <Select.Option description={field.description} key={field.name}>
               {field.name}
             </Select.Option>
@@ -124,6 +130,19 @@ const UpdateField = ({
             checked={unique}
             type="checkbox"
             id="unique"
+          />
+        </div>
+        <div className="flex flex-col space-y-3">
+          <label className="font-medium text-sm text-gray-800" htmlFor="unique">
+            List
+          </label>
+          <input
+            onChange={(e) => {
+              setList(e.target.checked);
+            }}
+            checked={list}
+            type="checkbox"
+            id="list"
           />
         </div>
         <Button isDisabled={!name || !type} fillParent>

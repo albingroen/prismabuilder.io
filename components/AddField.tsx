@@ -4,6 +4,7 @@ import { FIELDS } from "../lib/fields";
 import { Field } from "../lib/types";
 import { PRISMA_DEFAULT_VALUE_FNS } from "../lib/prisma";
 import { useEffect, useState } from "react";
+import { useSchemaContext } from "../lib/context";
 
 type AddFieldProps = {
   onSubmit: (value: Field) => void;
@@ -13,9 +14,12 @@ type AddFieldProps = {
 };
 
 const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
+  const { schema } = useSchemaContext();
+
   const [defaultValue, setDefaultValue] = useState<string>("");
   const [required, setRequired] = useState<boolean>(false);
   const [unique, setUnique] = useState<boolean>(false);
+  const [list, setList] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<string>("");
 
@@ -30,6 +34,7 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
         setDefaultValue("");
         setRequired(false);
         setUnique(false);
+        setList(false);
         setName("");
         setType("");
         onClose();
@@ -41,15 +46,15 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
           e.preventDefault();
           e.stopPropagation();
           onSubmit({
+            relationField: schema.models.some((model) => model.name === type),
             default: defaultValue,
-            relationField: false,
             documentation: "",
-            list: false,
             isId: false,
             kind: "",
             required,
             unique,
             type,
+            list,
             name,
           });
         }}
@@ -71,7 +76,7 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
           label="Type"
           key={type}
         >
-          {FIELDS.map((field) => (
+          {[...FIELDS, ...schema.models].map((field) => (
             <Select.Option description={field.description} key={field.name}>
               {field.name}
             </Select.Option>
@@ -118,6 +123,19 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
             checked={unique}
             type="checkbox"
             id="unique"
+          />
+        </div>
+        <div className="flex flex-col space-y-3">
+          <label className="font-medium text-sm text-gray-800" htmlFor="unique">
+            List
+          </label>
+          <input
+            onChange={(e) => {
+              setList(e.target.checked);
+            }}
+            checked={list}
+            type="checkbox"
+            id="list"
           />
         </div>
         <Button isDisabled={!name || !type} fillParent>
