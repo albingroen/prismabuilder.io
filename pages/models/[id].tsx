@@ -13,7 +13,7 @@ import { useSchemaContext } from "../../lib/context";
 
 const Model = () => {
   const { schema, setSchema } = useSchemaContext();
-  const { query, asPath } = useRouter();
+  const { query, asPath, push } = useRouter();
   const { id } = query;
 
   const model = schema.models?.[id as string];
@@ -53,6 +53,7 @@ const Model = () => {
         onClose={() => setAddingField(undefined)}
         defaultType={addingField ?? ""}
         open={Boolean(addingField)}
+        model={model}
         onSubmit={(field) => {
           updateModel({
             fields: [...model.fields, field],
@@ -64,6 +65,13 @@ const Model = () => {
 
       <UpdateField
         onClose={() => setEditingField(undefined)}
+        model={model}
+        onDelete={() => {
+          updateModel({
+            fields: model.fields.filter((field) => field.name !== editingField),
+          });
+          setEditingField(undefined);
+        }}
         defaultValues={
           model?.fields?.find((field) => field.name === editingField) ?? {}
         }
@@ -138,8 +146,22 @@ const Model = () => {
                     size={20}
                   />
                 </Button>
-                <Menu.Body anchor="right" title="Actions">
-                  <Menu.Option>Delete model</Menu.Option>
+                <Menu.Body
+                  onSelectionChange={(key) => {
+                    if (key === "delete") {
+                      setSchema({
+                        ...schema,
+                        models: schema.models.filter(
+                          (m) => m.name !== model.name
+                        ),
+                      });
+                      push("/");
+                    }
+                  }}
+                  anchor="right"
+                  title="Actions"
+                >
+                  <Menu.Option key="delete">Delete model</Menu.Option>
                 </Menu.Body>
               </Menu.Container>
             </div>

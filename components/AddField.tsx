@@ -1,7 +1,7 @@
 import Modal from "./Modal";
 import { Button, Select, TextField } from "@prisma/lens";
 import { FIELDS } from "../lib/fields";
-import { Field } from "../lib/types";
+import { Field, Model } from "../lib/types";
 import { PRISMA_DEFAULT_VALUE_FNS } from "../lib/prisma";
 import { useEffect, useState } from "react";
 import { useSchemaContext } from "../lib/context";
@@ -11,14 +11,22 @@ type AddFieldProps = {
   defaultType: string;
   onClose: () => void;
   open: boolean;
+  model: Model;
 };
 
-const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
+const AddField = ({
+  defaultType,
+  onSubmit,
+  onClose,
+  model,
+  open,
+}: AddFieldProps) => {
   const { schema } = useSchemaContext();
 
   const [defaultValue, setDefaultValue] = useState<string>("");
   const [required, setRequired] = useState<boolean>(false);
   const [unique, setUnique] = useState<boolean>(false);
+  const [isId, setIsId] = useState<boolean>(false);
   const [list, setList] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
   const [type, setType] = useState<string>("");
@@ -35,6 +43,7 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
         setRequired(false);
         setUnique(false);
         setList(false);
+        setIsId(false);
         setName("");
         setType("");
         onClose();
@@ -49,10 +58,10 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
             relationField: schema.models.some((model) => model.name === type),
             default: defaultValue,
             documentation: "",
-            isId: false,
             kind: "",
             required,
             unique,
+            isId,
             type,
             list,
             name,
@@ -87,7 +96,7 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
           onSelectionChange={(key) => {
             setDefaultValue(key);
           }}
-          hint="A Prisma deafault value function"
+          hint="A Prisma default value function"
           label="Default value"
         >
           {PRISMA_DEFAULT_VALUE_FNS.map((field) => (
@@ -96,47 +105,73 @@ const AddField = ({ onSubmit, defaultType, open, onClose }: AddFieldProps) => {
             </Select.Option>
           ))}
         </Select.Container>
-        <div className="flex flex-col space-y-3">
-          <label
-            className="font-medium text-sm text-gray-800"
-            htmlFor="required"
-          >
-            Required
-          </label>
-          <input
-            onChange={(e) => {
-              setRequired(e.target.checked);
-            }}
-            checked={required}
-            type="checkbox"
-            id="required"
-          />
-        </div>
-        <div className="flex flex-col space-y-3">
-          <label className="font-medium text-sm text-gray-800" htmlFor="unique">
-            Unique
-          </label>
-          <input
-            onChange={(e) => {
-              setUnique(e.target.checked);
-            }}
-            checked={unique}
-            type="checkbox"
-            id="unique"
-          />
-        </div>
-        <div className="flex flex-col space-y-3">
-          <label className="font-medium text-sm text-gray-800" htmlFor="unique">
-            List
-          </label>
-          <input
-            onChange={(e) => {
-              setList(e.target.checked);
-            }}
-            checked={list}
-            type="checkbox"
-            id="list"
-          />
+        <div className="flex space-x-8 items-start py-2">
+          <div className="flex flex-col space-y-3">
+            <label
+              className="font-medium text-sm text-gray-800"
+              htmlFor="required"
+            >
+              Required
+            </label>
+            <input
+              onChange={(e) => {
+                setRequired(e.target.checked);
+              }}
+              checked={required}
+              type="checkbox"
+              id="required"
+            />
+          </div>
+          <div className="flex flex-col space-y-3">
+            <label
+              className="font-medium text-sm text-gray-800"
+              htmlFor="unique"
+            >
+              Unique
+            </label>
+            <input
+              onChange={(e) => {
+                setUnique(e.target.checked);
+              }}
+              checked={unique}
+              type="checkbox"
+              id="unique"
+            />
+          </div>
+          <div className="flex flex-col space-y-3">
+            <label
+              className="font-medium text-sm text-gray-800"
+              htmlFor="unique"
+            >
+              List
+            </label>
+            <input
+              onChange={(e) => {
+                setList(e.target.checked);
+              }}
+              checked={list}
+              type="checkbox"
+              id="list"
+            />
+          </div>
+          {type === "String" && !model.fields.some((field) => field.isId) && (
+            <div className="flex flex-col space-y-3">
+              <label
+                className="font-medium text-sm text-gray-800"
+                htmlFor="unique"
+              >
+                Is ID
+              </label>
+              <input
+                onChange={(e) => {
+                  setIsId(e.target.checked);
+                }}
+                checked={isId}
+                type="checkbox"
+                id="isId"
+              />
+            </div>
+          )}
         </div>
         <Button isDisabled={!name || !type} fillParent>
           Add field
