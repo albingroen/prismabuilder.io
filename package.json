@@ -2,21 +2,32 @@
   "name": "prisma-model-generator",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "format": "prettier --write .",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "dev": "next dev"
   },
   "dependencies": {
+    "@headlessui/react": "^1.4.2",
+    "@prisma/lens": "^0.0.299",
+    "@prisma/sdk": "^3.5.0",
+    "autoprefixer": "^10.4.0",
+    "axios": "^0.24.0",
     "next": "12.0.4",
+    "postcss": "^8.3.11",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-feather": "^2.0.9",
+    "react-hot-toast": "^2.1.1",
+    "tailwindcss": "^2.2.19"
   },
   "devDependencies": {
     "@types/node": "16.11.9",
     "@types/react": "17.0.36",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
+    "prettier": "^2.4.1",
     "typescript": "4.5.2"
   }
 }
