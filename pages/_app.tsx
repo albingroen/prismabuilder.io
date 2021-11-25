@@ -1,9 +1,10 @@
 import "../styles/globals.css";
+import Seo from "../components/Seo";
 import type { AppProps } from "next/app";
 import { LensProvider } from "@prisma/lens";
-import { useState } from "react";
 import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
+import { useState } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [schema, setSchema] = useState({
@@ -12,14 +13,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   });
 
   return (
-    <LensProvider>
-      <SchemaContext.Provider value={{ schema, setSchema }}>
-        <main className="antialiased">
-          <Component {...pageProps} />
-          <Toaster />
-        </main>
-      </SchemaContext.Provider>
-    </LensProvider>
+    <>
+      <Seo />
+
+      <LensProvider>
+        <SchemaContext.Provider value={{ schema, setSchema }}>
+          <main className="antialiased">
+            <Component {...pageProps} />
+            <Toaster />
+          </main>
+        </SchemaContext.Provider>
+      </LensProvider>
+    </>
   );
 }
 
