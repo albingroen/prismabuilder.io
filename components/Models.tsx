@@ -8,6 +8,7 @@ import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Model } from "../lib/types";
 
 export default function Models() {
   const { schema, setSchema } = useSchemaContext();
@@ -17,7 +18,7 @@ export default function Models() {
 
   return (
     <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
-      {schema.models.map((model, i) => (
+      {schema.models.map((model: Model, i: number) => (
         <Link href={`/models/${i}`} key={model.name}>
           <a>
             <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
@@ -32,7 +33,7 @@ export default function Models() {
 
       <Button
         onClick={() => {
-          if (schema.models.some((model) => model.name === "New")) {
+          if (schema.models.some((model: Model) => model.name === "New")) {
             toast.error("A model called New already exists");
           } else {
             const newSchema = {

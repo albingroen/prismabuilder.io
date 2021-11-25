@@ -1,4 +1,4 @@
-const parseRelationship = (relation) => {
+const parseRelationship = (relation: any) => {
   if (!relation) {
     return "";
   }
@@ -63,7 +63,7 @@ const parseEnums = (enums: any[]) => {
 
 export const jsonToPrismaSchema = (jsonSchema: any) => {
   const prismaSchema = Object.entries(jsonSchema).reduce(
-    (a, [type, values]) => {
+    (a: any, [type, values]: [any, any]) => {
       if (type === "models") {
         return [...a, ...parseModels(values)];
       }

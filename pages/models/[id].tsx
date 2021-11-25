@@ -10,6 +10,7 @@ import { prismaTypesToIcons } from "../../lib/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../../lib/context";
+import { Field, Model } from "../../lib/types";
 
 const Model = () => {
   const { schema, setSchema } = useSchemaContext();
@@ -26,7 +27,7 @@ const Model = () => {
   const updateModel = (values: any) => {
     setSchema({
       ...schema,
-      models: schema.models.map((m) =>
+      models: schema.models.map((m: Model) =>
         m.name === model.name
           ? {
               ...model,
@@ -67,12 +68,13 @@ const Model = () => {
         onClose={() => setEditingField(undefined)}
         model={model}
         defaultValues={
-          model?.fields?.find((field) => field.name === editingField) ?? {}
+          model?.fields?.find((field: Field) => field.name === editingField) ??
+          {}
         }
         open={Boolean(editingField)}
         onSubmit={(field) => {
           updateModel({
-            fields: model.fields.map((f) =>
+            fields: model.fields.map((f: Field) =>
               f.name === editingField ? field : f
             ),
           });
@@ -109,7 +111,7 @@ const Model = () => {
                 <button
                   onClick={() => {
                     if (editingName && name !== model.name) {
-                      if (schema.models.some((m) => m.name === name)) {
+                      if (schema.models.some((m: Model) => m.name === name)) {
                         toast.error(`A model called ${name} already exists`);
                         setName(model.name);
                       } else {
@@ -146,7 +148,7 @@ const Model = () => {
                       setSchema({
                         ...schema,
                         models: schema.models.filter(
-                          (m) => m.name !== model.name
+                          (m: Model) => m.name !== model.name
                         ),
                       });
                       push("/");
@@ -164,7 +166,7 @@ const Model = () => {
 
             <div className="flex space-x-8">
               <div className="flex flex-col space-y-3 flex-1 model-fields p-1 overflow-y-auto">
-                {model?.fields?.map((field) => {
+                {model?.fields?.map((field: Field) => {
                   const Icon = field.type
                     ? prismaTypesToIcons[field.type] ??
                       prismaTypesToIcons.Relation
@@ -201,7 +203,7 @@ const Model = () => {
 
                           updateModel({
                             fields: model.fields.filter(
-                              (f) => f.name !== field.name
+                              (f: Field) => f.name !== field.name
                             ),
                           });
                         }}

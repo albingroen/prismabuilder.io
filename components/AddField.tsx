@@ -59,7 +59,9 @@ const AddField = ({
           e.preventDefault();
           e.stopPropagation();
           onSubmit({
-            relationField: schema.models.some((model) => model.name === type),
+            relationField: schema.models.some(
+              (model: Model) => model.name === type
+            ),
             default: defaultValue,
             documentation: "",
             kind: "",
