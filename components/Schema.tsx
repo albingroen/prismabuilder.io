@@ -7,9 +7,11 @@ const Schema = () => {
   const [result, setResult] = useState("");
 
   useEffect(() => {
-    axios.post("/api/format", schema).then((res) => {
-      setResult(res.data);
-    });
+    axios
+      .post("https://prismabuilder-io-api.onrender.com/format", { schema })
+      .then((res) => {
+        setResult(res.data);
+      });
   }, [schema]);
 
   return <pre>{result}</pre>;
