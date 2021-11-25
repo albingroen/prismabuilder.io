@@ -1,5 +1,6 @@
 {
-  "name": "prisma-model-generator",
+  "name": "prismabuilder.io",
+  "description": "Build your Prisma schema visually in this easy-to-use web based tool.",
   "private": true,
   "scripts": {
     "format": "prettier --write .",
