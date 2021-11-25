@@ -78,9 +78,9 @@ export default function Models() {
         )}
       </div>
 
-      <div className="divide-x text-xs text-gray-600 justify-self-end">
+      <div className="divide-x text-sm text-gray-600 justify-self-end">
         <a
-          className="hover:underline hover:text-gray-700 pr-2"
+          className="hover:underline hover:text-gray-700 pr-3"
           href="https://albingroen.com"
           rel="noopener noreferrer"
           target="_blank"
@@ -90,7 +90,7 @@ export default function Models() {
 
         <a
           href="https://github.com/albingroen/prismabuilder.io"
-          className="hover:underline hover:text-gray-700 pl-2"
+          className="hover:underline hover:text-gray-700 pl-3"
           rel="noopener noreferrer"
           target="_blank"
         >
