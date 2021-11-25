@@ -35,17 +35,21 @@ const AddField = ({
     setType(defaultType);
   }, [defaultType]);
 
+  const resetState = () => {
+    setDefaultValue("");
+    setRequired(false);
+    setUnique(false);
+    setList(false);
+    setIsId(false);
+    setName("");
+    setType("");
+  };
+
   return (
     <Modal
       open={open}
       onClose={() => {
-        setDefaultValue("");
-        setRequired(false);
-        setUnique(false);
-        setList(false);
-        setIsId(false);
-        setName("");
-        setType("");
+        resetState();
         onClose();
       }}
       heading="New field"
@@ -66,6 +70,7 @@ const AddField = ({
             list,
             name,
           });
+          resetState();
         }}
         className="flex flex-col space-y-4"
       >
@@ -175,6 +180,16 @@ const AddField = ({
         </div>
         <Button isDisabled={!name || !type} fillParent>
           Add field
+        </Button>
+        <Button
+          variant="secondary"
+          fillParent
+          onClick={() => {
+            resetState();
+            onClose();
+          }}
+        >
+          Cancel
         </Button>
       </form>
     </Modal>

@@ -1,10 +1,10 @@
 import { Field } from "./types";
 
 export const FIELDS = [
-  { name: "Int", description: "A fixed number" },
   { name: "DateTime", description: "A calendar date" },
   { name: "String", description: "Any text" },
   { name: "Boolean", description: "True or False" },
+  { name: "Int", description: "A fixed number" },
   { name: "BigInt", description: "A very big number" },
   { name: "Float", description: "Float number" },
   { name: "Decimal", description: "Decimal number" },

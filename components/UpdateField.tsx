@@ -9,7 +9,6 @@ import { useSchemaContext } from "../lib/context";
 type UpdateFieldProps = {
   onSubmit: (value: Field) => void;
   defaultValues: Field;
-  onDelete: () => void;
   onClose: () => void;
   open: boolean;
   model: Model;
@@ -18,7 +17,6 @@ type UpdateFieldProps = {
 const UpdateField = ({
   defaultValues,
   onSubmit,
-  onDelete,
   onClose,
   open,
   model,
@@ -43,17 +41,21 @@ const UpdateField = ({
     setType(defaultValues.type);
   }, [defaultValues]);
 
+  const resetState = () => {
+    setDefaultValue("");
+    setRequired(false);
+    setUnique(false);
+    setList(false);
+    setIsId(false);
+    setName("");
+    setType("");
+  };
+
   return (
     <Modal
       open={open}
       onClose={() => {
-        setDefaultValue("");
-        setRequired(false);
-        setUnique(false);
-        setList(false);
-        setIsId(false);
-        setName("");
-        setType("");
+        resetState();
         onClose();
       }}
       heading="Update field"
@@ -71,6 +73,7 @@ const UpdateField = ({
             type,
             name,
           });
+          resetState();
         }}
         className="flex flex-col space-y-4"
       >
@@ -111,7 +114,7 @@ const UpdateField = ({
             </Select.Option>
           ))}
         </Select.Container>
-        <div className="flex space-x-8 items-start">
+        <div className="flex space-x-8 items-start py-2">
           <div className="flex flex-col space-y-3">
             <label
               className="font-medium text-sm text-gray-800"
@@ -182,11 +185,17 @@ const UpdateField = ({
             </div>
           )}
         </div>
-        <Separator />
         <Button isDisabled={!name || !type} fillParent>
           Update field
         </Button>
-        <Button variant="secondary" fillParent onClick={onClose}>
+        <Button
+          variant="secondary"
+          fillParent
+          onClick={() => {
+            resetState();
+            onClose();
+          }}
+        >
           Cancel
         </Button>
       </form>
