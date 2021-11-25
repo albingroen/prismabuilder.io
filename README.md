@@ -1,4 +1,4 @@
-# prisma-schema-builder
+# prismabuilder.io
 
 Build your Prisma schema visually in this easy-to-use web based tool.
 
