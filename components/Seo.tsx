@@ -6,7 +6,7 @@ const Seo = () => {
     "Build your Prisma schema visually in this easy-to-use web based tool.";
   const url = "https://prismabuilder.io";
   const image =
-    "https://res.cloudinary.com/albin-groen/image/upload/v1637843835/psb-seo_xoyyba.png";
+    "https://res.cloudinary.com/albin-groen/image/upload/v1637844404/psb-seo-min_s3jrtl.png";
 
   return (
     <Head>
