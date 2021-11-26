@@ -13,5 +13,5 @@ Schema generator code by [Richard Powell](https://github.com/byrichardpowell/pri
 The application uses JSON as the data format, and then generates the Prisma schema string on demand. This is done by sending a `POST` request to this url and passing in the schema.
 
 ```javascript
-axios.post("https://prismabuilder-io-api.onrender.com/format", { schema })
+axios.post("https://prismabuilder-io-api.onrender.com/generate", { schema })
 ```

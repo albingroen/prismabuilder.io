@@ -11,7 +11,7 @@ const Schema = () => {
 
   useEffect(() => {
     axios
-      .post("https://prismabuilder-io-api.onrender.com/format", { schema })
+      .post("https://prismabuilder-io-api.onrender.com/generate", { schema })
       .then((res) => {
         setResult(res.data);
         setLoading(false);
