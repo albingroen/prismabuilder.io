@@ -1,7 +1,7 @@
 export const PRISMA_DEFAULT_VALUE_FNS = [
   {
     value: "autoincrement()",
-    label: "Automatic incremenetation",
+    label: "Automatic incrementation",
     description: "Automatically increment each row from 0",
   },
   {
