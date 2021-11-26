@@ -16,6 +16,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     enums: [],
   });
 
+  useEffect(() => {
+    if (window) {
+      const lcValue = localStorage.getItem("schema");
+      if (lcValue) {
+        setSchema(JSON.parse(lcValue));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (window) {
+      localStorage.setItem("schema", JSON.stringify(schema));
+    }
+  }, [schema]);
+
   const [hasSeenWelcomeModal, setHasSeenWelcomeModal] = useState<boolean>(true);
 
   useEffect(() => {
