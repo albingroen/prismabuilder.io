@@ -12,7 +12,6 @@
   "dependencies": {
     "@headlessui/react": "^1.4.2",
     "@prisma/lens": "^0.0.299",
-    "@prisma/sdk": "^3.5.0",
     "@splitbee/web": "^0.3.0",
     "autoprefixer": "^10.4.0",
     "axios": "^0.24.0",
