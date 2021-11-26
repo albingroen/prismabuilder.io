@@ -11,8 +11,8 @@ const WelcomeModal = ({ onClose, open }: WelcomeModalProps) => {
     <Modal heading="Welcome!" open={open} onClose={onClose}>
       <p className="text-lg text-gray-700">
         Welcome to Prisma Schema Builder. You&apos;ve probably come here either
-        because you&apos;ve seen something about it on social media, you&apos;re
-        friend&apos;s been telling you about it, or you just happened to find
+        because you&apos;ve seen something about it on social media, your
+        friend has been telling you about it, or you just happened to find
         this page.
       </p>
 
