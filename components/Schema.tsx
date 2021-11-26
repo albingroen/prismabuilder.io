@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 import { Loader } from "@prisma/lens";
 import { SchemaContext } from "../lib/context";
 import { useContext, useEffect, useState } from "react";
+import { apiUrl } from "../lib/config";
 
 const Schema = () => {
   const { schema } = useContext(SchemaContext);
@@ -11,7 +12,7 @@ const Schema = () => {
 
   useEffect(() => {
     axios
-      .post("https://prismabuilder-io-api.onrender.com/generate", { schema })
+      .post(`${apiUrl}/generate`, { schema })
       .then((res) => {
         setResult(res.data);
         setLoading(false);
