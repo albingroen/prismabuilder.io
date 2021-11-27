@@ -61,7 +61,10 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <WelcomeModal open={!hasSeenWelcomeModal} onClose={onCloseWelcomeModal} />
 
-      <GraphModal open={!hasSeenGraphModal} onClose={onCloseGraphModal} />
+      <GraphModal
+        open={!hasSeenGraphModal && hasSeenWelcomeModal}
+        onClose={onCloseGraphModal}
+      />
 
       <LensProvider>
         <SchemaContext.Provider value={{ schema, setSchema }}>
