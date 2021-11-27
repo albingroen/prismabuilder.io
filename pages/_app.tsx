@@ -7,6 +7,7 @@ import { LensProvider } from "@prisma/lens";
 import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
+import GraphModal from "../components/GraphModal";
 
 splitbee.init();
 
@@ -32,12 +33,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [schema]);
 
   const [hasSeenWelcomeModal, setHasSeenWelcomeModal] = useState<boolean>(true);
+  const [hasSeenGraphModal, setHasSeenGraphModal] = useState<boolean>(true);
 
   useEffect(() => {
     if (localStorage) {
       setHasSeenWelcomeModal(
         Boolean(localStorage.getItem("hasSeenWelcomeModal"))
       );
+
+      setHasSeenGraphModal(Boolean(localStorage.getItem("hasSeenGraphModal")));
     }
   }, []);
 
@@ -46,11 +50,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     setHasSeenWelcomeModal(true);
   };
 
+  const onCloseGraphModal = () => {
+    localStorage.setItem("hasSeenGraphModal", "true");
+    setHasSeenGraphModal(true);
+  };
+
   return (
     <>
       <Seo />
 
       <WelcomeModal open={!hasSeenWelcomeModal} onClose={onCloseWelcomeModal} />
+
+      <GraphModal open={!hasSeenGraphModal} onClose={onCloseGraphModal} />
 
       <LensProvider>
         <SchemaContext.Provider value={{ schema, setSchema }}>

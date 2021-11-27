@@ -5,7 +5,7 @@ import Schema from "./Schema";
 import toast from "react-hot-toast";
 import { Button, Separator, Card } from "@prisma/lens";
 import { ID_FIELD } from "../lib/fields";
-import { Layers } from "react-feather";
+import { Globe, Layers, X } from "react-feather";
 import { Model } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
@@ -18,6 +18,8 @@ export default function Models() {
   const [showingSchema, setShowingSchema] = useState<boolean>(false);
   const [showingImportSchema, setShowingImportSchema] =
     useState<boolean>(false);
+
+  const isGraphView = router.pathname === "/graph";
 
   return (
     <>
@@ -83,24 +85,34 @@ export default function Models() {
           ) : null}
         </div>
 
-        <div className="divide-x text-sm text-gray-600 justify-self-end">
-          <a
-            className="hover:underline hover:text-gray-700 pr-3"
-            href="https://albingroen.com"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Creator
-          </a>
+        <div className="flex flex-col space-y-4 items-start">
+          <Link passHref href={isGraphView ? "/" : "/graph"}>
+            <a
+              className="text-gray-500 hover:text-gray-700 transition"
+              title={isGraphView ? "Exit Graph view" : "Graph view"}
+            >
+              {isGraphView ? <X /> : <Globe />}
+            </a>
+          </Link>
+          <div className="divide-x text-sm text-gray-600 justify-self-end">
+            <a
+              className="hover:underline hover:text-gray-700 pr-3"
+              href="https://albingroen.com"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Creator
+            </a>
 
-          <a
-            href="https://github.com/albingroen/prismabuilder.io"
-            className="hover:underline hover:text-gray-700 pl-3"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Source code
-          </a>
+            <a
+              href="https://github.com/albingroen/prismabuilder.io"
+              className="hover:underline hover:text-gray-700 pl-3"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Source code
+            </a>
+          </div>
         </div>
       </div>
 
