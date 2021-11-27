@@ -15,7 +15,7 @@ export const FIELDS = [
 export const ID_FIELD: Field = {
   relationField: false,
   documentation: "",
-  default: "uuid()",
+  default: "cuid()",
   required: true,
   type: "String",
   unique: true,
