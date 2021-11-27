@@ -10,6 +10,11 @@ export const PRISMA_DEFAULT_VALUE_FNS = [
     description: "Automatically generate a random UUID",
   },
   {
+    value: "cuid()",
+    label: "A random CUID",
+    description: "Automatically generate a random CUID",
+  },
+  {
     value: "now()",
     label: "Current date",
     description: "The current date once the row is inserted",
