@@ -1,5 +1,5 @@
-import Models from "../components/Models";
-import SchemaGraph from "../components/SchemaGraph";
+import Models from "../../../components/Models";
+import SchemaGraph from "../../../components/SchemaGraph";
 
 const GraphPage = () => {
   return (
