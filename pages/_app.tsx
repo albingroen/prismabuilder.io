@@ -8,29 +8,29 @@ import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import GraphModal from "../components/GraphModal";
+import { useRouter } from "next/dist/client/router";
 
 splitbee.init();
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [schema, setSchema] = useState({
-    models: [],
-    enums: [],
-  });
+  const router = useRouter();
+
+  const [schemas, setSchemas] = useState<any[]>([]);
 
   useEffect(() => {
     if (window) {
-      const lcValue = localStorage.getItem("schema");
+      const lcValue = localStorage.getItem("schemas");
       if (lcValue) {
-        setSchema(JSON.parse(lcValue));
+        setSchemas(JSON.parse(lcValue));
       }
     }
   }, []);
 
   useEffect(() => {
     if (window) {
-      localStorage.setItem("schema", JSON.stringify(schema));
+      localStorage.setItem("schemas", JSON.stringify(schemas));
     }
-  }, [schema]);
+  }, [schemas]);
 
   const [hasSeenWelcomeModal, setHasSeenWelcomeModal] = useState<boolean>(true);
   const [hasSeenGraphModal, setHasSeenGraphModal] = useState<boolean>(true);
@@ -55,6 +55,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     setHasSeenGraphModal(true);
   };
 
+  const schema = schemas?.find((s) => s.name === router.query.schemaId);
+
+  if (router.pathname !== "/" && !schema) {
+    return null;
+  }
+
   return (
     <>
       <Seo />
@@ -67,7 +73,25 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
 
       <LensProvider>
-        <SchemaContext.Provider value={{ schema, setSchema }}>
+        <SchemaContext.Provider
+          value={{
+            schema,
+            schemas,
+            setSchemas,
+            setSchema: (newValues) => {
+              setSchemas(
+                schemas.map((s) =>
+                  s.name === schema.name
+                    ? {
+                        ...schema,
+                        ...newValues,
+                      }
+                    : s
+                )
+              );
+            },
+          }}
+        >
           <main className="antialiased">
             <Component {...pageProps} />
             <Toaster />

@@ -1,16 +1,16 @@
-import AddField from "../../components/AddField";
-import Models from "../../components/Models";
-import Tag from "../../components/Tag";
-import UpdateField from "../../components/UpdateField";
+import AddField from "../../../../../components/AddField";
+import Models from "../../../../../components/Models";
+import Tag from "../../../../../components/Tag";
+import UpdateField from "../../../../../components/UpdateField";
 import toast from "react-hot-toast";
 import { Button, Menu, Separator, TextField, Title } from "@prisma/lens";
 import { CheckSquare, Edit, MoreVertical, Trash2 } from "react-feather";
-import { FIELDS } from "../../lib/fields";
-import { prismaTypesToIcons } from "../../lib/icons";
+import { FIELDS } from "../../../../../lib/fields";
+import { prismaTypesToIcons } from "../../../../../lib/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
-import { useSchemaContext } from "../../lib/context";
-import { Field, Model } from "../../lib/types";
+import { useSchemaContext } from "../../../../../lib/context";
+import { Field, Model } from "../../../../../lib/types";
 
 const Model = () => {
   const { schema, setSchema } = useSchemaContext();
@@ -151,7 +151,7 @@ const Model = () => {
                           (m: Model) => m.name !== model.name
                         ),
                       });
-                      push("/");
+                      push(`/schemas/${schema.name}`);
                     }
                   }}
                   anchor="right"

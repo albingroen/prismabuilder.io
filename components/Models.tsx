@@ -19,15 +19,24 @@ export default function Models() {
   const [showingImportSchema, setShowingImportSchema] =
     useState<boolean>(false);
 
-  const isGraphView = router.pathname === "/graph";
+  const isGraphView = router.pathname.endsWith("/graph");
 
   return (
     <>
       <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
         <div className="flex flex-col space-y-3 flex-1">
+          <Link href="/">
+            <a className="text-sm text-blue-500 hover:text-blue-700 transition">
+              &larr; Change schema
+            </a>
+          </Link>
+
           {schema.models.map((model: Model, i: number) => {
             return (
-              <Link href={`/models/${i}`} key={model.name}>
+              <Link
+                href={`/schemas/${schema.name}/models/${i}`}
+                key={model.name}
+              >
                 <a>
                   <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
                     <Layers size={20} className="text-gray-500" />
@@ -57,7 +66,11 @@ export default function Models() {
                   ],
                 };
                 setSchema(newSchema);
-                router.push(`/models/${newSchema.models.length - 1}`);
+                router.push(
+                  `/schemas/${schema.name}/models/${
+                    newSchema.models.length - 1
+                  }`
+                );
               }
             }}
             variant="secondary"
@@ -86,7 +99,14 @@ export default function Models() {
         </div>
 
         <div className="flex flex-col space-y-4 items-start">
-          <Link passHref href={isGraphView ? "/" : "/graph"}>
+          <Link
+            passHref
+            href={
+              isGraphView
+                ? `/schemas/${schema.name}`
+                : `/schemas/${schema.name}/graph`
+            }
+          >
             <a
               className="text-gray-500 hover:text-gray-700 transition"
               title={isGraphView ? "Exit Graph view" : "Graph view"}
