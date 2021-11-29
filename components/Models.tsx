@@ -3,23 +3,42 @@ import Link from "next/link";
 import Modal from "./Modal";
 import Schema from "./Schema";
 import toast from "react-hot-toast";
-import { Button, Separator, Card } from "@prisma/lens";
+import { Button, Separator, Card, Title, TextField } from "@prisma/lens";
 import { ID_FIELD } from "../lib/fields";
-import { Globe, Box, X } from "react-feather";
+import { Globe, Box, X, Edit, CheckSquare } from "react-feather";
 import { Model } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Models() {
-  const { schema, setSchema } = useSchemaContext();
-  const router = useRouter();
+  const { schema, schemas, setSchema } = useSchemaContext();
+  const { push, pathname, asPath } = useRouter();
 
-  const [showingSchema, setShowingSchema] = useState<boolean>(false);
   const [showingImportSchema, setShowingImportSchema] =
     useState<boolean>(false);
+  const [showingSchema, setShowingSchema] = useState<boolean>(false);
+  const [editingName, setEditingName] = useState<boolean>(false);
+  const [name, setName] = useState<string>("");
 
-  const isGraphView = router.pathname.endsWith("/graph");
+  const isGraphView = pathname.endsWith("/graph");
+
+  useEffect(() => {
+    if (schema?.name) {
+      setName(schema.name);
+    }
+  }, [schema]);
+
+  useEffect(() => {
+    setEditingName(false);
+  }, [asPath]);
+
+  const updateSchema = (values: any) => {
+    setSchema({
+      ...schema,
+      ...values,
+    });
+  };
 
   return (
     <>
@@ -34,6 +53,54 @@ export default function Models() {
           </div>
 
           <Separator />
+
+          <div
+            className={`flex justify-between ${
+              editingName ? "items-end" : "items-center"
+            }`}
+          >
+            {editingName ? (
+              <div>
+                <TextField
+                  onChange={setName}
+                  placeholder="Blog"
+                  inputMode="text"
+                  label="Name"
+                  value={name}
+                  autoFocus
+                />
+              </div>
+            ) : (
+              <Title>{name}</Title>
+            )}
+
+            <button
+              onClick={() => {
+                if (editingName && name !== schema.name) {
+                  if (schemas.some((m: Model) => m.name === name)) {
+                    toast.error(`A schema called ${name} exists`);
+                    setName(schema.name);
+                  } else {
+                    updateSchema({ name });
+                    push(`/schemas/${name}`);
+                  }
+                }
+                setEditingName(!editingName);
+              }}
+            >
+              {editingName ? (
+                <CheckSquare
+                  className="text-gray-700 hover:text-gray-900 transition"
+                  size={20}
+                />
+              ) : (
+                <Edit
+                  className="text-gray-700 hover:text-gray-900 transition"
+                  size={20}
+                />
+              )}
+            </button>
+          </div>
 
           {schema.models.map((model: Model, i: number) => {
             return (
@@ -70,7 +137,7 @@ export default function Models() {
                   ],
                 };
                 setSchema(newSchema);
-                router.push(
+                push(
                   `/schemas/${schema.name}/models/${
                     newSchema.models.length - 1
                   }`
