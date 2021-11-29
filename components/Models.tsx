@@ -5,7 +5,7 @@ import Schema from "./Schema";
 import toast from "react-hot-toast";
 import { Button, Separator, Card } from "@prisma/lens";
 import { ID_FIELD } from "../lib/fields";
-import { Globe, Layers, X } from "react-feather";
+import { Globe, Box, X } from "react-feather";
 import { Model } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
@@ -25,11 +25,15 @@ export default function Models() {
     <>
       <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
         <div className="flex flex-col space-y-3 flex-1">
-          <Link href="/">
-            <a className="text-sm text-blue-500 hover:text-blue-700 transition">
-              &larr; Change schema
-            </a>
-          </Link>
+          <div>
+            <Link href="/">
+              <a className="text-sm text-blue-500 hover:text-blue-700 transition">
+                &larr; Change schema
+              </a>
+            </Link>
+          </div>
+
+          <Separator />
 
           {schema.models.map((model: Model, i: number) => {
             return (
@@ -39,7 +43,7 @@ export default function Models() {
               >
                 <a>
                   <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
-                    <Layers size={20} className="text-gray-500" />
+                    <Box size={20} className="text-gray-500" />
                     <h3>{model.name}</h3>
                   </Card>
                 </a>
@@ -52,7 +56,7 @@ export default function Models() {
           <Button
             onClick={() => {
               if (schema.models.some((model: Model) => model.name === "New")) {
-                toast.error("A model called New already exists");
+                toast.error("A model called New exists");
               } else {
                 const newSchema = {
                   ...schema,

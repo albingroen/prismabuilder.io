@@ -23,6 +23,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
         Be wary that importing a schema will omit any default values on fields.
       </p>
       <textarea
+        autoFocus
         value={importSchema}
         onChange={(e) => {
           setImportSchema(e.target.value);
