@@ -15,3 +15,8 @@ export type Model = {
   fields: Field[];
   name: string;
 };
+
+export type Schema = {
+  name: string;
+  models: Model[];
+};
