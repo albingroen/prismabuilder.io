@@ -3,16 +3,16 @@ import Link from "next/link";
 import Modal from "./Modal";
 import Schema from "./Schema";
 import toast from "react-hot-toast";
-import { Button, Separator, Card, Title, TextField } from "@prisma/lens";
+import { Button, Separator, Card, Title, TextField, Menu } from "@prisma/lens";
 import { ID_FIELD } from "../lib/fields";
-import { Globe, Box, X, Edit, CheckSquare } from "react-feather";
-import { Model } from "../lib/types";
+import { Globe, Box, X, Edit, CheckSquare, MoreVertical } from "react-feather";
+import { Model, Schema as SchemaType } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { useEffect, useState } from "react";
 
 export default function Models() {
-  const { schema, schemas, setSchema } = useSchemaContext();
+  const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
   const { push, pathname, asPath } = useRouter();
 
   const [showingImportSchema, setShowingImportSchema] =
@@ -56,50 +56,79 @@ export default function Models() {
 
           <div
             className={`flex justify-between ${
-              editingName ? "items-end" : "items-center"
+              editingName ? "items-start" : "items-center"
             }`}
           >
-            {editingName ? (
-              <div>
-                <TextField
-                  onChange={setName}
-                  placeholder="Blog"
-                  inputMode="text"
-                  label="Name"
-                  value={name}
-                  autoFocus
-                />
-              </div>
-            ) : (
-              <Title>{name}</Title>
-            )}
-
-            <button
-              onClick={() => {
-                if (editingName && name !== schema.name) {
-                  if (schemas.some((m: Model) => m.name === name)) {
-                    toast.error(`A schema called ${name} exists`);
-                    setName(schema.name);
-                  } else {
-                    updateSchema({ name });
-                    push(`/schemas/${name}`);
-                  }
-                }
-                setEditingName(!editingName);
-              }}
+            <div
+              className={`flex ${
+                editingName ? "items-end" : "items-center"
+              } space-x-4`}
             >
               {editingName ? (
-                <CheckSquare
-                  className="text-gray-700 hover:text-gray-900 transition"
-                  size={20}
-                />
+                <div>
+                  <TextField
+                    onChange={setName}
+                    placeholder="Blog"
+                    inputMode="text"
+                    label="Name"
+                    value={name}
+                    autoFocus
+                  />
+                </div>
               ) : (
-                <Edit
-                  className="text-gray-700 hover:text-gray-900 transition"
+                <Title>{name}</Title>
+              )}
+
+              <button
+                onClick={() => {
+                  if (editingName && name !== schema.name) {
+                    if (schemas.some((m: Model) => m.name === name)) {
+                      toast.error(`A schema called ${name} exists`);
+                      setName(schema.name);
+                    } else {
+                      updateSchema({ name });
+                      push(`/schemas/${name}`);
+                    }
+                  }
+                  setEditingName(!editingName);
+                }}
+              >
+                {editingName ? (
+                  <CheckSquare
+                    className="text-gray-700 hover:text-gray-900 transition"
+                    size={20}
+                  />
+                ) : (
+                  <Edit
+                    className="text-gray-700 hover:text-gray-900 transition"
+                    size={20}
+                  />
+                )}
+              </button>
+            </div>
+
+            <Menu.Container>
+              <Button variant="quiet">
+                <MoreVertical
+                  className="text-gray-500 hover:text-gray-900 transition"
                   size={20}
                 />
-              )}
-            </button>
+              </Button>
+              <Menu.Body
+                onSelectionChange={(key) => {
+                  if (key === "delete") {
+                    setSchemas(
+                      schemas.filter((s: SchemaType) => s.name !== schema.name)
+                    );
+                    push("/");
+                  }
+                }}
+                anchor="right"
+                title="Actions"
+              >
+                <Menu.Option key="delete">Delete schema</Menu.Option>
+              </Menu.Body>
+            </Menu.Container>
           </div>
 
           {schema.models.map((model: Model, i: number) => {
