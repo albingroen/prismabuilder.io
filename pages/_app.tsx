@@ -57,9 +57,9 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   const schema = schemas?.find((s) => s.name === router.query.schemaId);
 
-  if (router.pathname !== "/" && !schema) {
-    return null;
-  }
+  // if (router.pathname !== "/" && !schema) {
+  //   return null;
+  // }
 
   return (
     <>
