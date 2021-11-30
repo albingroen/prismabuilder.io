@@ -40,6 +40,8 @@ export default function Models() {
     });
   };
 
+  if (!schema) return null;
+
   return (
     <>
       <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">

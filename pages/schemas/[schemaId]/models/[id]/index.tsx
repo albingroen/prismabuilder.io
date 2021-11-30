@@ -48,6 +48,8 @@ const Model = () => {
     setEditingName(false);
   }, [asPath]);
 
+  if (!schema) return null;
+
   return (
     <>
       <AddField
