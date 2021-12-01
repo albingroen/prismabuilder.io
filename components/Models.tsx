@@ -24,7 +24,7 @@ export default function Models() {
   const isGraphView = pathname.endsWith("/graph");
 
   useEffect(() => {
-    if (schema?.name) {
+    if (schema.name) {
       setName(schema.name);
     }
   }, [schema]);
