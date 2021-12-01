@@ -47,7 +47,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   };
 
   const schema = schemas?.find((s) => s.name === router.query.schemaId);
-  const lcSchema = process.browser && localStorage.getItem("schema");
   const isOldModelRoute = router.pathname.startsWith("/models");
   const isRoot = router.pathname === "/";
 
