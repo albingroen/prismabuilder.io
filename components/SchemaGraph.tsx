@@ -14,7 +14,7 @@ const SchemaGraph = () => {
       nodesConnectable={false}
       nodesDraggable={false}
       elements={
-        schema?.models?.length
+        schema.models?.length
           ? [
               ...schema.models.map((model: Model, i: number) => ({
                 id: model.name,

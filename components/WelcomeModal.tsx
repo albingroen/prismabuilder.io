@@ -30,9 +30,9 @@ const WelcomeModal = ({ onClose, open }: WelcomeModalProps) => {
       <h2 className="text-xl font-medium mt-8">How do I get started?</h2>
 
       <p className="mt-3 text-lg text-gray-700">
-        Simply, hit the button below, and then click &ldquo;New model&rdquo; in
+        Simply, hit the button below, and then click &ldquo;New schema&rdquo; in
         the upper left hand corner. After that you can start creating your first
-        model. Once you&apos;re happy with your schema, you can hit the green
+        schema. Once you&apos;re happy with your schema, you can hit the green
         button to generate the code for your Prisma schema file.
       </p>
 
