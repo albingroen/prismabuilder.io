@@ -1,11 +1,15 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Loader } from "@prisma/lens";
+import { Button, Loader } from "@prisma/lens";
 import { SchemaContext } from "../lib/context";
 import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../lib/config";
 
-const Schema = () => {
+type SchemaProps = {
+  onCancel: () => void;
+};
+
+const Schema = ({ onCancel }: SchemaProps) => {
   const { schema } = useContext(SchemaContext);
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState("");
@@ -26,7 +30,26 @@ const Schema = () => {
   return (
     <div>
       {result ? (
-        <pre>{result}</pre>
+        <div className="flex flex-col space-y-4">
+          <div>
+            <Button
+              onClick={() => {
+                try {
+                  navigator.clipboard.writeText(result);
+                  toast.success("Copied schema to clipboard");
+                } catch {
+                  toast.error("Failed to copy to clipboard");
+                }
+              }}
+            >
+              Copy to clipboard
+            </Button>
+          </div>
+          <pre className="bg-gray-200 p-4 rounded-md">{result}</pre>
+          <Button onClick={onCancel} variant="secondary">
+            Cancel
+          </Button>
+        </div>
       ) : (
         loading && (
           <div className="flex items-center justify-center h-64">

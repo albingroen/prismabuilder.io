@@ -274,7 +274,11 @@ export default function Models() {
         open={showingSchema}
         heading="Schema"
       >
-        <Schema />
+        <Schema
+          onCancel={() => {
+            setShowingSchema(false);
+          }}
+        />
       </Modal>
 
       <Modal
