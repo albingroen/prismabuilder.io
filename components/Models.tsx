@@ -137,7 +137,9 @@ export default function Models() {
                 anchor="right"
                 title="Actions"
               >
-                <Menu.Option key="delete">Delete schema</Menu.Option>
+                <Menu.Option key="delete">
+                  <span className="text-red-400">Delete schema</span>
+                </Menu.Option>
               </Menu.Body>
             </Menu.Container>
           </div>

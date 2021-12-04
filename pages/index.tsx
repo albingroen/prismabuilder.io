@@ -24,7 +24,20 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schemas]);
 
-  return <Schemas />;
+  return (
+    <div className="flex">
+      <Schemas />
+      <div className="flex justify-center flex-1 items-center p-12">
+        <ol className="list-decimal flex flex-col space-y-2 text-gray-700 px-8 py-7 rounded-md border border-dashed list-inside">
+          <li>Click &ldquo;New schema&rdquo;</li>
+          <li>Name your schema</li>
+          <li>Choose a provider</li>
+          <li>Create your models</li>
+          <li>Click &ldquo;Generate schema&rdquo;</li>
+        </ol>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

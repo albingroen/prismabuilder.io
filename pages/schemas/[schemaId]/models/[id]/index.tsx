@@ -159,7 +159,9 @@ const Model = () => {
                   anchor="right"
                   title="Actions"
                 >
-                  <Menu.Option key="delete">Delete model</Menu.Option>
+                  <Menu.Option key="delete">
+                    <span className="text-red-400">Delete model</span>
+                  </Menu.Option>
                 </Menu.Body>
               </Menu.Container>
             </div>
