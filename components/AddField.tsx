@@ -92,7 +92,10 @@ const AddField = ({
           label="Type"
           key={type}
         >
-          {[...TYPES(schema.database), ...schema.models].map((type) => (
+          {[
+            ...TYPES(schema.database),
+            ...schema.models.map((m) => ({ ...m, description: "" })),
+          ].map((type) => (
             <Select.Option description={type.description} key={type.name}>
               {type.name}
             </Select.Option>

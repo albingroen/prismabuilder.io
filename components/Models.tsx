@@ -93,7 +93,7 @@ export default function Models() {
               <button
                 onClick={() => {
                   if (editingName && name !== schema.name) {
-                    if (schemas.some((m: Model) => m.name === name)) {
+                    if (schemas.some((s) => s.name === name)) {
                       toast.error(`A schema called ${name} exists`);
                       setName(schema.name);
                     } else {

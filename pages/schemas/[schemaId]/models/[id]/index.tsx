@@ -17,7 +17,7 @@ const Model = () => {
   const { query, asPath, push } = useRouter();
   const { id } = query;
 
-  const model = schema.models?.[id as string];
+  const model = schema.models?.[Number(id)];
 
   const [editingField, setEditingField] = useState<string>();
   const [addingField, setAddingField] = useState<string>();
@@ -71,7 +71,7 @@ const Model = () => {
         model={model}
         defaultValues={
           model?.fields?.find((field: Field) => field.name === editingField) ??
-          {}
+          ({} as Field)
         }
         open={Boolean(editingField)}
         onSubmit={(field) => {
@@ -226,7 +226,10 @@ const Model = () => {
                 <h2 className="font-semibold text-xl">Add field</h2>
 
                 <div className="flex flex-col space-y-3">
-                  {[...TYPES(schema.database), ...schema.models].map((type) => {
+                  {[
+                    ...TYPES(schema.database),
+                    ...schema.models.map((m) => ({ ...m, description: "" })),
+                  ].map((type) => {
                     const Icon = type.name
                       ? prismaTypesToIcons[type.name] ??
                         prismaTypesToIcons.Relation
