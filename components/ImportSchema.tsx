@@ -46,7 +46,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
               ) {
                 toast.error("Some model has a colliding name");
                 setImportSchemaLoading(false);
-              } else {
+              } else if (importedSchema.models?.length) {
                 setSchema({
                   ...schema,
                   models: [...schema.models, ...importedSchema.models],
@@ -54,6 +54,9 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
                 setImportSchemaLoading(false);
                 setImportSchema("");
                 onClose();
+              } else {
+                toast.error("Make sure to import a full schema");
+                setImportSchemaLoading(false);
               }
             })
             .catch(() => {
