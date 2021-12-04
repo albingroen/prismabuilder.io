@@ -5,7 +5,7 @@ import UpdateField from "../../../../../components/UpdateField";
 import toast from "react-hot-toast";
 import { Button, Menu, Separator, TextField, Title } from "@prisma/lens";
 import { CheckSquare, Edit, MoreVertical, Trash2 } from "react-feather";
-import { FIELDS } from "../../../../../lib/fields";
+import { TYPES } from "../../../../../lib/fields";
 import { prismaTypesToIcons } from "../../../../../lib/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
@@ -226,26 +226,26 @@ const Model = () => {
                 <h2 className="font-semibold text-xl">Add field</h2>
 
                 <div className="flex flex-col space-y-3">
-                  {[...FIELDS, ...schema.models].map((field) => {
-                    const Icon = field.name
-                      ? prismaTypesToIcons[field.name] ??
+                  {[...TYPES(schema.database), ...schema.models].map((type) => {
+                    const Icon = type.name
+                      ? prismaTypesToIcons[type.name] ??
                         prismaTypesToIcons.Relation
                       : prismaTypesToIcons.default;
 
                     return (
                       <button
                         className="rounded-lg bg-white shadow-md text-left border border-transparent hover:border-blue-500 cursor-pointer transition py-3 px-4 flex items-center space-x-4"
-                        onClick={() => setAddingField(field.name)}
-                        key={field.name}
+                        onClick={() => setAddingField(type.name)}
+                        key={type.name}
                       >
                         <div className="rounded-md bg-blue-100 flex items-center justify-center p-3">
                           <Icon className="text-blue-600" size={20} />
                         </div>
 
                         <div className="flex flex-col">
-                          <h3 className="font-medium">{field.name}</h3>
+                          <h3 className="font-medium">{type.name}</h3>
                           <p className="text-sm text-gray-700">
-                            {field.description}
+                            {type.description}
                           </p>
                         </div>
                       </button>

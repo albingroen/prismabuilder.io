@@ -1,12 +1,13 @@
 import { createContext, useContext } from "react";
+import { Schema } from "./types";
 
 export const SchemaContext = createContext<{
-  schema: any;
-  schemas: any[];
+  schema: Schema;
+  schemas: Schema[];
   setSchema: (schema: any) => void;
   setSchemas: (schemas: any[]) => void;
 }>({
-  schema: {},
+  schema: {} as Schema,
   schemas: [],
   setSchema: () => undefined,
   setSchemas: () => undefined,

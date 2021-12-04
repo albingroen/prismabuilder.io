@@ -2,12 +2,12 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { Button, Separator, Card } from "@prisma/lens";
 import { Layers } from "react-feather";
-import { Model, Schema } from "../lib/types";
+import { Schema } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 
 export default function Schemas() {
-  const { schema, schemas, setSchemas } = useSchemaContext();
+  const { schemas, setSchemas } = useSchemaContext();
   const router = useRouter();
 
   return (
@@ -36,7 +36,8 @@ export default function Schemas() {
               ) {
                 toast.error("A schema called New schema exists");
               } else {
-                const newSchema = {
+                const newSchema: Schema = {
+                  database: "postgresql",
                   name: "New schema",
                   models: [],
                   enums: [],

@@ -3,13 +3,22 @@ import Link from "next/link";
 import Modal from "./Modal";
 import Schema from "./Schema";
 import toast from "react-hot-toast";
-import { Button, Separator, Card, Title, TextField, Menu } from "@prisma/lens";
+import {
+  Button,
+  Separator,
+  Card,
+  Title,
+  TextField,
+  Menu,
+  Select,
+} from "@prisma/lens";
 import { ID_FIELD } from "../lib/fields";
 import { Globe, Box, X, Edit, CheckSquare, MoreVertical } from "react-feather";
 import { Model, Schema as SchemaType } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { useEffect, useState } from "react";
+import { PRISMA_DATABASES } from "../lib/prisma";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -132,6 +141,24 @@ export default function Models() {
               </Menu.Body>
             </Menu.Container>
           </div>
+
+          <Select.Container
+            selectedKey={schema.database}
+            onSelectionChange={(key) => {
+              setSchema({
+                ...schema,
+                database: key,
+              });
+            }}
+            placeholder="Select a provider"
+            label="Provider"
+          >
+            {PRISMA_DATABASES.map((db) => (
+              <Select.Option key={db.value}>{db.label}</Select.Option>
+            ))}
+          </Select.Container>
+
+          <Separator />
 
           {schema.models.map((model: Model, i: number) => {
             return (
