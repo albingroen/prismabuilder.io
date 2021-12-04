@@ -1,8 +1,8 @@
 import Modal from "./Modal";
 import { Button, Select, TextField } from "@prisma/lens";
-import { FIELDS } from "../lib/fields";
+import { TYPES } from "../lib/fields";
 import { Field, Model } from "../lib/types";
-import { PRISMA_DEFAULT_VALUE_FNS } from "../lib/prisma";
+import { PRISMA_DEFAULT_VALUES } from "../lib/prisma";
 import { useEffect, useState } from "react";
 import { useSchemaContext } from "../lib/context";
 
@@ -92,9 +92,9 @@ const AddField = ({
           label="Type"
           key={type}
         >
-          {[...FIELDS, ...schema.models].map((field) => (
-            <Select.Option description={field.description} key={field.name}>
-              {field.name}
+          {[...TYPES(schema.database), ...schema.models].map((type) => (
+            <Select.Option description={type.description} key={type.name}>
+              {type.name}
             </Select.Option>
           ))}
         </Select.Container>
@@ -106,7 +106,7 @@ const AddField = ({
           hint="A Prisma default value function"
           label="Default value"
         >
-          {PRISMA_DEFAULT_VALUE_FNS.map((field) => (
+          {PRISMA_DEFAULT_VALUES.map((field) => (
             <Select.Option description={field.description} key={field.value}>
               {field.label}
             </Select.Option>

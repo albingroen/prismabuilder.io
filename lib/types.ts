@@ -17,6 +17,10 @@ export type Model = {
 };
 
 export type Schema = {
-  name: string;
+  database: PrismaDatabase;
   models: Model[];
+  enums: any[];
+  name: string;
 };
+
+export type PrismaDatabase = "postgresql" | "sqlite" | "mysql";

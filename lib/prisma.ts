@@ -1,4 +1,6 @@
-export const PRISMA_DEFAULT_VALUE_FNS = [
+import { PrismaDatabase } from "./types";
+
+export const PRISMA_DEFAULT_VALUES = [
   {
     value: "autoincrement()",
     label: "Automatic incrementation",
@@ -29,4 +31,10 @@ export const PRISMA_DEFAULT_VALUE_FNS = [
     label: "True",
     description: "",
   },
+];
+
+export const PRISMA_DATABASES: { label: string; value: PrismaDatabase }[] = [
+  { label: "PostgreSQL", value: "postgresql" },
+  { label: "SQLite", value: "sqlite" },
+  { label: "MySQL", value: "mysql" },
 ];
