@@ -84,7 +84,7 @@ const SchemaGraph = () => {
                     ];
                   }
                 )
-                .reduce((a: Field[], b: Field) => a.concat(b)),
+                .reduce((a, b) => a.concat(b)),
             ]
           : []
       }
