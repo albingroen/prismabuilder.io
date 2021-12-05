@@ -1,3 +1,14 @@
+export type FieldType =
+  | "DateTime"
+  | "String"
+  | "Boolean"
+  | "Int"
+  | "BigInt"
+  | "Float"
+  | "Decimal"
+  | "Json"
+  | "Bytes";
+
 export type Field = {
   relationField: boolean;
   documentation: string;
@@ -8,7 +19,7 @@ export type Field = {
   isId: boolean;
   kind: string;
   name: string;
-  type: string;
+  type: FieldType;
 };
 
 export type Model = {
