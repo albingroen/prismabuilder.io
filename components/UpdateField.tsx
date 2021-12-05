@@ -1,7 +1,7 @@
 import Modal from "./Modal";
 import { Button, Select, Separator, TextField } from "@prisma/lens";
 import { TYPES } from "../lib/fields";
-import { Field, Model } from "../lib/types";
+import { Field, FieldType, Model } from "../lib/types";
 import { PRISMA_DEFAULT_VALUES } from "../lib/prisma";
 import { useEffect, useState } from "react";
 import { useSchemaContext } from "../lib/context";
@@ -24,12 +24,12 @@ const UpdateField = ({
   const { schema } = useSchemaContext();
 
   const [defaultValue, setDefaultValue] = useState<string>("");
+  const [type, setType] = useState<FieldType>("" as FieldType);
   const [required, setRequired] = useState<boolean>(false);
   const [unique, setUnique] = useState<boolean>(false);
   const [isId, setIsId] = useState<boolean>(false);
   const [list, setList] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
-  const [type, setType] = useState<string>("");
 
   useEffect(() => {
     setDefaultValue(defaultValues.default);
@@ -42,13 +42,13 @@ const UpdateField = ({
   }, [defaultValues]);
 
   const resetState = () => {
+    setType("" as FieldType);
     setDefaultValue("");
     setRequired(false);
     setUnique(false);
     setList(false);
     setIsId(false);
     setName("");
-    setType("");
   };
 
   return (
@@ -87,6 +87,7 @@ const UpdateField = ({
         <Select.Container
           defaultSelectedKey={type}
           onSelectionChange={(key) => {
+            setDefaultValue("");
             setType(key);
           }}
           hint="The database type for the field"
@@ -102,21 +103,27 @@ const UpdateField = ({
             </Select.Option>
           ))}
         </Select.Container>
-        <Select.Container
-          defaultSelectedKey={defaultValue}
-          onSelectionChange={(key) => {
-            setDefaultValue(key);
-          }}
-          hint="A Prisma default value function"
-          label="Default value"
-          key={defaultValue}
-        >
-          {PRISMA_DEFAULT_VALUES.map((field) => (
-            <Select.Option description={field.description} key={field.value}>
-              {field.label}
-            </Select.Option>
-          ))}
-        </Select.Container>
+        {PRISMA_DEFAULT_VALUES(type).length ? (
+          <Select.Container
+            defaultSelectedKey={defaultValue}
+            onSelectionChange={(key) => {
+              setDefaultValue(key);
+            }}
+            hint="A Prisma default value function"
+            label="Default value"
+            key={defaultValue}
+          >
+            <Select.Option key="">No default value</Select.Option>
+            {PRISMA_DEFAULT_VALUES(type).map((defaultValue) => (
+              <Select.Option
+                description={defaultValue.description}
+                key={defaultValue.value}
+              >
+                {defaultValue.label}
+              </Select.Option>
+            ))}
+          </Select.Container>
+        ) : null}
         <div className="flex space-x-8 items-start py-2">
           <div className="flex flex-col space-y-3">
             <label

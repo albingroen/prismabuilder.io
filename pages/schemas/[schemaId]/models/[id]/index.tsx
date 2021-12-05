@@ -10,7 +10,7 @@ import { prismaTypesToIcons } from "../../../../../lib/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../../../../../lib/context";
-import { Field, Model } from "../../../../../lib/types";
+import { Field, FieldType, Model } from "../../../../../lib/types";
 
 const Model = () => {
   const { schema, setSchema } = useSchemaContext();
@@ -19,8 +19,8 @@ const Model = () => {
 
   const model = schema.models?.[Number(id)];
 
+  const [addingField, setAddingField] = useState<FieldType>();
   const [editingField, setEditingField] = useState<string>();
-  const [addingField, setAddingField] = useState<string>();
   const [editingName, setEditingName] = useState(false);
   const [name, setName] = useState<string>("");
 
@@ -53,8 +53,8 @@ const Model = () => {
   return (
     <>
       <AddField
+        defaultType={addingField ?? ("" as FieldType)}
         onClose={() => setAddingField(undefined)}
-        defaultType={addingField ?? ""}
         open={Boolean(addingField)}
         model={model}
         onSubmit={(field) => {
@@ -240,7 +240,7 @@ const Model = () => {
                     return (
                       <button
                         className="rounded-lg bg-white shadow-md text-left border border-transparent hover:border-blue-500 cursor-pointer transition py-3 px-4 flex items-center space-x-4"
-                        onClick={() => setAddingField(type.name)}
+                        onClick={() => setAddingField(type.name as FieldType)}
                         key={type.name}
                       >
                         <div className="rounded-md bg-blue-100 flex items-center justify-center p-3">
