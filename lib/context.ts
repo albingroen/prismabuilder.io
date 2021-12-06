@@ -4,8 +4,8 @@ import { Schema } from "./types";
 export const SchemaContext = createContext<{
   schema: Schema;
   schemas: Schema[];
-  setSchema: (schema: any) => void;
-  setSchemas: (schemas: any[]) => void;
+  setSchema: (schema: Schema) => void;
+  setSchemas: (schemas: Schema[]) => void;
 }>({
   schema: {} as Schema,
   schemas: [],

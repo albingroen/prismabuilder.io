@@ -1,11 +1,12 @@
 import {
+  Box,
   Clock,
   Code,
   Database,
-  ExternalLink,
   Hash,
   HelpCircle,
   Icon,
+  List,
   ToggleRight,
   Type,
 } from "react-feather";
@@ -20,6 +21,7 @@ export const prismaTypesToIcons: Record<string, Icon> = {
   Decimal: Hash,
   Json: Code,
   Bytes: Database,
-  Relation: ExternalLink,
+  Model: Box,
+  Enum: List,
   default: HelpCircle,
 };

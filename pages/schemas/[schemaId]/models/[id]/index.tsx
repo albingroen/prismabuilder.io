@@ -233,13 +233,28 @@ const Model = () => {
 
                 <div className="flex flex-col space-y-3">
                   {[
-                    ...TYPES(schema.database),
-                    ...schema.models.map((m) => ({ ...m, description: "" })),
+                    ...TYPES(schema.database).map((t) => ({
+                      ...t,
+                      type: "type",
+                    })),
+                    ...schema.models.map((m) => ({
+                      ...m,
+                      description: "",
+                      type: "model",
+                    })),
+                    ...schema.enums.map((e) => ({
+                      ...e,
+                      description: "",
+                      type: "enum",
+                    })),
                   ].map((type) => {
-                    const Icon = type.name
-                      ? prismaTypesToIcons[type.name] ??
-                        prismaTypesToIcons.Relation
-                      : prismaTypesToIcons.default;
+                    const Icon =
+                      type.type === "enum"
+                        ? prismaTypesToIcons.Enum
+                        : type.type === "model"
+                        ? prismaTypesToIcons.Model
+                        : prismaTypesToIcons[type.name] ??
+                          prismaTypesToIcons.default;
 
                     return (
                       <button

@@ -11,14 +11,24 @@ import {
   TextField,
   Menu,
   Select,
+  Label,
 } from "@prisma/lens";
 import { ID_FIELD } from "../lib/fields";
-import { Globe, Box, X, Edit, CheckSquare, MoreVertical } from "react-feather";
+import {
+  Globe,
+  Box,
+  X,
+  Edit,
+  CheckSquare,
+  MoreVertical,
+  List,
+} from "react-feather";
 import { Model, Schema as SchemaType } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { useEffect, useState } from "react";
 import { PRISMA_DATABASES } from "../lib/prisma";
+import AddEnum from "./AddEnum";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -26,6 +36,7 @@ export default function Models() {
 
   const [showingImportSchema, setShowingImportSchema] =
     useState<boolean>(false);
+  const [showingAddEnum, setShowingAddEnum] = useState<boolean>(false);
   const [showingSchema, setShowingSchema] = useState<boolean>(false);
   const [editingName, setEditingName] = useState<boolean>(false);
   const [name, setName] = useState<string>("");
@@ -162,7 +173,9 @@ export default function Models() {
 
           <Separator />
 
-          {schema.models.map((model: Model, i: number) => {
+          <Label>Models</Label>
+
+          {schema.models.map((model, i) => {
             return (
               <Link
                 href={`/schemas/${schema.name}/models/${i}`}
@@ -178,7 +191,24 @@ export default function Models() {
             );
           })}
 
-          {schema.models.length ? <Separator /> : null}
+          <Separator />
+
+          <Label>Enums</Label>
+
+          {schema.enums.map((e, i) => {
+            return (
+              <Link href={`/schemas/${schema.name}/models/${i}`} key={e.name}>
+                <a>
+                  <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
+                    <List size={20} className="text-gray-500" />
+                    <h3>{e.name}</h3>
+                  </Card>
+                </a>
+              </Link>
+            );
+          })}
+
+          <Separator />
 
           <Button
             onClick={() => {
@@ -207,6 +237,15 @@ export default function Models() {
             variant="secondary"
           >
             New model
+          </Button>
+
+          <Button
+            onClick={() => {
+              setShowingAddEnum(true);
+            }}
+            variant="secondary"
+          >
+            New enum
           </Button>
 
           <Button
@@ -291,6 +330,20 @@ export default function Models() {
         <ImportSchema
           onClose={() => {
             setShowingImportSchema(false);
+          }}
+        />
+      </Modal>
+
+      <Modal
+        onClose={() => {
+          setShowingAddEnum(false);
+        }}
+        open={showingAddEnum}
+        heading="New enum"
+      >
+        <AddEnum
+          onCancel={() => {
+            setShowingAddEnum(false);
           }}
         />
       </Modal>
