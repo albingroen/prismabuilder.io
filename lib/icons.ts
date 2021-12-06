@@ -3,6 +3,7 @@ import {
   Clock,
   Code,
   Database,
+  ExternalLink,
   Hash,
   HelpCircle,
   Icon,
