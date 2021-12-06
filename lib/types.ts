@@ -30,7 +30,12 @@ export type Model = {
 export type Schema = {
   database: PrismaDatabase;
   models: Model[];
-  enums: any[];
+  enums: Enum[];
+  name: string;
+};
+
+export type Enum = {
+  fields: string[];
   name: string;
 };
 
