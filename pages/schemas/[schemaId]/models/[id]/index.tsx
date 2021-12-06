@@ -171,10 +171,16 @@ const Model = () => {
             <div className="flex space-x-8">
               <div className="flex flex-col space-y-3 flex-1 model-fields p-1 overflow-y-auto">
                 {model?.fields?.map((field: Field) => {
-                  const Icon = field.type
-                    ? prismaTypesToIcons[field.type] ??
-                      prismaTypesToIcons.Relation
-                    : prismaTypesToIcons.default;
+                  const enumType = schema.enums.find(
+                    (e) => e.name === field.type && e.fields.length
+                  );
+
+                  const Icon = enumType
+                    ? prismaTypesToIcons.Enum
+                    : field.relationField
+                    ? prismaTypesToIcons.Model
+                    : prismaTypesToIcons[field.type] ??
+                      prismaTypesToIcons.default;
 
                   return (
                     <button
@@ -183,8 +189,23 @@ const Model = () => {
                       key={field.name}
                     >
                       <div className="flex items-center space-x-4">
-                        <div className="rounded-md bg-blue-100 flex items-center justify-center p-4">
-                          <Icon className="text-blue-600" size={24} />
+                        <div
+                          className={`rounded-md ${
+                            field.relationField || enumType
+                              ? "bg-indigo-100"
+                              : "bg-blue-100"
+                          } flex items-center justify-center p-4`}
+                        >
+                          {Icon && (
+                            <Icon
+                              className={`${
+                                field.relationField || enumType
+                                  ? "text-indigo-600"
+                                  : "text-blue-600"
+                              }`}
+                              size={24}
+                            />
+                          )}
                         </div>
                         <div className="flex flex-col space-y-1">
                           <h3 className="text-lg w-52 font-medium">

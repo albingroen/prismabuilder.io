@@ -45,6 +45,8 @@ const AddField = ({
     setName("");
   };
 
+  const enumType = schema.enums.find((e) => e.name === type && e.fields.length);
+
   return (
     <Modal
       open={open}
@@ -96,13 +98,14 @@ const AddField = ({
           {[
             ...TYPES(schema.database),
             ...schema.models.map((m) => ({ ...m, description: "" })),
+            ...schema.enums.map((m) => ({ ...m, description: "" })),
           ].map((type) => (
             <Select.Option description={type.description} key={type.name}>
               {type.name}
             </Select.Option>
           ))}
         </Select.Container>
-        {PRISMA_DEFAULT_VALUES(type).length ? (
+        {enumType || PRISMA_DEFAULT_VALUES(type).length ? (
           <Select.Container
             defaultSelectedKey={defaultValue}
             onSelectionChange={(key) => {
@@ -112,9 +115,18 @@ const AddField = ({
             label="Default value"
           >
             <Select.Option key="">No default value</Select.Option>
-            {PRISMA_DEFAULT_VALUES(type).map((field) => (
-              <Select.Option description={field.description} key={field.value}>
-                {field.label}
+            {(
+              enumType?.fields?.map((field) => ({
+                description: "",
+                value: field,
+                label: field,
+              })) || PRISMA_DEFAULT_VALUES(type)
+            ).map((defaultValue) => (
+              <Select.Option
+                description={defaultValue.description}
+                key={defaultValue.value}
+              >
+                {defaultValue.label}
               </Select.Option>
             ))}
           </Select.Container>
