@@ -23,12 +23,13 @@ import {
   MoreVertical,
   List,
 } from "react-feather";
-import { Model, Schema as SchemaType } from "../lib/types";
+import { Enum, Model, Schema as SchemaType } from "../lib/types";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { useEffect, useState } from "react";
 import { PRISMA_DATABASES } from "../lib/prisma";
 import AddEnum from "./AddEnum";
+import UpdateEnum from "./UpdateEnum";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -39,6 +40,7 @@ export default function Models() {
   const [showingAddEnum, setShowingAddEnum] = useState<boolean>(false);
   const [showingSchema, setShowingSchema] = useState<boolean>(false);
   const [editingName, setEditingName] = useState<boolean>(false);
+  const [editingEnum, setEditingEnum] = useState<string>();
   const [name, setName] = useState<string>("");
 
   const isGraphView = pathname.endsWith("/graph");
@@ -197,14 +199,18 @@ export default function Models() {
 
           {schema.enums.map((e, i) => {
             return (
-              <Link href={`/schemas/${schema.name}/models/${i}`} key={e.name}>
-                <a>
-                  <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
-                    <List size={20} className="text-gray-500" />
-                    <h3>{e.name}</h3>
-                  </Card>
-                </a>
-              </Link>
+              <button
+                onClick={() => {
+                  setEditingEnum(e.name);
+                }}
+                className="flex"
+                key={e.name}
+              >
+                <Card className="w-full border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
+                  <List size={20} className="text-gray-500" />
+                  <h3>{e.name}</h3>
+                </Card>
+              </button>
             );
           })}
 
@@ -344,6 +350,23 @@ export default function Models() {
         <AddEnum
           onCancel={() => {
             setShowingAddEnum(false);
+          }}
+        />
+      </Modal>
+
+      <Modal
+        onClose={() => {
+          setEditingEnum(undefined);
+        }}
+        open={Boolean(editingEnum)}
+        heading="Update enum"
+      >
+        <UpdateEnum
+          defaultValues={
+            schema.enums.find((e) => e.name === editingEnum) ?? ({} as Enum)
+          }
+          onCancel={() => {
+            setEditingEnum(undefined);
           }}
         />
       </Modal>

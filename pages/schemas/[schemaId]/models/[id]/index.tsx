@@ -196,16 +196,14 @@ const Model = () => {
                               : "bg-blue-100"
                           } flex items-center justify-center p-4`}
                         >
-                          {Icon && (
-                            <Icon
-                              className={`${
-                                field.relationField || enumType
-                                  ? "text-indigo-600"
-                                  : "text-blue-600"
-                              }`}
-                              size={24}
-                            />
-                          )}
+                          <Icon
+                            className={`${
+                              field.relationField || enumType
+                                ? "text-indigo-600"
+                                : "text-blue-600"
+                            }`}
+                            size={24}
+                          />
                         </div>
                         <div className="flex flex-col space-y-1">
                           <h3 className="text-lg w-52 font-medium">
@@ -279,12 +277,23 @@ const Model = () => {
 
                     return (
                       <button
-                        className="rounded-lg bg-white shadow-md text-left border border-transparent hover:border-blue-500 cursor-pointer transition py-3 px-4 flex items-center space-x-4"
+                        className={`rounded-lg bg-white shadow-md text-left border border-transparent hover:border-blue-500 cursor-pointer transition py-3 px-4 flex items-center space-x-4 ${
+                          type.type === "model" || type.type === "enum"
+                            ? "bg-indigo-100"
+                            : "bg-blue-100"
+                        } `}
                         onClick={() => setAddingField(type.name as FieldType)}
                         key={type.name}
                       >
                         <div className="rounded-md bg-blue-100 flex items-center justify-center p-3">
-                          <Icon className="text-blue-600" size={20} />
+                          <Icon
+                            className={`${
+                              type.type === "model" || type.type === "enum"
+                                ? "text-indigo-600"
+                                : "text-blue-600"
+                            }`}
+                            size={20}
+                          />
                         </div>
 
                         <div className="flex flex-col">
