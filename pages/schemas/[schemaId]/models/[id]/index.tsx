@@ -191,7 +191,11 @@ const Model = () => {
                             {field.name}
                           </h3>
                           <div className="flex items-center space-x-2">
-                            <Tag>{field.type}</Tag>
+                            <Tag>
+                              {field.list ? "[" : ""}
+                              {field.type}
+                              {field.list ? "]" : ""}
+                            </Tag>
                             {field.unique && <Tag>Unique</Tag>}
                             {field.required && <Tag>Required</Tag>}
                             {field.default && <Tag>{field.default}</Tag>}
