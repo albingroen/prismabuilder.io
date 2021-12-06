@@ -97,8 +97,8 @@ const AddField = ({
         >
           {[
             ...TYPES(schema.database),
-            ...schema.models.map((m) => ({ ...m, description: "" })),
-            ...schema.enums.map((m) => ({ ...m, description: "" })),
+            ...schema.models.map((m) => ({ ...m, description: "Model" })),
+            ...schema.enums.map((m) => ({ ...m, description: "Enum" })),
           ].map((type) => (
             <Select.Option description={type.description} key={type.name}>
               {type.name}
