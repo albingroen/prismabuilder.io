@@ -167,7 +167,7 @@ const AddField = ({
           <div className="flex flex-col space-y-3">
             <label
               className="font-medium text-sm text-gray-800"
-              htmlFor="unique"
+              htmlFor="list"
             >
               List
             </label>
