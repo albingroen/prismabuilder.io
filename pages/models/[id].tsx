@@ -3,6 +3,7 @@ import { Button } from "@prisma/lens";
 import { useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../../lib/context";
+import { Schema } from "../../lib/types";
 
 const Model = () => {
   const { schemas, setSchemas } = useSchemaContext();
@@ -13,7 +14,8 @@ const Model = () => {
     const schema = lcSchema && JSON.parse(lcSchema);
 
     if (schema && !schemas?.length) {
-      const newSchema = {
+      const newSchema: Schema = {
+        database: "postgresql",
         models: schema.models,
         enums: schema.enums,
         name: "New schema",

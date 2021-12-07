@@ -2,6 +2,7 @@ import Schemas from "../components/Schemas";
 import { useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
+import { Schema } from "../lib/types";
 
 const Home = () => {
   const { schemas, setSchemas } = useSchemaContext();
@@ -12,7 +13,8 @@ const Home = () => {
     const schema = lcSchema && JSON.parse(lcSchema);
 
     if (schema && !schemas?.length) {
-      const newSchema = {
+      const newSchema: Schema = {
+        database: "postgresql",
         models: schema.models,
         enums: schema.enums,
         name: "New schema",
