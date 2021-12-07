@@ -73,6 +73,7 @@ const UpdateField = ({
             unique,
             isId,
             type,
+            list,
             name,
           });
           resetState();
