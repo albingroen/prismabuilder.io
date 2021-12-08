@@ -165,10 +165,7 @@ const AddField = ({
             />
           </div>
           <div className="flex flex-col space-y-3">
-            <label
-              className="font-medium text-sm text-gray-800"
-              htmlFor="list"
-            >
+            <label className="font-medium text-sm text-gray-800" htmlFor="list">
               List
             </label>
             <input
