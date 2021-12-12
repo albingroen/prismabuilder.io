@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Links from "./Links";
 import toast from "react-hot-toast";
 import { Button, Separator, Card } from "@prisma/lens";
 import { Layers } from "react-feather";
@@ -17,8 +18,8 @@ export default function Schemas() {
           {schemas.map((schema: Schema) => {
             return (
               <Link href={`/schemas/${schema.name}`} key={schema.name}>
-                <a>
-                  <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
+                <a className="border border-transparent hover:border-blue-500 focus:border-blue-500 transition rounded-lg">
+                  <Card className="flex items-center space-x-3">
                     <Layers size={20} className="text-gray-500" />
                     <h3>{schema.name}</h3>
                   </Card>
@@ -52,34 +53,7 @@ export default function Schemas() {
           </Button>
         </div>
 
-        <div className="divide-x text-sm text-gray-600 justify-self-end">
-          <a
-            href="https://github.com/albingroen/prismabuilder.io"
-            className="hover:underline hover:text-gray-700 pr-3"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Source code
-          </a>
-
-          <a
-            href="https://github.com/albingroen/prismabuilder.io/issues/new?labels=bug"
-            className="hover:underline hover:text-gray-700 px-3"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Report a bug
-          </a>
-
-          <a
-            href="https://github.com/albingroen/prismabuilder.io/issues/new?labels=enhancement"
-            className="hover:underline hover:text-gray-700 pl-3"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Suggest feature
-          </a>
-        </div>
+        <Links />
       </div>
     </>
   );

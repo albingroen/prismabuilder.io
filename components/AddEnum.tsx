@@ -53,7 +53,7 @@ const AddEnum = ({ onCancel }: AddEnumProps) => {
                   onClick={() => {
                     setFields(fields.filter((_, vi) => vi !== i));
                   }}
-                  className="text-red-400 hover:text-red-500 transition"
+                  className="text-red-400 hover:text-red-500 transition focus:ring-2"
                   aria-label="Delete enum value"
                 >
                   <Trash2 size={20} />

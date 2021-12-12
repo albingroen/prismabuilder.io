@@ -108,7 +108,7 @@ const Model = () => {
                     />
                   </div>
                 ) : (
-                  <Title>{name}</Title>
+                  <h2 className="text-2xl font-semibold">{name}</h2>
                 )}
                 <button
                   onClick={() => {
@@ -122,6 +122,7 @@ const Model = () => {
                     }
                     setEditingName(!editingName);
                   }}
+                  className="focus:ring-2"
                   aria-label={
                     editingName ? "Save model name" : "Edit model name"
                   }
@@ -188,7 +189,7 @@ const Model = () => {
 
                   return (
                     <button
-                      className="rounded-lg bg-white shadow-md text-left border border-transparent hover:border-blue-500 cursor-pointer transition py-3.5 px-4 flex items-center justify-between"
+                      className="rounded-lg bg-white shadow-md text-left border border-transparent focus:border-blue-500 hover:border-blue-500 cursor-pointer transition py-3.5 px-4 flex items-center justify-between"
                       onClick={() => setEditingField(field.name)}
                       key={field.name}
                     >
@@ -282,7 +283,7 @@ const Model = () => {
 
                     return (
                       <button
-                        className={`rounded-lg bg-white shadow-md text-left border border-transparent hover:border-blue-500 cursor-pointer transition py-3 px-4 flex items-center space-x-4 ${
+                        className={`rounded-lg bg-white shadow-md text-left border border-transparent focus:border-blue-500 hover:border-blue-500 cursor-pointer transition py-3 px-4 flex items-center space-x-4 ${
                           type.type === "model" || type.type === "enum"
                             ? "bg-indigo-100"
                             : "bg-blue-100"
