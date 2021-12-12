@@ -31,7 +31,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
         className="font-mono h-96 w-full my-4 border rounded-lg resize-none p-4 whitespace-pre overflow-auto"
       />
       <Button
-        onClick={() => {
+        onPress={() => {
           setImportSchemaLoading(true);
           axios
             .post(`${apiUrl}/parse`, { schema: importSchema })

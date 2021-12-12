@@ -74,7 +74,7 @@ const UpdateEnum = ({ onCancel, defaultValues }: UpdateEnumProps) => {
       </div>
 
       <Button
-        onClick={() => {
+        onPress={() => {
           setFields([...fields, ""]);
         }}
         variant="secondary"
@@ -86,12 +86,12 @@ const UpdateEnum = ({ onCancel, defaultValues }: UpdateEnumProps) => {
 
       <Button
         isDisabled={!name || fields.some((v) => !v) || !fields.length}
-        onClick={handleSubmit}
+        onPress={handleSubmit}
       >
         Update enum
       </Button>
 
-      <Button onClick={onCancel} variant="secondary">
+      <Button onPress={onCancel} variant="secondary">
         Cancel
       </Button>
     </div>

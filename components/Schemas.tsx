@@ -30,7 +30,7 @@ export default function Schemas() {
           {schemas.length ? <Separator /> : null}
 
           <Button
-            onClick={() => {
+            onPress={() => {
               if (
                 schemas.some((schema: Schema) => schema.name === "New schema")
               ) {

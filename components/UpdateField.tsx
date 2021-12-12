@@ -208,7 +208,7 @@ const UpdateField = ({
         <Button
           variant="secondary"
           fillParent
-          onClick={() => {
+          onPress={() => {
             resetState();
             onClose();
           }}

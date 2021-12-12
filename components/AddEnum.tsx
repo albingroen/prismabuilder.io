@@ -65,7 +65,7 @@ const AddEnum = ({ onCancel }: AddEnumProps) => {
       </div>
 
       <Button
-        onClick={() => {
+        onPress={() => {
           setFields([...fields, ""]);
         }}
         variant="secondary"
@@ -77,12 +77,12 @@ const AddEnum = ({ onCancel }: AddEnumProps) => {
 
       <Button
         isDisabled={!name || fields.some((v) => !v) || !fields.length}
-        onClick={handleSubmit}
+        onPress={handleSubmit}
       >
         Create enum
       </Button>
 
-      <Button onClick={onCancel} variant="secondary">
+      <Button onPress={onCancel} variant="secondary">
         Cancel
       </Button>
     </div>

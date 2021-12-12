@@ -221,7 +221,7 @@ export default function Models() {
           <Separator />
 
           <Button
-            onClick={() => {
+            onPress={() => {
               if (schema.models.some((model: Model) => model.name === "New")) {
                 toast.error("A model called New exists");
               } else {
@@ -250,7 +250,7 @@ export default function Models() {
           </Button>
 
           <Button
-            onClick={() => {
+            onPress={() => {
               setShowingAddEnum(true);
             }}
             variant="secondary"
@@ -259,7 +259,7 @@ export default function Models() {
           </Button>
 
           <Button
-            onClick={() => {
+            onPress={() => {
               setShowingImportSchema(true);
             }}
             variant="secondary"
@@ -269,7 +269,7 @@ export default function Models() {
 
           {schema.models.length ? (
             <Button
-              onClick={() => {
+              onPress={() => {
                 setShowingSchema(true);
               }}
             >
