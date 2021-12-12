@@ -63,6 +63,7 @@ const UpdateEnum = ({ onCancel, defaultValues }: UpdateEnumProps) => {
                     setFields(fields.filter((_, vi) => vi !== i));
                   }}
                   className="text-red-400 hover:text-red-500 transition"
+                  aria-label="Delete enum value"
                 >
                   <Trash2 size={20} />
                 </button>

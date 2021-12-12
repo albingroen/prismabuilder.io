@@ -122,6 +122,9 @@ const Model = () => {
                     }
                     setEditingName(!editingName);
                   }}
+                  aria-label={
+                    editingName ? "Save model name" : "Edit model name"
+                  }
                 >
                   {editingName ? (
                     <CheckSquare
@@ -141,6 +144,7 @@ const Model = () => {
                 <Button variant="quiet">
                   <MoreVertical
                     className="text-gray-500 hover:text-gray-900 transition"
+                    aria-label="More"
                     size={20}
                   />
                 </Button>
@@ -223,7 +227,8 @@ const Model = () => {
                         </div>
                       </div>
 
-                      <button
+                      <div
+                        role="button"
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -241,7 +246,7 @@ const Model = () => {
                           className="text-red-400 hover:text-red-600 transition"
                           size={20}
                         />
-                      </button>
+                      </div>
                     </button>
                   );
                 })}

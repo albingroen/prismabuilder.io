@@ -27,6 +27,7 @@ const Modal = ({ children, heading, open, onClose }: ModalProps) => {
 
             <button
               className="text-gray-500 hover:text-gray-600 transition"
+              aria-label="Exit modal"
               onClick={onClose}
             >
               <X />

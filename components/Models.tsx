@@ -116,6 +116,9 @@ export default function Models() {
                   }
                   setEditingName(!editingName);
                 }}
+                aria-label={
+                  editingName ? "Save schema name" : "Edit schema name"
+                }
               >
                 {editingName ? (
                   <CheckSquare
@@ -135,6 +138,7 @@ export default function Models() {
               <Button variant="quiet">
                 <MoreVertical
                   className="text-gray-500 hover:text-gray-900 transition"
+                  aria-label="More"
                   size={20}
                 />
               </Button>
@@ -284,6 +288,7 @@ export default function Models() {
             }
           >
             <a
+              aria-label={isGraphView ? "Exit Graph view" : "Graph view"}
               className="text-gray-500 hover:text-gray-700 transition"
               title={isGraphView ? "Exit Graph view" : "Graph view"}
             >
