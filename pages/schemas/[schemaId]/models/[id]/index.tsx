@@ -210,9 +210,9 @@ const Model = () => {
                           />
                         </div>
                         <div className="flex flex-col space-y-1">
-                          <h3 className="text-lg w-52 font-medium">
+                          <h4 className="text-lg w-52 font-medium">
                             {field.name}
-                          </h3>
+                          </h4>
                           <div className="flex items-center space-x-2">
                             <Tag>
                               {field.list ? "[" : ""}
@@ -302,7 +302,7 @@ const Model = () => {
                         </div>
 
                         <div className="flex flex-col">
-                          <h3 className="font-medium">{type.name}</h3>
+                          <h4 className="font-medium">{type.name}</h4>
                           <p className="text-sm text-gray-700">
                             {type.description}
                           </p>
