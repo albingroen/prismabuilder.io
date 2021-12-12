@@ -37,7 +37,7 @@ const WelcomeModal = ({ onClose, open }: WelcomeModalProps) => {
       </p>
 
       <div className="mt-10">
-        <Button onClick={onClose} fillParent>
+        <Button onPress={onClose} fillParent>
           Get started
         </Button>
       </div>

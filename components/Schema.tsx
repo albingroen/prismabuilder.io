@@ -33,7 +33,7 @@ const Schema = ({ onCancel }: SchemaProps) => {
         <div className="flex flex-col space-y-4">
           <div>
             <Button
-              onClick={() => {
+              onPress={() => {
                 try {
                   navigator.clipboard.writeText(result);
                   toast.success("Copied schema to clipboard");
@@ -46,7 +46,7 @@ const Schema = ({ onCancel }: SchemaProps) => {
             </Button>
           </div>
           <pre className="bg-gray-200 p-4 rounded-md">{result}</pre>
-          <Button onClick={onCancel} variant="secondary">
+          <Button onPress={onCancel} variant="secondary">
             Cancel
           </Button>
         </div>

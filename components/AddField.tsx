@@ -202,7 +202,7 @@ const AddField = ({
         <Button
           variant="secondary"
           fillParent
-          onClick={() => {
+          onPress={() => {
             resetState();
             onClose();
           }}
