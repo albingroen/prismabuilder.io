@@ -30,6 +30,7 @@ import { useEffect, useState } from "react";
 import { PRISMA_DATABASES } from "../lib/prisma";
 import AddEnum from "./AddEnum";
 import UpdateEnum from "./UpdateEnum";
+import Links from "./Links";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -70,7 +71,7 @@ export default function Models() {
         <div className="flex flex-col space-y-3 flex-1">
           <div>
             <Link href="/">
-              <a className="text-sm text-blue-500 hover:text-blue-700 transition">
+              <a className="text-sm text-blue-500 hover:text-blue-700 transition focus:ring-2">
                 &larr; Change schema
               </a>
             </Link>
@@ -119,6 +120,7 @@ export default function Models() {
                 aria-label={
                   editingName ? "Save schema name" : "Edit schema name"
                 }
+                className="focus:ring-2"
               >
                 {editingName ? (
                   <CheckSquare
@@ -187,8 +189,8 @@ export default function Models() {
                 href={`/schemas/${schema.name}/models/${i}`}
                 key={model.name}
               >
-                <a>
-                  <Card className="border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
+                <a className="border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg">
+                  <Card className="flex items-center space-x-3">
                     <Box size={20} className="text-gray-500" />
                     <h3>{model.name}</h3>
                   </Card>
@@ -204,13 +206,13 @@ export default function Models() {
           {schema.enums.map((e, i) => {
             return (
               <button
+                className="flex border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg cursor-pointer"
                 onClick={() => {
                   setEditingEnum(e.name);
                 }}
-                className="flex"
                 key={e.name}
               >
-                <Card className="w-full border border-transparent hover:border-blue-500 cursor-pointer transition flex items-center space-x-3">
+                <Card className="w-full transition flex items-center space-x-3">
                   <List size={20} className="text-gray-500" />
                   <h3>{e.name}</h3>
                 </Card>
@@ -288,41 +290,15 @@ export default function Models() {
             }
           >
             <a
+              className="text-gray-500 hover:text-gray-700 transition focus:ring-2"
               aria-label={isGraphView ? "Exit Graph view" : "Graph view"}
-              className="text-gray-500 hover:text-gray-700 transition"
               title={isGraphView ? "Exit Graph view" : "Graph view"}
             >
               {isGraphView ? <X /> : <Globe />}
             </a>
           </Link>
-          <div className="divide-x text-sm text-gray-600 justify-self-end">
-            <a
-              href="https://github.com/albingroen/prismabuilder.io"
-              className="hover:underline hover:text-gray-700 pr-3"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Source code
-            </a>
 
-            <a
-              href="https://github.com/albingroen/prismabuilder.io/issues/new?labels=bug"
-              className="hover:underline hover:text-gray-700 px-3"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Report a bug
-            </a>
-
-            <a
-              href="https://github.com/albingroen/prismabuilder.io/issues/new?labels=enhancement"
-              className="hover:underline hover:text-gray-700 pl-3"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Suggest feature
-            </a>
-          </div>
+          <Links />
         </div>
       </div>
 
