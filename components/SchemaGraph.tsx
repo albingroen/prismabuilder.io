@@ -1,6 +1,7 @@
 import ReactFlow, { Background } from "react-flow-renderer";
 import { useSchemaContext } from "../lib/context";
-import { Field, Model } from "../lib/types";
+import { TYPES } from "../lib/fields";
+import { Enum, Field, Model } from "../lib/types";
 
 const onLoad = (reactFlowInstance: any) => {
   reactFlowInstance.fitView();
@@ -16,13 +17,15 @@ const SchemaGraph = () => {
       elements={
         schema.models?.length
           ? [
-              ...schema.models.map((model: Model, i: number) => ({
-                id: model.name,
-                data: {
-                  label: <>{model.name}</>,
-                },
-                position: { x: i * 200, y: 0 },
-              })),
+              ...[...schema.models, ...schema.enums].map(
+                (model: Model | Enum, i: number) => ({
+                  id: model.name,
+                  data: {
+                    label: <>{model.name}</>,
+                  },
+                  position: { x: i * 200, y: 0 },
+                })
+              ),
               ...schema.models
                 .map((model: Model) =>
                   model.fields.map((field) => ({ ...field, model: model.name }))
@@ -37,9 +40,18 @@ const SchemaGraph = () => {
                       const isRelationField =
                         field.relationField || field.relation;
 
-                      return isRelationField
-                        ? isRelationField && typeMatchesSomeModel
-                        : typeMatchesSomeModel;
+                      const isEnumField =
+                        !isRelationField &&
+                        !TYPES(schema.database).some(
+                          (t) => t.name === field.type
+                        );
+
+                      return (
+                        isEnumField ||
+                        (isRelationField
+                          ? isRelationField && typeMatchesSomeModel
+                          : typeMatchesSomeModel)
+                      );
                     });
 
                     return [
