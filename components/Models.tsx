@@ -203,7 +203,7 @@ export default function Models() {
 
           <Label>Enums</Label>
 
-          {schema.enums.map((e, i) => {
+          {schema.enums.map((e) => {
             return (
               <button
                 className="flex border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg cursor-pointer"
