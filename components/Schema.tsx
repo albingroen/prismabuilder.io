@@ -45,7 +45,9 @@ const Schema = ({ onCancel }: SchemaProps) => {
               Copy to clipboard
             </Button>
           </div>
-          <pre className="bg-gray-200 p-4 rounded-md">{result}</pre>
+          <pre className="bg-gray-200 overflow-auto p-4 rounded-md">
+            {result}
+          </pre>
           <Button onPress={onCancel} variant="secondary">
             Cancel
           </Button>
