@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "@prisma/lens";
-import { Model } from "../lib/types";
+import { Enum, Model } from "../lib/types";
 import { apiUrl } from "../lib/config";
 import { useSchemaContext } from "../lib/context";
 import { useState } from "react";
@@ -46,10 +46,20 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
               ) {
                 toast.error("Some model has a colliding name");
                 setImportSchemaLoading(false);
+              } else if (
+                schema.enums.some((enumValue: Enum) =>
+                  importedSchema.enums
+                    .map((e: Enum) => e.name)
+                    .includes(enumValue.name)
+                )
+              ) {
+                toast.error("Some enum has a colliding name");
+                setImportSchemaLoading(false);
               } else if (importedSchema.models?.length) {
                 setSchema({
                   ...schema,
                   models: [...schema.models, ...importedSchema.models],
+                  enums: [...schema.enums, ...(importedSchema.enums ?? [])],
                 });
                 setImportSchemaLoading(false);
                 setImportSchema("");
