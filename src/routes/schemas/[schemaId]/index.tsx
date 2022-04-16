@@ -4,15 +4,17 @@ import Model from "../../../components/Model";
 import Page from "../../../components/Page";
 import Sidebar from "../../../components/Sidebar";
 import Stack from "../../../components/Stack";
-import { CubeIcon } from "@heroicons/react/solid";
+import { ClipboardCopyIcon, CubeIcon } from "@heroicons/react/solid";
 import { ID_FIELD } from "../../../lib/fields";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSchemaContext } from "../../../lib/context";
 import { PrismaDatabase, Schema } from "../../../types";
 import { v4 as uuid } from "uuid";
-import { confirm } from "@tauri-apps/api/dialog";
+import { confirm, message } from "@tauri-apps/api/dialog";
 import Select from "../../../components/Select";
-import { PRISMA_DATABASES } from "../../../lib/prisma";
+import { jsonToPrismaSchema, PRISMA_DATABASES } from "../../../lib/prisma";
+import { useState } from "react";
+import Modal from "../../../components/Modal";
 
 export default function SchemaView() {
   const { schemaId, modelId } = useParams();
@@ -20,6 +22,8 @@ export default function SchemaView() {
 
   const { schemas, setSchemas, setSchema } = useSchemaContext();
   const schema = schemas.find((s) => s.id === schemaId);
+
+  const [showingSchema, setShowingSchema] = useState<boolean>(false);
 
   if (!schema) return null;
 
@@ -106,6 +110,14 @@ export default function SchemaView() {
               New model
             </Button>
 
+            <Button
+              onClick={() => {
+                setShowingSchema(true);
+              }}
+            >
+              Generate schema
+            </Button>
+
             <Button onClick={handleDeleteSchema}>Delete schema</Button>
           </Stack>
         </Stack>
@@ -116,6 +128,64 @@ export default function SchemaView() {
           <Model model={model} schema={schema} onChangeSchema={setSchema} />
         ) : null}
       </Page.Content>
+
+      {showingSchema && (
+        <Modal
+          description="Here's what your generated Prisma schema looks like."
+          heading="Schema"
+          onClose={() => {
+            setShowingSchema(false);
+          }}
+        >
+          {({ onClose }) => {
+            const schemaString = jsonToPrismaSchema(schema);
+
+            return (
+              <Stack
+                direction="vertical"
+                className="w-full"
+                spacing="large"
+                align="start"
+              >
+                <Button
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(schemaString);
+                      message(
+                        "Successfully copied the schema string to your clipboard!"
+                      );
+                    } catch {
+                      message(
+                        "Failed to copy the schema string to your clipboard..."
+                      );
+                    }
+                  }}
+                  variant="primary"
+                >
+                  <span>Copy to clipboard</span>{" "}
+                  <ClipboardCopyIcon className="w-3.5" />
+                </Button>
+
+                <code className="text-sm p-4 overflow-auto bg-stone-100 border border-stone-200 rounded-md w-full">
+                  <pre>{schemaString}</pre>
+                </code>
+
+                <Stack className="w-full" justify="end">
+                  <Button
+                    onClick={() => {
+                      if (onClose) {
+                        onClose();
+                      }
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Stack>
+              </Stack>
+            );
+          }}
+        </Modal>
+      )}
     </Page>
   );
 }
