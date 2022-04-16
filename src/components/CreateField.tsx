@@ -1,9 +1,9 @@
+import Button from "./Button";
 import Input from "./Input";
 import Select from "./Select";
 import Stack from "./Stack";
 import { Field, FieldType, Model, Schema } from "../types";
 import { FormEvent, useState } from "react";
-import Button from "./Button";
 import { PRISMA_DEFAULT_VALUES } from "../lib/prisma";
 import { TYPES } from "../lib/fields";
 import { v4 as uuid } from "uuid";
@@ -11,11 +11,13 @@ import { v4 as uuid } from "uuid";
 interface CreateFieldProps {
   onSubmit: (field: Field) => void;
   defaultType?: FieldType;
+  onCancel: () => void;
   schema: Schema;
 }
 
 export default function CreateField({
   defaultType,
+  onCancel,
   onSubmit,
   schema,
 }: CreateFieldProps) {
@@ -204,9 +206,14 @@ export default function CreateField({
           </Stack>
         </Stack>
 
-        <Button disabled={!name || !type} className="!mt-3" variant="primary">
-          Add field
-        </Button>
+        <Stack align="center" justify="end" className="!mt-3">
+          <Button type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={!name || !type} variant="primary">
+            Add field
+          </Button>
+        </Stack>
       </Stack>
     </form>
   );

@@ -5,6 +5,7 @@ import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import { Field } from "../types";
 import { MenuIcon, TrashIcon } from "@heroicons/react/outline";
 import { prismaTypesToIcons } from "../lib/icons";
+import classNames from "../lib/classNames";
 
 interface FieldProps {
   dragHandleProps?: DraggableProvidedDragHandleProps;
@@ -21,7 +22,9 @@ export default function FieldComponent({
 
   return (
     <div
-      className="cursor-pointer rounded-md bg-white shadow shadow-stone-300/30 hover:shadow-md dark:shadow-stone-900/20 dark:bg-stone-700/60 dark:hover:bg-stone-700 border dark:border-stone-600 p-3 pr-4 text-left transition duration-100"
+      className={classNames(
+        "cursor-pointer rounded-md transform bg-white shadow shadow-stone-300/30 hover:shadow-md active:shadow-md dark:shadow-stone-900/20 dark:bg-stone-700/60 dark:hover:bg-stone-700 border dark:border-stone-600 p-3 pr-4 text-left transition duration-100"
+      )}
       role="button"
     >
       <Stack align="center" justify="between">
@@ -39,7 +42,7 @@ export default function FieldComponent({
           <Stack direction="vertical" spacing="small">
             <h3 className="text-lg leading-none">{field.name}</h3>
 
-            <Stack align="center" spacing="small">
+            <Stack align="center" spacing="small" className="!mt-px">
               <Tag>
                 {field.list && "["}
                 {field.type}

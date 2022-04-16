@@ -15,6 +15,7 @@ import { Schema, Field, Model, FieldType } from "../types";
 import { arrayMove } from "../lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import classNames from "../lib/classNames";
 
 interface ModelProps {
   onChangeSchema: (id: string, values: any) => void;
@@ -86,17 +87,33 @@ export default function ModelView({
 
         <DragDropContext onDragEnd={handleMoveField}>
           <Droppable droppableId="fields" direction="vertical">
-            {({ droppableProps, innerRef, placeholder }) => (
-              <div {...droppableProps} ref={innerRef}>
+            {({ droppableProps, innerRef, placeholder }, droppableSnapshot) => (
+              <div
+                className={classNames(
+                  "p-2 pb-0 -m-2 rounded transition",
+                  droppableSnapshot.isDraggingOver && "bg-stone-200"
+                )}
+                {...droppableProps}
+                ref={innerRef}
+              >
                 {model.fields.map((field, i) => (
                   <Draggable index={i} draggableId={field.id} key={field.id}>
-                    {({ innerRef, draggableProps, dragHandleProps }) => (
+                    {(
+                      { innerRef, draggableProps, dragHandleProps },
+                      snapshot
+                    ) => (
                       <div className="mb-2" ref={innerRef} {...draggableProps}>
-                        <FieldComponent
-                          dragHandleProps={dragHandleProps}
-                          onDelete={handleDeleteField}
-                          field={field}
-                        />
+                        <div
+                          className={classNames(
+                            snapshot.isDragging && "transform rotate-2"
+                          )}
+                        >
+                          <FieldComponent
+                            dragHandleProps={dragHandleProps}
+                            onDelete={handleDeleteField}
+                            field={field}
+                          />
+                        </div>
                       </div>
                     )}
                   </Draggable>
@@ -121,6 +138,11 @@ export default function ModelView({
           {({ onClose }) => (
             <CreateField
               schema={schema}
+              onCancel={() => {
+                if (onClose) {
+                  onClose();
+                }
+              }}
               onSubmit={(field) => {
                 updateModel({
                   fields: [...model.fields, field],
