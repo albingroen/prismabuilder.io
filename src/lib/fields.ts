@@ -28,6 +28,7 @@ export const TYPES = (
 
 export const ID_FIELD: Field = {
   relationField: false,
+  isUpdatedAt: false,
   documentation: "",
   default: "cuid()",
   required: true,

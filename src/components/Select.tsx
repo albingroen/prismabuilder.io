@@ -15,7 +15,7 @@ export interface SelectProps
 
 export function getSelectStyles() {
   const selectStyles = {
-    base: "w-full shadow-sm block text-sm border-gray-300 rounded-md focus:ring-0 focus:border-gray-400",
+    base: "w-full bg-transparent shadow-sm placeholder-stone-400 dark:placeholder-stone-600 block text-sm border-stone-300 dark:border-stone-700 rounded-md focus:ring-0 focus:border-stone-400",
   };
 
   return selectStyles.base;
@@ -47,8 +47,8 @@ interface OptionProps
     HTMLOptionElement
   > {}
 
-function Option({ children }: OptionProps) {
-  return <option>{children}</option>;
+function Option({ children, ...rest }: OptionProps) {
+  return <option {...rest}>{children}</option>;
 }
 
 Select.Option = Option;

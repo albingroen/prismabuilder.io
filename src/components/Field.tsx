@@ -1,11 +1,11 @@
 import Stack from "./Stack";
 import Tag from "./Tag";
+import classNames from "../lib/classNames";
 import { CubeIcon } from "@heroicons/react/solid";
 import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
 import { Field } from "../types";
 import { MenuIcon, TrashIcon } from "@heroicons/react/outline";
 import { prismaTypesToIcons } from "../lib/icons";
-import classNames from "../lib/classNames";
 
 interface FieldProps {
   dragHandleProps?: DraggableProvidedDragHandleProps;
@@ -23,7 +23,7 @@ export default function FieldComponent({
   return (
     <div
       className={classNames(
-        "cursor-pointer rounded-md transform bg-white shadow shadow-stone-300/30 hover:shadow-md active:shadow-md dark:shadow-stone-900/20 dark:bg-stone-700/60 dark:hover:bg-stone-700 border dark:border-stone-600 p-3 pr-4 text-left transition duration-100"
+        "cursor-pointer rounded-md transform bg-white shadow shadow-stone-300/30 hover:shadow-md active:shadow-md dark:shadow-stone-900 dark:bg-stone-700 border dark:border-stone-600 p-3 pr-4 text-left transition duration-100"
       )}
       role="button"
     >
@@ -35,8 +35,8 @@ export default function FieldComponent({
             </div>
           )}
 
-          <div className="h-14 w-14 rounded-md bg-indigo-200 dark:bg-stone-500 bg-opacity-40 flex items-center justify-center">
-            <Icon className="w-7 text-indigo-400 group-hover:text-inherit transition duration-100" />
+          <div className="h-14 w-14 rounded-md bg-indigo-200 dark:bg-indigo-900 bg-opacity-40 dark:bg-opacity-50 flex items-center justify-center">
+            <Icon className="w-7 text-indigo-400 dark:text-indigo-300" />
           </div>
 
           <Stack direction="vertical" spacing="small">
@@ -52,6 +52,7 @@ export default function FieldComponent({
               {field.unique && <Tag>Unique</Tag>}
               {field.isId && <Tag>ID</Tag>}
               {field.default && <Tag>{field.default}</Tag>}
+              {field.isUpdatedAt && <Tag>updatedAt</Tag>}
             </Stack>
           </Stack>
         </Stack>

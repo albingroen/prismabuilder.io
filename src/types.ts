@@ -12,6 +12,7 @@ export type FieldType =
 export type Field = {
   relationField: boolean;
   documentation: string;
+  isUpdatedAt: boolean;
   required: boolean;
   unique: boolean;
   default: string;

@@ -16,6 +16,7 @@ import { arrayMove } from "../lib/utils";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import classNames from "../lib/classNames";
+import { confirm } from "@tauri-apps/api/dialog";
 
 interface ModelProps {
   onChangeSchema: (id: string, values: any) => void;
@@ -59,18 +60,32 @@ export default function ModelView({
     });
   }
 
-  function handleDeleteModel() {
-    onChangeSchema(schema.id, {
-      models: schema.models.filter((m) => m.id !== model.id),
-    });
+  async function handleDeleteModel() {
+    if (
+      await confirm(
+        "Are you sure you want to delete this model?",
+        "Delete model"
+      )
+    ) {
+      onChangeSchema(schema.id, {
+        models: schema.models.filter((m) => m.id !== model.id),
+      });
 
-    navigate(`/schemas/${schema.id}`);
+      navigate(`/schemas/${schema.id}`);
+    }
   }
 
-  function handleDeleteField(id: string) {
-    updateModel({
-      fields: model.fields.filter((f: Field) => f.id !== id),
-    });
+  async function handleDeleteField(id: string) {
+    if (
+      await confirm(
+        "Are you sure you want to delete this field?",
+        "Delete field"
+      )
+    ) {
+      updateModel({
+        fields: model.fields.filter((f: Field) => f.id !== id),
+      });
+    }
   }
 
   return (
@@ -91,7 +106,8 @@ export default function ModelView({
               <div
                 className={classNames(
                   "p-2 pb-0 -m-2 rounded transition",
-                  droppableSnapshot.isDraggingOver && "bg-stone-200"
+                  droppableSnapshot.isDraggingOver &&
+                    "bg-stone-200 dark:bg-stone-900/50"
                 )}
                 {...droppableProps}
                 ref={innerRef}

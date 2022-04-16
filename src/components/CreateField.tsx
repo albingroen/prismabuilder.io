@@ -7,6 +7,7 @@ import { FormEvent, useState } from "react";
 import { PRISMA_DEFAULT_VALUES } from "../lib/prisma";
 import { TYPES } from "../lib/fields";
 import { v4 as uuid } from "uuid";
+import Checkbox from "./Checkbox";
 
 interface CreateFieldProps {
   onSubmit: (field: Field) => void;
@@ -22,6 +23,7 @@ export default function CreateField({
   schema,
 }: CreateFieldProps) {
   const [type, setType] = useState<FieldType>(defaultType ?? ("" as FieldType));
+  const [isUpdatedAt, setIsUpdatedAt] = useState<boolean>(false);
   const [defaultValue, setDefaultValue] = useState<string>("");
   const [required, setRequired] = useState<boolean>(false);
   const [unique, setUnique] = useState<boolean>(false);
@@ -41,6 +43,7 @@ export default function CreateField({
       relationField: schema.models.some((model: Model) => model.name === type),
       default: defaultValue,
       documentation: "",
+      isUpdatedAt,
       id: uuid(),
       required,
       kind: "",
@@ -125,13 +128,11 @@ export default function CreateField({
             >
               Required
             </label>
-            <input
+            <Checkbox
               onChange={(e) => {
                 setRequired(e.currentTarget.checked);
               }}
-              className="rounded border-stone-400"
               checked={required}
-              type="checkbox"
               id="required"
             />
           </Stack>
@@ -148,13 +149,11 @@ export default function CreateField({
             >
               Unique
             </label>
-            <input
+            <Checkbox
               onChange={(e) => {
                 setUnique(e.currentTarget.checked);
               }}
-              className="rounded border-stone-400"
               checked={unique}
-              type="checkbox"
               id="unique"
             />
           </Stack>
@@ -171,12 +170,10 @@ export default function CreateField({
             >
               List
             </label>
-            <input
+            <Checkbox
               onChange={(e) => {
                 setList(e.currentTarget.checked);
               }}
-              className="rounded border-stone-400"
-              type="checkbox"
               checked={list}
               id="list"
             />
@@ -189,19 +186,40 @@ export default function CreateField({
             className=""
           >
             <label
-              htmlFor="isId"
+              title="This will mark this field as the ID of the model"
               className="text-center text-sm text-stone-500"
+              htmlFor="isId"
             >
-              Is ID
+              Id
             </label>
-            <input
+            <Checkbox
               onChange={(e) => {
                 setIsId(e.currentTarget.checked);
               }}
-              className="rounded border-stone-400"
-              type="checkbox"
               checked={isId}
               id="isId"
+            />
+          </Stack>
+
+          <Stack
+            direction="vertical"
+            align="center"
+            spacing="small"
+            className=""
+          >
+            <label
+              title="This will set the value as the current date each time a row of this model is updated"
+              className="text-center text-sm text-stone-500"
+              htmlFor="isUpdatedAt"
+            >
+              Updated at
+            </label>
+            <Checkbox
+              onChange={(e) => {
+                setIsUpdatedAt(e.currentTarget.checked);
+              }}
+              checked={isUpdatedAt}
+              id="isUpdatedAt"
             />
           </Stack>
         </Stack>

@@ -28,7 +28,7 @@ export function getModalOverlayStyles() {
 
 export function getModalContentStyles() {
   const modalContentStyles = {
-    base: "bg-white w-full max-w-lg rounded-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 divide-y focus:outline-none max-h-[90vh] flex flex-col",
+    base: "dark:border dark:border-stone-800 bg-white dark:bg-stone-900 dark:text-white w-full max-w-lg rounded-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 divide-y dark:divide-stone-800 focus:outline-none max-h-[90vh] flex flex-col",
   };
 
   return classNames(modalContentStyles.base);

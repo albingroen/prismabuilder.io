@@ -8,19 +8,34 @@ import { CubeIcon } from "@heroicons/react/solid";
 import { ID_FIELD } from "../../../lib/fields";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSchemaContext } from "../../../lib/context";
-import { Schema } from "../../../types";
+import { PrismaDatabase, Schema } from "../../../types";
 import { v4 as uuid } from "uuid";
+import { confirm } from "@tauri-apps/api/dialog";
+import Select from "../../../components/Select";
+import { PRISMA_DATABASES } from "../../../lib/prisma";
 
 export default function SchemaView() {
   const { schemaId, modelId } = useParams();
   const navigate = useNavigate();
 
-  const { schemas, setSchema } = useSchemaContext();
+  const { schemas, setSchemas, setSchema } = useSchemaContext();
   const schema = schemas.find((s) => s.id === schemaId);
 
   if (!schema) return null;
 
   const model = modelId && schema.models.find((m) => m.id === modelId);
+
+  async function handleDeleteSchema() {
+    if (
+      await confirm(
+        "Are you sure you want to delete this schema?",
+        "Delete schema"
+      )
+    ) {
+      setSchemas(schemas.filter((s) => s.id !== schema!.id));
+      navigate("/");
+    }
+  }
 
   return (
     <Page>
@@ -32,6 +47,24 @@ export default function SchemaView() {
             spacing="small"
             align="start"
           >
+            <Select
+              value={schema.database}
+              onChange={(e) => {
+                setSchema(schema.id, {
+                  ...schema,
+                  database: e.currentTarget.value as PrismaDatabase,
+                });
+              }}
+            >
+              {PRISMA_DATABASES.map((database) => (
+                <Select.Option key={database.value} value={database.value}>
+                  {database.label}
+                </Select.Option>
+              ))}
+            </Select>
+
+            <hr />
+
             <Label>Models</Label>
             {schema.models.length ? (
               <ul className="w-full">
@@ -52,7 +85,7 @@ export default function SchemaView() {
             )}
           </Stack>
 
-          <Stack direction="vertical" spacing="small">
+          <Stack direction="vertical">
             <Button
               onClick={() => {
                 const newModel = {
@@ -72,6 +105,8 @@ export default function SchemaView() {
             >
               New model
             </Button>
+
+            <Button onClick={handleDeleteSchema}>Delete schema</Button>
           </Stack>
         </Stack>
       </Sidebar>

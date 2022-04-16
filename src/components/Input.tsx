@@ -22,7 +22,7 @@ export interface InputProps
 
 export function getInputStyles({ block }: CustomInputProps) {
   const inputStyles = {
-    base: "shadow-sm placeholder-gray-400 block text-sm border-gray-300 rounded-md focus:ring-0 focus:border-gray-400",
+    base: "bg-transparent shadow-sm placeholder-stone-400 dark:placeholder-stone-600 block text-sm border-stone-300 dark:border-stone-700 rounded-md focus:ring-0 focus:border-stone-400",
     block: "w-full",
   };
 
