@@ -1,13 +1,19 @@
 import Button from "./components/Button";
+import Label from "./components/Label";
 import Page from "./components/Page";
 import Sidebar from "./components/Sidebar";
 import Stack from "./components/Stack";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Schema } from "./types";
 import { ViewGridIcon } from "@heroicons/react/solid";
 import { open } from "@tauri-apps/api/dialog";
 import { readTextFile } from "@tauri-apps/api/fs";
+import { useSchemaContext } from "./lib/context";
 
 export default function App() {
+  const { schemas, setSchemas } = useSchemaContext();
+  const navigate = useNavigate();
+
   return (
     <Page>
       <Sidebar heading="Prisma Schema Builder">
@@ -24,24 +30,44 @@ export default function App() {
             spacing="small"
             align="start"
           >
-            <p className="text-stone-500 dark:text-stone-400 text-xs tracking-wider font-medium uppercase">
-              Schemas
-            </p>
-            <ul className="w-full">
-              <li>
-                <Link
-                  className="flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-200 dark:hover:bg-stone-800 border border-transparent hover:border-stone-300 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group"
-                  to={`/schemas/${1}`}
-                >
-                  <ViewGridIcon className="w-4 h-4 text-stone-500 group-hover:text-stone-900 transition duration-100" />
-                  <span className="leading-none">School platform</span>
-                </Link>
-              </li>
-            </ul>
+            <Label>Schemas</Label>
+
+            {schemas.length ? (
+              <ul className="w-full">
+                {schemas.map((schema) => (
+                  <li key={schema.id}>
+                    <Link
+                      className="flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group"
+                      to={`/schemas/${schema.id}`}
+                    >
+                      <ViewGridIcon className="w-4 h-4 text-stone-500 group-hover:text-inherit transition duration-100" />
+                      <span className="leading-none">{schema.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No schemas created yet</p>
+            )}
           </Stack>
 
-          <Stack className="w-full" direction="vertical" spacing="small">
-            <Button>New schema...</Button>
+          <Stack className="w-full" direction="vertical">
+            <Button
+              onClick={() => {
+                const newSchema: Schema = {
+                  id: Math.random().toString(),
+                  database: "postgresql",
+                  name: "New schema",
+                  models: [],
+                  enums: [],
+                };
+
+                setSchemas([...schemas, newSchema]);
+                navigate(`/schemas/${newSchema.id}`);
+              }}
+            >
+              New schema
+            </Button>
 
             <Button
               onClick={async () => {
@@ -60,7 +86,7 @@ export default function App() {
         </Stack>
       </Sidebar>
 
-      <Page.Content>hej</Page.Content>
+      <Page.Content>{""}</Page.Content>
     </Page>
   );
 }
