@@ -6,6 +6,7 @@ import { FormEvent, useState } from "react";
 import Button from "./Button";
 import { PRISMA_DEFAULT_VALUES } from "../lib/prisma";
 import { TYPES } from "../lib/fields";
+import { v4 as uuid } from "uuid";
 
 interface CreateFieldProps {
   onSubmit: (field: Field) => void;
@@ -36,9 +37,9 @@ export default function CreateField({
 
     onSubmit({
       relationField: schema.models.some((model: Model) => model.name === type),
-      id: Math.random().toString(),
       default: defaultValue,
       documentation: "",
+      id: uuid(),
       required,
       kind: "",
       unique,

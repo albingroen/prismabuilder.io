@@ -1,4 +1,5 @@
 import { Field, FieldType, PrismaDatabase } from "../types";
+import { v4 as uuid } from "uuid";
 
 export const TYPES = (
   database: PrismaDatabase
@@ -26,7 +27,6 @@ export const TYPES = (
 };
 
 export const ID_FIELD: Field = {
-  id: Math.random().toString(),
   relationField: false,
   documentation: "",
   default: "cuid()",
@@ -36,5 +36,6 @@ export const ID_FIELD: Field = {
   list: false,
   isId: true,
   name: "id",
+  id: uuid(),
   kind: "",
 };

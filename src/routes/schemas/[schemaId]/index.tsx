@@ -9,6 +9,7 @@ import { ID_FIELD } from "../../../lib/fields";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSchemaContext } from "../../../lib/context";
 import { Schema } from "../../../types";
+import { v4 as uuid } from "uuid";
 
 export default function SchemaView() {
   const { schemaId, modelId } = useParams();
@@ -55,9 +56,9 @@ export default function SchemaView() {
             <Button
               onClick={() => {
                 const newModel = {
-                  id: Math.random().toString(),
                   fields: [ID_FIELD],
                   name: "New model",
+                  id: uuid(),
                 };
 
                 const newSchema: Schema = {

@@ -1,0 +1,70 @@
+import Stack from "./Stack";
+import Tag from "./Tag";
+import { CubeIcon } from "@heroicons/react/solid";
+import { DraggableProvidedDragHandleProps } from "react-beautiful-dnd";
+import { Field } from "../types";
+import { MenuIcon, TrashIcon } from "@heroicons/react/outline";
+import { prismaTypesToIcons } from "../lib/icons";
+
+interface FieldProps {
+  dragHandleProps?: DraggableProvidedDragHandleProps;
+  onDelete: (id: string) => void;
+  field: Field;
+}
+
+export default function FieldComponent({
+  dragHandleProps,
+  onDelete,
+  field,
+}: FieldProps) {
+  const Icon = prismaTypesToIcons[field.type] ?? CubeIcon;
+
+  return (
+    <div
+      className="cursor-pointer rounded-md bg-white shadow shadow-stone-300/30 hover:shadow-md dark:shadow-stone-900/20 dark:bg-stone-700/60 dark:hover:bg-stone-700 border dark:border-stone-600 p-3 pr-4 text-left transition duration-100"
+      role="button"
+    >
+      <Stack align="center" justify="between">
+        <Stack align="center">
+          {dragHandleProps && (
+            <div {...dragHandleProps}>
+              <MenuIcon className="w-4 text-stone-300 dark:text-stone-500 hover:text-inherit py-6 active:text-inherit transition duration-100" />
+            </div>
+          )}
+
+          <div className="h-14 w-14 rounded-md bg-indigo-200 dark:bg-stone-500 bg-opacity-40 flex items-center justify-center">
+            <Icon className="w-7 text-indigo-400 group-hover:text-inherit transition duration-100" />
+          </div>
+
+          <Stack direction="vertical" spacing="small">
+            <h3 className="text-lg leading-none">{field.name}</h3>
+
+            <Stack align="center" spacing="small">
+              <Tag>
+                {field.list && "["}
+                {field.type}
+                {field.list && "]"}
+              </Tag>
+              {field.required && <Tag>Required</Tag>}
+              {field.unique && <Tag>Unique</Tag>}
+              {field.isId && <Tag>ID</Tag>}
+              {field.default && <Tag>{field.default}</Tag>}
+            </Stack>
+          </Stack>
+        </Stack>
+
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            onDelete(field.id);
+          }}
+          aria-label="Delete field"
+        >
+          <TrashIcon className="w-5 text-red-400 hover:text-red-600 dark:text-red-600 dark:hover:text-red-800 transition" />
+        </button>
+      </Stack>
+    </div>
+  );
+}

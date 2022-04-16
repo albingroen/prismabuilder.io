@@ -1,3 +1,4 @@
+import { forwardRef, Ref } from "react";
 import classNames from "../lib/classNames";
 
 export interface CustomStackProps {
@@ -73,18 +74,22 @@ export function getStackStyles({
   );
 }
 
-export default function Stack({
-  direction = "horizontal",
-  justify = "stretch",
-  align = "stretch",
-  children,
-  spacing,
-  wrap,
-  ...rest
-}: StackProps) {
+function Stack(
+  {
+    direction = "horizontal",
+    justify = "stretch",
+    align = "stretch",
+    children,
+    spacing,
+    wrap,
+    ...rest
+  }: StackProps,
+  ref: Ref<HTMLDivElement>
+) {
   return (
     <div
       {...rest}
+      ref={ref}
       className={classNames(
         getStackStyles({ direction, spacing, align, justify, wrap }),
         rest.className
@@ -94,3 +99,5 @@ export default function Stack({
     </div>
   );
 }
+
+export default forwardRef(Stack);

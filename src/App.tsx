@@ -9,6 +9,7 @@ import { ViewGridIcon } from "@heroicons/react/solid";
 import { open } from "@tauri-apps/api/dialog";
 import { readTextFile } from "@tauri-apps/api/fs";
 import { useSchemaContext } from "./lib/context";
+import { v4 as uuid } from "uuid";
 
 export default function App() {
   const { schemas, setSchemas } = useSchemaContext();
@@ -55,9 +56,9 @@ export default function App() {
             <Button
               onClick={() => {
                 const newSchema: Schema = {
-                  id: Math.random().toString(),
                   database: "postgresql",
                   name: "New schema",
+                  id: uuid(),
                   models: [],
                   enums: [],
                 };

@@ -1,16 +1,23 @@
+import Button from "./Button";
 import CreateField from "./CreateField";
+import FieldComponent from "./Field";
 import Modal from "./Modal";
 import Stack from "./Stack";
-import Tag from "./Tag";
 import Types from "./Types";
-import { CubeIcon, MenuIcon, TrashIcon } from "@heroicons/react/outline";
+import { CubeIcon } from "@heroicons/react/solid";
+import {
+  DragDropContext,
+  Draggable,
+  DropResult,
+  Droppable,
+} from "react-beautiful-dnd";
 import { Schema, Field, Model, FieldType } from "../types";
-import { TYPES } from "../lib/fields";
-import { prismaTypesToIcons } from "../lib/icons";
+import { arrayMove } from "../lib/utils";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 interface ModelProps {
-  onChangeSchema: (id: string, values: Schema) => void;
+  onChangeSchema: (id: string, values: any) => void;
   schema: Schema;
   model: Model;
 }
@@ -20,13 +27,14 @@ export default function ModelView({
   schema,
   model,
 }: ModelProps) {
+  const navigate = useNavigate();
+
   const [addingField, setAddingField] = useState<FieldType>();
 
   function updateModel(values: any) {
     if (!schema || !model) return;
 
     onChangeSchema(schema.id, {
-      ...schema,
       models: schema.models.map((m: Model) =>
         m.name === model.name
           ? {
@@ -38,73 +46,66 @@ export default function ModelView({
     });
   }
 
+  function handleMoveField(result: DropResult) {
+    if (!result.destination) return;
+
+    const newFields = [...model.fields];
+
+    arrayMove(newFields, result.source.index, result.destination.index);
+
+    updateModel({
+      fields: newFields,
+    });
+  }
+
+  function handleDeleteModel() {
+    onChangeSchema(schema.id, {
+      models: schema.models.filter((m) => m.id !== model.id),
+    });
+
+    navigate(`/schemas/${schema.id}`);
+  }
+
+  function handleDeleteField(id: string) {
+    updateModel({
+      fields: model.fields.filter((f: Field) => f.id !== id),
+    });
+  }
+
   return (
     <Stack className="h-full !gap-6">
       <Stack className="flex-1" direction="vertical" spacing="huge">
-        <Stack align="center" spacing="small">
-          <CubeIcon className="w-6 text-stone-500" />
-          <h1 className="text-2xl leading-none">{model.name}</h1>
+        <Stack align="end" justify="between">
+          <Stack align="center" spacing="small">
+            <CubeIcon className="w-6 text-stone-500" />
+            <h1 className="text-2xl leading-none">{model.name}</h1>
+          </Stack>
+
+          <Button onClick={handleDeleteModel}>Delete model</Button>
         </Stack>
 
-        <Stack direction="vertical" spacing="small" className="pb-12">
-          {model.fields.map((field) => {
-            const type = TYPES(schema.database).find(
-              (t) => t.name === field.type
-            );
-
-            const Icon = prismaTypesToIcons[field.type] ?? CubeIcon;
-
-            return (
-              <button
-                className="rounded-md bg-white shadow shadow-stone-300/30 hover:shadow-md dark:shadow-stone-900/20 dark:bg-stone-700/60 dark:hover:bg-stone-700 transition duration-100 border dark:border-stone-600 p-3 pr-4 text-left"
-                key={field.id}
-              >
-                <Stack align="center" justify="between">
-                  <Stack align="center">
-                    <button>
-                      <MenuIcon className="w-4 text-stone-300 dark:text-stone-500 hover:text-inherit transition duration-100" />
-                    </button>
-                    <div className="h-14 w-14 rounded-md bg-indigo-200 dark:bg-stone-500 bg-opacity-40 flex items-center justify-center">
-                      <Icon className="w-7 text-indigo-400 group-hover:text-inherit transition duration-100" />
-                    </div>
-                    <Stack direction="vertical" spacing="small">
-                      <h3 className="text-lg leading-none">{field.name}</h3>
-                      <Stack align="center" spacing="small">
-                        <Tag>
-                          {field.list && "["}
-                          {type?.name ?? field.type}
-                          {field.list && "]"}
-                        </Tag>
-                        {field.required && <Tag>Required</Tag>}
-                        {field.unique && <Tag>Unique</Tag>}
-                        {field.isId && <Tag>ID</Tag>}
-                        {field.default && <Tag>{field.default}</Tag>}
-                      </Stack>
-                    </Stack>
-                  </Stack>
-
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-
-                      console.log(model.fields);
-
-                      updateModel({
-                        fields: model.fields.filter(
-                          (f: Field) => f.id !== field.id
-                        ),
-                      });
-                    }}
-                    aria-label="Delete field"
-                  >
-                    <TrashIcon className="w-5 text-red-400 hover:text-red-600 dark:text-red-600 dark:hover:text-red-800 transition" />
-                  </button>
-                </Stack>
-              </button>
-            );
-          })}
-        </Stack>
+        <DragDropContext onDragEnd={handleMoveField}>
+          <Droppable droppableId="fields" direction="vertical">
+            {({ droppableProps, innerRef, placeholder }) => (
+              <div {...droppableProps} ref={innerRef}>
+                {model.fields.map((field, i) => (
+                  <Draggable index={i} draggableId={field.id} key={field.id}>
+                    {({ innerRef, draggableProps, dragHandleProps }) => (
+                      <div className="mb-2" ref={innerRef} {...draggableProps}>
+                        <FieldComponent
+                          dragHandleProps={dragHandleProps}
+                          onDelete={handleDeleteField}
+                          field={field}
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </Stack>
 
       <Types schema={schema} onClickType={setAddingField} />
