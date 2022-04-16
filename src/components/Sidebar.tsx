@@ -20,10 +20,7 @@ export default function Sidebar({ heading, backLink, children }: SidebarProps) {
       >
         <Stack align="center" spacing="small">
           {backLink && (
-            <Link
-              className="p-0.5 rounded hover:bg-stone-100 dark:hover:bg-stone-800 transition duration-100 group border border-transparent hover:border-stone-200 dark:hover:border-stone-700 -ml-1"
-              to={backLink}
-            >
+            <Link className="p-0.5 group -ml-1" to={backLink}>
               <ChevronLeftIcon className="w-5 text-stone-400 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
             </Link>
           )}
