@@ -7,7 +7,7 @@ import SchemaPreview from "../../../components/SchemaPreview";
 import Select from "../../../components/Select";
 import Sidebar from "../../../components/Sidebar";
 import Stack from "../../../components/Stack";
-import { CubeIcon } from "@heroicons/react/solid";
+import { CubeIcon, CubeTransparentIcon } from "@heroicons/react/solid";
 import { ID_FIELD } from "../../../lib/fields";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PRISMA_DATABASES } from "../../../lib/prisma";
@@ -16,6 +16,7 @@ import { ask } from "@tauri-apps/api/dialog";
 import { useSchemaContext } from "../../../lib/context";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
+import EnumForm from "../../../components/EnumForm";
 
 export default function SchemaView() {
   const { schemaId, modelId } = useParams();
@@ -25,6 +26,7 @@ export default function SchemaView() {
   const schema = schemas.find((s) => s.id === schemaId);
 
   const [showingSchema, setShowingSchema] = useState<boolean>(false);
+  const [addingEnum, setAddingEnum] = useState<boolean>(false);
 
   if (!schema) return null;
 
@@ -85,14 +87,32 @@ export default function SchemaView() {
                       className="flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group"
                       to={`/schemas/${schemaId}/models/${model.id}`}
                     >
-                      <CubeIcon className="w-4 h-4 text-stone-500 group-hover:text-inherit transition duration-100" />
+                      <CubeIcon className="w-4 h-4 text-emerald-500" />
                       <span className="leading-none">{model.name}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p>No models created yet</p>
+              <p className="text-stone-400">No models created yet</p>
+            )}
+
+            <hr />
+
+            <Label>Enums</Label>
+            {schema.enums.length ? (
+              <ul className="w-full">
+                {schema.enums.map((e) => (
+                  <li key={e.id}>
+                    <button className="w-full flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group">
+                      <CubeTransparentIcon className="w-4 h-4 text-emerald-500" />
+                      <span className="leading-none">{e.name}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-stone-400">No enums created yet</p>
             )}
           </Stack>
 
@@ -126,6 +146,14 @@ export default function SchemaView() {
               New model
             </Button>
 
+            <Button
+              onClick={() => {
+                setAddingEnum(true);
+              }}
+            >
+              New enum
+            </Button>
+
             <Button onClick={handleDeleteSchema}>Delete schema</Button>
           </Stack>
         </Stack>
@@ -147,6 +175,27 @@ export default function SchemaView() {
         >
           {({ onClose }) => (
             <SchemaPreview onCancel={onClose} schema={schema} />
+          )}
+        </Modal>
+      )}
+
+      {addingEnum && (
+        <Modal
+          description="Add a new enum by filling out the form below."
+          heading="Add enum"
+          onClose={() => {
+            setAddingEnum(false);
+          }}
+        >
+          {({ onClose }) => (
+            <EnumForm
+              cta="Add enum"
+              onCancel={() => {
+                if (onClose) {
+                  onClose();
+                }
+              }}
+            />
           )}
         </Modal>
       )}

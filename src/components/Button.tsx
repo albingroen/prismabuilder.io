@@ -23,7 +23,7 @@ export default function Button({
           default:
             "bg-white dark:bg-stone-700 text-shadow-md shadow-sm shadow-stone-200 dark:shadow-stone-900 border border-stone-200 dark:border-stone-600 active:bg-stone-100 dark:active:bg-stone-600 transition",
           primary:
-            "bg-indigo-500 dark:bg-indigo-600 shadow-sm shadow-indigo-300 dark:shadow-indigo-500 text-white active:bg-indigo-600",
+            "bg-emerald-500 dark:bg-emerald-600 shadow-sm shadow-emerald-300 dark:shadow-emerald-500 text-white active:bg-emerald-600",
         }[variant],
         className
       )}

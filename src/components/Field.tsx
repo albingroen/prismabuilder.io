@@ -38,8 +38,8 @@ export default function FieldComponent({
             </div>
           )}
 
-          <div className="h-14 w-14 rounded-md bg-indigo-200 dark:bg-indigo-900 bg-opacity-40 dark:bg-opacity-50 flex items-center justify-center">
-            <Icon className="w-7 text-indigo-400 dark:text-indigo-300" />
+          <div className="h-14 w-14 rounded-md bg-emerald-200 dark:bg-emerald-900 bg-opacity-40 dark:bg-opacity-50 flex items-center justify-center">
+            <Icon className="w-7 text-emerald-400 dark:text-emerald-300" />
           </div>
 
           <Stack direction="vertical" spacing="small">

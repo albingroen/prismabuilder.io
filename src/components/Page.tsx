@@ -19,7 +19,7 @@ interface PageContentProps {
 function PageContent({ children }: PageContentProps) {
   return (
     <div className="bg-stone-100 dark:bg-stone-800 flex-1 overflow-y-auto">
-      <div className="max-w-screen-lg h-full mx-auto p-6">{children}</div>
+      <div className="h-full mx-auto p-6">{children}</div>
     </div>
   );
 }

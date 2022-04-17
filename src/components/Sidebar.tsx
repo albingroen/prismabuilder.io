@@ -1,8 +1,5 @@
-import {
-  CheckIcon,
-  ChevronLeftIcon,
-  PencilIcon,
-} from "@heroicons/react/outline";
+import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { PencilIcon, CheckIcon } from "@heroicons/react/solid";
 import { ReactNode, useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "./Input";
@@ -70,9 +67,9 @@ export default function Sidebar({
               className="p-0.5 group"
             >
               {editingHeading ? (
-                <CheckIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
+                <CheckIcon className="w-4 text-stone-400 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
               ) : (
-                <PencilIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
+                <PencilIcon className="w-4 text-stone-400 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
               )}
             </button>
           )}

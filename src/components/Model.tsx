@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import Stack from "./Stack";
 import Types from "./Types";
 import classNames from "../lib/classNames";
-import { CubeIcon } from "@heroicons/react/solid";
+import { CubeIcon, CheckIcon, PencilIcon } from "@heroicons/react/solid";
 import {
   DragDropContext,
   Draggable,
@@ -17,7 +17,6 @@ import { arrayMove } from "../lib/utils";
 import { ask } from "@tauri-apps/api/dialog";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { CheckIcon, PencilIcon } from "@heroicons/react/outline";
 import Input from "./Input";
 
 interface ModelProps {
@@ -105,7 +104,7 @@ export default function ModelView({
       <Stack className="flex-1" direction="vertical" spacing="huge">
         <Stack align="end" justify="between">
           <Stack align="center" spacing="small">
-            <CubeIcon className="w-6 text-stone-500" />
+            <CubeIcon className="w-6 text-emerald-500" />
 
             {editingName ? (
               <Input
@@ -138,9 +137,9 @@ export default function ModelView({
               className="px-0.5 group"
             >
               {editingName ? (
-                <CheckIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
+                <CheckIcon className="w-5 text-stone-400 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
               ) : (
-                <PencilIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
+                <PencilIcon className="w-5 text-stone-400 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
               )}
             </button>
           </Stack>
