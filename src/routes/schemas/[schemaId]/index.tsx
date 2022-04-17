@@ -55,8 +55,8 @@ export default function SchemaView() {
       >
         <Stack direction="vertical" className="h-full" justify="between">
           <Stack
+            className="w-full !gap-6"
             direction="vertical"
-            className="w-full"
             spacing="small"
             align="start"
           >
@@ -76,44 +76,44 @@ export default function SchemaView() {
               ))}
             </Select>
 
-            <hr />
+            <Stack direction="vertical" spacing="small" className="w-full">
+              <Label>Models</Label>
+              {schema.models.length ? (
+                <ul className="w-full">
+                  {schema.models.map((model) => (
+                    <li key={model.id}>
+                      <Link
+                        className="flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group"
+                        to={`/schemas/${schemaId}/models/${model.id}`}
+                      >
+                        <CubeIcon className="w-4 h-4 text-emerald-500" />
+                        <span className="leading-none">{model.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-stone-400">No models created yet</p>
+              )}
+            </Stack>
 
-            <Label>Models</Label>
-            {schema.models.length ? (
-              <ul className="w-full">
-                {schema.models.map((model) => (
-                  <li key={model.id}>
-                    <Link
-                      className="flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group"
-                      to={`/schemas/${schemaId}/models/${model.id}`}
-                    >
-                      <CubeIcon className="w-4 h-4 text-emerald-500" />
-                      <span className="leading-none">{model.name}</span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-stone-400">No models created yet</p>
-            )}
-
-            <hr />
-
-            <Label>Enums</Label>
-            {schema.enums.length ? (
-              <ul className="w-full">
-                {schema.enums.map((e) => (
-                  <li key={e.id}>
-                    <button className="w-full flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group">
-                      <CubeTransparentIcon className="w-4 h-4 text-emerald-500" />
-                      <span className="leading-none">{e.name}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-stone-400">No enums created yet</p>
-            )}
+            <Stack direction="vertical" spacing="small" className="w-full">
+              <Label>Enums</Label>
+              {schema.enums.length ? (
+                <ul className="w-full">
+                  {schema.enums.map((e) => (
+                    <li key={e.id}>
+                      <button className="w-full flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group">
+                        <CubeTransparentIcon className="w-4 h-4 text-emerald-500" />
+                        <span className="leading-none">{e.name}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-stone-400">No enums created yet</p>
+              )}
+            </Stack>
           </Stack>
 
           <Stack direction="vertical">
