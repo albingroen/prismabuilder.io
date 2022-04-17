@@ -1,20 +1,21 @@
 import Button from "../../../components/Button";
 import Label from "../../../components/Label";
+import Modal from "../../../components/Modal";
 import Model from "../../../components/Model";
 import Page from "../../../components/Page";
+import SchemaPreview from "../../../components/SchemaPreview";
+import Select from "../../../components/Select";
 import Sidebar from "../../../components/Sidebar";
 import Stack from "../../../components/Stack";
-import { ClipboardCopyIcon, CubeIcon } from "@heroicons/react/solid";
+import { CubeIcon } from "@heroicons/react/solid";
 import { ID_FIELD } from "../../../lib/fields";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSchemaContext } from "../../../lib/context";
+import { PRISMA_DATABASES } from "../../../lib/prisma";
 import { PrismaDatabase, Schema } from "../../../types";
-import { v4 as uuid } from "uuid";
-import { confirm, message } from "@tauri-apps/api/dialog";
-import Select from "../../../components/Select";
-import { jsonToPrismaSchema, PRISMA_DATABASES } from "../../../lib/prisma";
+import { confirm } from "@tauri-apps/api/dialog";
+import { useSchemaContext } from "../../../lib/context";
 import { useState } from "react";
-import Modal from "../../../components/Modal";
+import { v4 as uuid } from "uuid";
 
 export default function SchemaView() {
   const { schemaId, modelId } = useParams();
@@ -94,7 +95,7 @@ export default function SchemaView() {
               onClick={() => {
                 const newModel = {
                   fields: [ID_FIELD],
-                  name: "New model",
+                  name: "New",
                   id: uuid(),
                 };
 
@@ -137,53 +138,9 @@ export default function SchemaView() {
             setShowingSchema(false);
           }}
         >
-          {({ onClose }) => {
-            const schemaString = jsonToPrismaSchema(schema);
-
-            return (
-              <Stack
-                direction="vertical"
-                className="w-full"
-                spacing="large"
-                align="start"
-              >
-                <Button
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(schemaString);
-                      message(
-                        "Successfully copied the schema string to your clipboard!"
-                      );
-                    } catch {
-                      message(
-                        "Failed to copy the schema string to your clipboard..."
-                      );
-                    }
-                  }}
-                  variant="primary"
-                >
-                  <span>Copy to clipboard</span>{" "}
-                  <ClipboardCopyIcon className="w-3.5" />
-                </Button>
-
-                <code className="text-sm p-4 overflow-auto bg-stone-100 border border-stone-200 rounded-md w-full">
-                  <pre>{schemaString}</pre>
-                </code>
-
-                <Stack className="w-full" justify="end">
-                  <Button
-                    onClick={() => {
-                      if (onClose) {
-                        onClose();
-                      }
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                </Stack>
-              </Stack>
-            );
-          }}
+          {({ onClose }) => (
+            <SchemaPreview onCancel={onClose} schema={schema} />
+          )}
         </Modal>
       )}
     </Page>
