@@ -1,6 +1,7 @@
 import {
   CalculatorIcon,
   CubeIcon,
+  CubeTransparentIcon,
   QuestionMarkCircleIcon,
 } from "@heroicons/react/solid";
 import {
@@ -9,7 +10,6 @@ import {
   CodeIcon,
   DatabaseIcon,
   MenuAlt2Icon,
-  ViewListIcon,
 } from "@heroicons/react/outline";
 
 export const prismaTypesToIcons: Record<string, any> = {
@@ -23,6 +23,6 @@ export const prismaTypesToIcons: Record<string, any> = {
   Json: CodeIcon,
   Bytes: DatabaseIcon,
   Model: CubeIcon,
-  Enum: ViewListIcon,
+  Enum: CubeTransparentIcon,
   default: QuestionMarkCircleIcon,
 };

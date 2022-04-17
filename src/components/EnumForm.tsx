@@ -1,21 +1,46 @@
-import { TrashIcon } from "@heroicons/react/outline";
-import { useState } from "react";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
 import Stack from "./Stack";
+import { Enum } from "../types";
+import { FormEvent, useState } from "react";
+import { TrashIcon } from "@heroicons/react/outline";
+import { v4 as uuid } from "uuid";
 
 interface EnumFormProps {
+  onSubmit: (values: Enum) => void;
+  onDelete?: () => void;
+  defaultValues?: Enum;
   onCancel: () => void;
   cta: string;
 }
 
-export default function EnumForm({ onCancel, cta }: EnumFormProps) {
-  const [values, setValues] = useState<string[]>([""]);
-  const [name, setName] = useState<string>("");
+export default function EnumForm({
+  defaultValues,
+  onCancel,
+  onSubmit,
+  onDelete,
+  cta,
+}: EnumFormProps) {
+  const [fields, setFields] = useState<string[]>(defaultValues?.fields || [""]);
+  const [name, setName] = useState<string>(defaultValues?.name || "");
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!name) return;
+
+    onSubmit({
+      id: uuid(),
+      fields,
+      name,
+    });
+  }
 
   return (
     <form
+      onSubmit={handleSubmit}
       autoCapitalize="off"
       className="w-full"
       autoComplete="off"
@@ -39,22 +64,30 @@ export default function EnumForm({ onCancel, cta }: EnumFormProps) {
             <Stack direction="vertical" spacing="mini">
               <Label formLabel>Enum values*</Label>
 
-              {values.length ? (
+              {fields.length ? (
                 <Stack direction="vertical">
-                  {values.map((value, i) => (
-                    <Stack align="center" spacing="none">
+                  {fields.map((value, i) => (
+                    <Stack align="center" spacing="none" key={i}>
                       <Input
-                        key={`${name}-${i}`}
                         placeholder="ADMIN"
                         className="flex-1"
+                        value={value}
+                        onChange={(e) => {
+                          setFields(
+                            fields.map((v, vi) =>
+                              vi === i ? e.currentTarget.value : v
+                            )
+                          );
+                        }}
                         required
                         block
                       />
                       <button
                         onClick={() => {
-                          setValues(values.filter((_, vi) => vi !== i));
+                          setFields(fields.filter((_, vi) => vi !== i));
                         }}
                         className="pl-3 py-2.5"
+                        type="button"
                       >
                         <TrashIcon className="w-4 text-red-500" />
                       </button>
@@ -66,7 +99,7 @@ export default function EnumForm({ onCancel, cta }: EnumFormProps) {
 
             <Button
               onClick={() => {
-                setValues([...values, ""]);
+                setFields([...fields, ""]);
               }}
               type="button"
             >
@@ -76,6 +109,11 @@ export default function EnumForm({ onCancel, cta }: EnumFormProps) {
         </Stack>
 
         <Stack align="center" justify="end" className="!mt-3">
+          {onDelete && (
+            <Button type="button" onClick={onDelete}>
+              Delete
+            </Button>
+          )}
           <Button type="button" onClick={onCancel}>
             Cancel
           </Button>

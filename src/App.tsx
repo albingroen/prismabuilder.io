@@ -41,7 +41,7 @@ export default function App() {
                       className="flex items-center space-x-1.5 px-2 rounded py-2 hover:bg-stone-100 dark:hover:bg-stone-800 border border-transparent hover:border-stone-200 dark:hover:border-stone-700/70 transition duration-100 -mx-2 group"
                       to={`/schemas/${schema.id}`}
                     >
-                      <ViewGridIcon className="w-4 h-4 text-stone-500 group-hover:text-inherit transition duration-100" />
+                      <ViewGridIcon className="w-4 h-4 text-emerald-500" />
                       <span className="leading-none">{schema.name}</span>
                     </Link>
                   </li>

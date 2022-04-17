@@ -92,7 +92,7 @@ export default function Modal({
                 )}
 
                 {showCloseButton && (
-                  <button tabIndex={-1} onClick={handleClose}>
+                  <button onClick={handleClose}>
                     <XIcon className="w-5 text-gray-500 group-hover:text-inherit transition" />
                   </button>
                 )}

@@ -1,14 +1,13 @@
-import { ChevronLeftIcon } from "@heroicons/react/outline";
-import { PencilIcon, CheckIcon } from "@heroicons/react/solid";
-import { ReactNode, useState } from "react";
-import { Link } from "react-router-dom";
 import Input from "./Input";
 import Stack from "./Stack";
+import { ChevronLeftIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
+import { PencilIcon, CheckIcon } from "@heroicons/react/solid";
+import { ReactNode, useState } from "react";
 
 interface SidebarProps {
   onChangeHeading?: (value: string) => void;
   children: ReactNode;
-  action?: ReactNode;
   backLink?: string;
   heading: string;
 }
@@ -18,7 +17,6 @@ export default function Sidebar({
   backLink,
   children,
   heading,
-  action,
 }: SidebarProps) {
   const [editingHeading, setEditingHeading] = useState<boolean>(false);
 
