@@ -1,35 +1,45 @@
 import Button from "./Button";
+import Checkbox from "./Checkbox";
 import Input from "./Input";
 import Select from "./Select";
 import Stack from "./Stack";
 import { Field, FieldType, Model, Schema } from "../types";
-import { FormEvent, useState } from "react";
 import { PRISMA_DEFAULT_VALUES } from "../lib/prisma";
 import { TYPES } from "../lib/fields";
+import { useState, FormEvent } from "react";
 import { v4 as uuid } from "uuid";
-import Checkbox from "./Checkbox";
 
-interface CreateFieldProps {
+interface FieldFormProps {
   onSubmit: (field: Field) => void;
-  defaultType?: FieldType;
+  defaultValues?: Field;
   onCancel: () => void;
   schema: Schema;
+  cta: string;
 }
 
-export default function CreateField({
-  defaultType,
+export default function FieldForm({
+  defaultValues,
   onCancel,
   onSubmit,
   schema,
-}: CreateFieldProps) {
-  const [type, setType] = useState<FieldType>(defaultType ?? ("" as FieldType));
-  const [isUpdatedAt, setIsUpdatedAt] = useState<boolean>(false);
-  const [defaultValue, setDefaultValue] = useState<string>("");
-  const [required, setRequired] = useState<boolean>(false);
-  const [unique, setUnique] = useState<boolean>(false);
-  const [list, setList] = useState<boolean>(false);
-  const [isId, setIsId] = useState<boolean>(false);
-  const [name, setName] = useState<string>("");
+  cta,
+}: FieldFormProps) {
+  const [isUpdatedAt, setIsUpdatedAt] = useState<boolean>(
+    defaultValues?.isUpdatedAt || false
+  );
+  const [defaultValue, setDefaultValue] = useState<string>(
+    defaultValues?.default || ""
+  );
+  const [type, setType] = useState<FieldType>(
+    defaultValues?.type || ("" as FieldType)
+  );
+  const [required, setRequired] = useState<boolean>(
+    defaultValues?.required || false
+  );
+  const [unique, setUnique] = useState<boolean>(defaultValues?.unique || false);
+  const [list, setList] = useState<boolean>(defaultValues?.list || false);
+  const [isId, setIsId] = useState<boolean>(defaultValues?.isId || false);
+  const [name, setName] = useState<string>(defaultValues?.name || "");
 
   const enumType = schema.enums.find((e) => e.name === type && e.fields.length);
 
@@ -229,7 +239,7 @@ export default function CreateField({
             Cancel
           </Button>
           <Button type="submit" disabled={!name || !type} variant="primary">
-            Add field
+            {cta}
           </Button>
         </Stack>
       </Stack>

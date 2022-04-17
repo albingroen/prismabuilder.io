@@ -10,12 +10,14 @@ import { prismaTypesToIcons } from "../lib/icons";
 interface FieldProps {
   dragHandleProps?: DraggableProvidedDragHandleProps;
   onDelete: (id: string) => void;
+  onClick?: () => void;
   field: Field;
 }
 
 export default function FieldComponent({
   dragHandleProps,
   onDelete,
+  onClick,
   field,
 }: FieldProps) {
   const Icon = prismaTypesToIcons[field.type] ?? CubeIcon;
@@ -25,6 +27,7 @@ export default function FieldComponent({
       className={classNames(
         "cursor-pointer rounded-md transform bg-white shadow shadow-stone-300/30 hover:shadow-md active:shadow-md dark:shadow-stone-900 dark:bg-stone-700 border dark:border-stone-600 p-3 pr-4 text-left transition duration-100"
       )}
+      onClick={onClick}
       role="button"
     >
       <Stack align="center" justify="between">

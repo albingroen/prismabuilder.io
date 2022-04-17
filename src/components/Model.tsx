@@ -1,9 +1,10 @@
 import Button from "./Button";
-import CreateField from "./CreateField";
 import FieldComponent from "./Field";
+import FieldForm from "./FieldForm";
 import Modal from "./Modal";
 import Stack from "./Stack";
 import Types from "./Types";
+import classNames from "../lib/classNames";
 import { CubeIcon } from "@heroicons/react/solid";
 import {
   DragDropContext,
@@ -13,10 +14,9 @@ import {
 } from "react-beautiful-dnd";
 import { Schema, Field, Model, FieldType } from "../types";
 import { arrayMove } from "../lib/utils";
+import { confirm } from "@tauri-apps/api/dialog";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import classNames from "../lib/classNames";
-import { confirm } from "@tauri-apps/api/dialog";
 
 interface ModelProps {
   onChangeSchema: (id: string, values: any) => void;
@@ -32,6 +32,7 @@ export default function ModelView({
   const navigate = useNavigate();
 
   const [addingField, setAddingField] = useState<FieldType>();
+  const [editingField, setEditingField] = useState<string>();
 
   function updateModel(values: any) {
     if (!schema || !model) return;
@@ -88,6 +89,20 @@ export default function ModelView({
     }
   }
 
+  function updateField(id: string, values: Field) {
+    updateModel({
+      fields: model.fields.map((f) =>
+        f.id === editingField ? { ...f, ...values } : f
+      ),
+    });
+  }
+
+  function createField(values: Field) {
+    updateModel({
+      fields: [...model.fields, values],
+    });
+  }
+
   return (
     <Stack className="h-full !gap-6">
       <Stack className="flex-1" direction="vertical" spacing="huge">
@@ -127,6 +142,9 @@ export default function ModelView({
                           <FieldComponent
                             dragHandleProps={dragHandleProps}
                             onDelete={handleDeleteField}
+                            onClick={() => {
+                              setEditingField(field.id);
+                            }}
                             field={field}
                           />
                         </div>
@@ -143,6 +161,36 @@ export default function ModelView({
 
       <Types schema={schema} onClickType={setAddingField} />
 
+      {editingField && (
+        <Modal
+          description="Update the field by filling out the form below"
+          heading="Update field"
+          onClose={() => {
+            setEditingField(undefined);
+          }}
+        >
+          {({ onClose }) => (
+            <FieldForm
+              cta="Update field"
+              schema={schema}
+              onCancel={() => {
+                if (onClose) {
+                  onClose();
+                }
+              }}
+              onSubmit={(values) => {
+                updateField(editingField, values);
+
+                if (onClose) {
+                  onClose();
+                }
+              }}
+              defaultValues={model.fields.find((f) => f.id === editingField)}
+            />
+          )}
+        </Modal>
+      )}
+
       {addingField && (
         <Modal
           description="Add a new field by filling out the form below"
@@ -152,23 +200,26 @@ export default function ModelView({
           }}
         >
           {({ onClose }) => (
-            <CreateField
+            <FieldForm
+              cta="Add field"
               schema={schema}
               onCancel={() => {
                 if (onClose) {
                   onClose();
                 }
               }}
-              onSubmit={(field) => {
-                updateModel({
-                  fields: [...model.fields, field],
-                });
+              onSubmit={(values) => {
+                createField(values);
 
                 if (onClose) {
                   onClose();
                 }
               }}
-              defaultType={addingField}
+              defaultValues={
+                {
+                  type: addingField,
+                } as Field
+              }
             />
           )}
         </Modal>
