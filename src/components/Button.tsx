@@ -18,7 +18,7 @@ export default function Button({
     <button
       {...rest}
       className={classNames(
-        "inline-flex justify-center items-center space-x-1.5 cursor-default rounded-[5.5px] text-sm py-1 px-[10px] font-medium duration-100 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex justify-center items-center space-x-1.5 rounded-[5.5px] text-sm py-1 px-[10px] font-medium duration-100 disabled:pointer-events-none disabled:opacity-50",
         {
           default:
             "bg-white dark:bg-stone-700 text-shadow-md shadow-sm shadow-stone-200 dark:shadow-stone-900 border border-stone-200 dark:border-stone-600 active:bg-stone-100 dark:active:bg-stone-600 transition",

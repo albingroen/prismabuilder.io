@@ -66,7 +66,13 @@ export default function FieldForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form
+      onSubmit={handleSubmit}
+      autoCapitalize="off"
+      className="w-full"
+      autoComplete="off"
+      autoCorrect="off"
+    >
       <Stack direction="vertical" spacing="large">
         <Stack direction="vertical">
           <Input

@@ -135,7 +135,7 @@ export default function ModelView({
               onClick={() => {
                 setEditingName(!editingName);
               }}
-              className="p-0.5 group"
+              className="px-0.5 group"
             >
               {editingName ? (
                 <CheckIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
