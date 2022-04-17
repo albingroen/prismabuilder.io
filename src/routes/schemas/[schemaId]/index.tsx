@@ -12,7 +12,7 @@ import { ID_FIELD } from "../../../lib/fields";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { PRISMA_DATABASES } from "../../../lib/prisma";
 import { PrismaDatabase, Schema } from "../../../types";
-import { confirm } from "@tauri-apps/api/dialog";
+import { ask } from "@tauri-apps/api/dialog";
 import { useSchemaContext } from "../../../lib/context";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
@@ -32,10 +32,7 @@ export default function SchemaView() {
 
   async function handleDeleteSchema() {
     if (
-      await confirm(
-        "Are you sure you want to delete this schema?",
-        "Delete schema"
-      )
+      await ask("Are you sure you want to delete this schema?", "Delete schema")
     ) {
       setSchemas(schemas.filter((s) => s.id !== schema!.id));
       navigate("/");
@@ -44,7 +41,16 @@ export default function SchemaView() {
 
   return (
     <Page>
-      <Sidebar backLink="/" heading={schema.name}>
+      <Sidebar
+        backLink="/"
+        heading={schema.name}
+        onChangeHeading={(name) => {
+          setSchema(schema.id, {
+            ...schema,
+            name,
+          });
+        }}
+      >
         <Stack direction="vertical" className="h-full" justify="between">
           <Stack
             direction="vertical"
@@ -92,6 +98,15 @@ export default function SchemaView() {
 
           <Stack direction="vertical">
             <Button
+              variant="primary"
+              onClick={() => {
+                setShowingSchema(true);
+              }}
+            >
+              Generate schema
+            </Button>
+
+            <Button
               onClick={() => {
                 const newModel = {
                   fields: [ID_FIELD],
@@ -109,14 +124,6 @@ export default function SchemaView() {
               }}
             >
               New model
-            </Button>
-
-            <Button
-              onClick={() => {
-                setShowingSchema(true);
-              }}
-            >
-              Generate schema
             </Button>
 
             <Button onClick={handleDeleteSchema}>Delete schema</Button>

@@ -1,10 +1,5 @@
-import React, {
-  DetailedHTMLProps,
-  forwardRef,
-  InputHTMLAttributes,
-  Ref,
-} from "react";
 import classNames from "../lib/classNames";
+import { DetailedHTMLProps, forwardRef, InputHTMLAttributes, Ref } from "react";
 
 export interface CustomInputProps {
   description?: string;
@@ -22,7 +17,7 @@ export interface InputProps
 
 export function getInputStyles({ block }: CustomInputProps) {
   const inputStyles = {
-    base: "bg-transparent shadow-sm placeholder-stone-400 dark:placeholder-stone-600 block text-sm border-stone-300 dark:border-stone-700 rounded-md focus:ring-0 focus:border-stone-400",
+    base: "bg-white shadow-sm placeholder-stone-400 dark:placeholder-stone-600 block text-sm border-stone-300 dark:border-stone-700 rounded-md focus:ring-0 focus:border-stone-400",
     block: "w-full",
   };
 

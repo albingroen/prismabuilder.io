@@ -14,9 +14,11 @@ import {
 } from "react-beautiful-dnd";
 import { Schema, Field, Model, FieldType } from "../types";
 import { arrayMove } from "../lib/utils";
-import { confirm } from "@tauri-apps/api/dialog";
+import { ask } from "@tauri-apps/api/dialog";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { CheckIcon, PencilIcon } from "@heroicons/react/outline";
+import Input from "./Input";
 
 interface ModelProps {
   onChangeSchema: (id: string, values: any) => void;
@@ -31,6 +33,7 @@ export default function ModelView({
 }: ModelProps) {
   const navigate = useNavigate();
 
+  const [editingName, setEditingName] = useState<boolean>(false);
   const [addingField, setAddingField] = useState<FieldType>();
   const [editingField, setEditingField] = useState<string>();
 
@@ -63,10 +66,7 @@ export default function ModelView({
 
   async function handleDeleteModel() {
     if (
-      await confirm(
-        "Are you sure you want to delete this model?",
-        "Delete model"
-      )
+      await ask("Are you sure you want to delete this model?", "Delete model")
     ) {
       onChangeSchema(schema.id, {
         models: schema.models.filter((m) => m.id !== model.id),
@@ -78,10 +78,7 @@ export default function ModelView({
 
   async function handleDeleteField(id: string) {
     if (
-      await confirm(
-        "Are you sure you want to delete this field?",
-        "Delete field"
-      )
+      await ask("Are you sure you want to delete this field?", "Delete field")
     ) {
       updateModel({
         fields: model.fields.filter((f: Field) => f.id !== id),
@@ -109,7 +106,43 @@ export default function ModelView({
         <Stack align="end" justify="between">
           <Stack align="center" spacing="small">
             <CubeIcon className="w-6 text-stone-500" />
-            <h1 className="text-2xl leading-none">{model.name}</h1>
+
+            {editingName ? (
+              <Input
+                autoFocus
+                defaultValue={model.name}
+                placeholder={model.name}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    updateModel({
+                      name: e.currentTarget.value,
+                    });
+                    setEditingName(false);
+                  }
+                }}
+                onBlur={(e) => {
+                  updateModel({
+                    name: e.currentTarget.value,
+                  });
+                  setEditingName(false);
+                }}
+              />
+            ) : (
+              <h1 className="text-2xl leading-none">{model.name}</h1>
+            )}
+
+            <button
+              onClick={() => {
+                setEditingName(!editingName);
+              }}
+              className="p-0.5 group"
+            >
+              {editingName ? (
+                <CheckIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
+              ) : (
+                <PencilIcon className="w-4 text-stone-500 dark:text-stone-500 group-hover:text-inherit transition duration-100" />
+              )}
+            </button>
           </Stack>
 
           <Button onClick={handleDeleteModel}>Delete model</Button>
@@ -133,7 +166,11 @@ export default function ModelView({
                       { innerRef, draggableProps, dragHandleProps },
                       snapshot
                     ) => (
-                      <div className="mb-2" ref={innerRef} {...draggableProps}>
+                      <div
+                        className="mb-2.5"
+                        ref={innerRef}
+                        {...draggableProps}
+                      >
                         <div
                           className={classNames(
                             snapshot.isDragging && "transform rotate-2"
