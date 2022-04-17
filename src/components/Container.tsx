@@ -50,7 +50,7 @@ export default function Container({ children }: ContainerProps) {
         },
       }}
     >
-      {children}
+      <main className="fade-in">{children}</main>
     </SchemaContext.Provider>
   );
 }

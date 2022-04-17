@@ -25,10 +25,51 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+
+    <style>
+      .spinner-wrapper {
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        display: flex;
+        gap: 1.25rem;
+        left: 50%;
+        top: 50%;
+      }
+
+      .spinner-wrapper p {
+        font-size: 1.125em;
+        color: #666;
+      }
+
+      .spinner {
+        animation: 0.8s spin ease-in-out infinite;
+        border: 5px solid #e7e5e4;
+        border-right-color: #6366f1;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div class="spinner-wrapper">
+        <div class="spinner"></div>
+        <p>Loading Prisma Schema Builder</p>
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
