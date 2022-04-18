@@ -10,10 +10,11 @@
     "beforeBuildCommand": "npm run build"
   },
   "tauri": {
+    "macOSPrivateApi": false,
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "com.prismasbuilder.dev",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -54,10 +55,12 @@
     "windows": [
       {
         "title": "Prisma Schema Builder",
-        "width": 1280,
-        "height": 768,
+        "transparent": false,
+        "decorations": true,
+        "fullscreen": false,
         "resizable": true,
-        "fullscreen": false
+        "width": 1280,
+        "height": 768
       }
     ],
     "security": {

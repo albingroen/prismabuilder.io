@@ -74,7 +74,7 @@ export default function SchemaView() {
         }}
       >
         <Stack direction="vertical" className="h-full" justify="between">
-          <Stack className="w-full !gap-6" direction="vertical" spacing="small">
+          <Stack className="w-full !gap-5" direction="vertical" spacing="small">
             <Select
               value={schema.database}
               onChange={(e) => {
