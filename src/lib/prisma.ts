@@ -1,4 +1,6 @@
-import { FieldType, PrismaDatabase } from "../types";
+import axios from "axios";
+import { FieldType, PrismaDatabase, Schema } from "../types";
+import { API_URL } from "./config";
 
 export const PRISMA_DEFAULT_VALUES = (type: FieldType) => {
   const ALL_DEFAULT_VALUES = [
@@ -59,3 +61,7 @@ export const PRISMA_DATABASES: { label: string; value: PrismaDatabase }[] = [
   { label: "SQLite", value: "sqlite" },
   { label: "MySQL", value: "mysql" },
 ];
+
+export async function getSchemaString(schema: Schema) {
+  return axios.post(`${API_URL}/generate`, { schema }).then((res) => res.data);
+}

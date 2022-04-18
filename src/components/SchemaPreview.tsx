@@ -1,11 +1,11 @@
 import Button from "./Button";
 import Stack from "./Stack";
+import { AxiosError } from "axios";
 import { ClipboardCopyIcon } from "@heroicons/react/outline";
 import { Schema } from "../types";
+import { getSchemaString } from "../lib/prisma";
 import { message } from "@tauri-apps/api/dialog";
 import { useEffect, useState } from "react";
-import { API_URL } from "../lib/config";
-import axios, { AxiosError } from "axios";
 
 interface SchemaPreviewProps {
   onCancel?: () => void;
@@ -20,12 +20,9 @@ export default function SchemaPreview({
   const [error, setError] = useState<AxiosError>();
 
   useEffect(() => {
-    axios
-      .post(`${API_URL}/generate`, {
-        schema,
-      })
+    getSchemaString(schema)
       .then((res) => {
-        setSchemaString(res.data);
+        setSchemaString(res);
       })
       .catch(setError);
   }, [schema]);

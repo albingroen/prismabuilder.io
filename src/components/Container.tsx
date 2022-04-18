@@ -2,6 +2,9 @@ import { ReactNode, useEffect, useState } from "react";
 import { forage } from "@tauri-apps/tauri-forage";
 import { Schema } from "../types";
 import { SchemaContext } from "../lib/context";
+import { writeFile } from "@tauri-apps/api/fs";
+import { getSchemaString } from "../lib/prisma";
+import { message } from "@tauri-apps/api/dialog";
 
 interface ContainerProps {
   children: ReactNode;
@@ -37,16 +40,24 @@ export default function Container({ children }: ContainerProps) {
         schemas,
         setSchemas,
         setSchema: (id, newValues) => {
-          setSchemas(
-            schemas.map((s) =>
-              s.id === id
-                ? {
-                    ...s,
-                    ...newValues,
-                  }
-                : s
-            )
-          );
+          const schema = schemas.find((s) => s.id === id);
+
+          const newSchema = {
+            ...schema,
+            ...newValues,
+          };
+
+          setSchemas(schemas.map((s) => (s.id === id ? newSchema : s)));
+
+          if (newSchema.path) {
+            try {
+              getSchemaString(newSchema).then((res) => {
+                writeFile({ path: newSchema.path!, contents: res });
+              });
+            } catch {
+              message("Failed to sync schema file");
+            }
+          }
         },
       }}
     >

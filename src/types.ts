@@ -34,6 +34,7 @@ export type Schema = {
   database: PrismaDatabase;
   models: Model[];
   enums: Enum[];
+  path?: string;
   name: string;
   id: string;
 };
