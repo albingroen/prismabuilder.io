@@ -113,6 +113,9 @@ export default function ModelView({
                 placeholder={model.name}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     updateModel({
                       name: e.currentTarget.value,
                     });

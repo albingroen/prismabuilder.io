@@ -1,11 +1,11 @@
 [package]
-name = "app"
+name = "prisma-schema-builder"
 version = "0.1.0"
-description = "A Tauri App"
+description = "A graphical user interface for building Prisma schemas"
 authors = ["you"]
 license = ""
 repository = ""
-default-run = "app"
+default-run = "prisma-schema-builder"
 edition = "2021"
 rust-version = "1.57"
 

@@ -43,6 +43,9 @@ export default function Sidebar({
                 autoFocus
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     onChangeHeading(e.currentTarget.value);
                     setEditingHeading(false);
                   }

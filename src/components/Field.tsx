@@ -33,7 +33,7 @@ export default function FieldComponent({
       <Stack align="center" justify="between">
         <Stack align="center">
           {dragHandleProps && (
-            <div {...dragHandleProps} className="focus:outline-none">
+            <div {...dragHandleProps}>
               <MenuIcon className="w-4 text-stone-300 dark:text-stone-500 hover:text-inherit py-6 active:text-inherit transition duration-100" />
             </div>
           )}

@@ -97,7 +97,7 @@ export default function App() {
                 ))}
               </ul>
             ) : (
-              <p>No schemas created yet</p>
+              <p className="text-stone-400">No schemas created yet</p>
             )}
           </Stack>
 
