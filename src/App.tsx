@@ -3,13 +3,11 @@ import Label from "./components/Label";
 import Page from "./components/Page";
 import Sidebar from "./components/Sidebar";
 import Stack from "./components/Stack";
-import axios from "axios";
-import { API_URL } from "./lib/config";
 import { Link, useNavigate } from "react-router-dom";
 import { PlusIcon, ViewGridIcon } from "@heroicons/react/solid";
-import { Model, Schema, Enum } from "./types";
+import { Schema } from "./types";
+import { importSchema } from "./lib/prisma";
 import { message, open } from "@tauri-apps/api/dialog";
-import { readTextFile } from "@tauri-apps/api/fs";
 import { useSchemaContext } from "./lib/context";
 import { v4 as uuid } from "uuid";
 
@@ -18,31 +16,11 @@ export default function App() {
   const navigate = useNavigate();
 
   async function handleImportSchema(schemaPath: string) {
-    const schemaString = await readTextFile(schemaPath);
-
     try {
-      const schema = await axios
-        .post(`${API_URL}/parse`, {
-          schema: schemaString,
-        })
-        .then((res) => res.data);
+      const importedSchema = await importSchema(schemaPath);
 
-      if (schema) {
-        setSchemas([
-          ...schemas,
-          {
-            name: "Imported schema",
-            path: schemaPath,
-            id: uuid(),
-            ...schema,
-            models: schema.models.map((m: Model) => ({
-              ...m,
-              fields: m.fields.map((f) => ({ ...f, id: uuid() })),
-              id: uuid(),
-            })),
-            enums: schema.enums.map((e: Enum) => ({ ...e, id: uuid() })),
-          },
-        ]);
+      if (importedSchema) {
+        setSchemas([...schemas, importedSchema]);
       }
     } catch {
       message("Failed to import schema");
