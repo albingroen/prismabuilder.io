@@ -65,6 +65,14 @@
     ],
     "security": {
       "csp": null
+    },
+    "updater": {
+      "active": true,
+      "endpoints": [
+        "https://prismabuilder-io-api.onrender.com/releases/{{target}}/{{current_version}}"
+      ],
+      "dialog": true,
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEYzRkYxNDBGMDhFQzJEQTgKUldTb0xld0lEeFQvOCsvVDlsSkxONG9Mc1N6YS90cGlLMGdRbVF1K3NzTTYrQ3Z6ZjRMdTVoNVIK"
     }
   }
 }
