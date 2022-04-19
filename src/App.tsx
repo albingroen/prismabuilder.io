@@ -91,7 +91,7 @@ export default function App() {
                 }
               }}
             >
-              Open schema...
+              Import schema...
             </Button>
           </Stack>
         </Stack>
