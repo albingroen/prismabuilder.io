@@ -1,3 +1,5 @@
+import LinkPreview from "./LinkPreview";
+
 const Links = () => (
   <div className="space-y-4">
     <div className="divide-x text-sm text-gray-600 justify-self-end">
@@ -29,14 +31,9 @@ const Links = () => (
       </a>
     </div>
 
-    <a
-      className="bg-green-100 text-green-600 p-3 rounded-md text-center font-semibold tracking-tight block hover:bg-green-200 transition"
-      href="mailto:albin.groen@gmail.com?subject=Prisma%20Builder%20Ad%20Placement"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      Do you want to show your brand here?
-    </a>
+    <hr className="!my-4" />
+
+    <LinkPreview url="https://demando.io" />
   </div>
 );
 
