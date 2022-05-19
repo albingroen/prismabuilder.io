@@ -33,7 +33,7 @@ const Links = () => (
 
     <hr className="!my-4" />
 
-    <LinkPreview url="https://demando.io" />
+    <LinkPreview url="https://coinpeek.app" />
   </div>
 );
 
