@@ -25,6 +25,7 @@ export const TYPES = (database: PrismaDatabase) => {
 
 export const ID_FIELD: Field = {
   relationField: false,
+  isUpdatedAt: false,
   documentation: "",
   default: "cuid()",
   required: true,
