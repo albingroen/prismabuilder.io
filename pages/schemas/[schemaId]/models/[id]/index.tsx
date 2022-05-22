@@ -5,7 +5,7 @@ import UpdateField from "../../../../../components/UpdateField";
 import toast from "react-hot-toast";
 import { Button, Menu, Separator, TextField, Title } from "@prisma/lens";
 import { CheckSquare, Edit, MoreVertical, Trash2 } from "react-feather";
-import { TYPES } from "../../../../../lib/fields";
+import { isFieldTypeEnum, TYPES } from "../../../../../lib/fields";
 import { prismaTypesToIcons } from "../../../../../lib/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
@@ -175,83 +175,90 @@ const Model = () => {
 
             <div className="flex space-x-8">
               <div className="flex flex-col space-y-3 flex-1 model-fields p-1 overflow-y-auto">
-                {model?.fields?.map((field: Field) => {
-                  const enumType = schema.enums.find(
-                    (e) => e.name === field.type && e.fields.length
-                  );
+                {model?.fields
+                  ?.filter((field: Field) => {
+                    if (schema.database === "sqlite") {
+                      return !isFieldTypeEnum(field.type, schema.database);
+                    }
+                    return true;
+                  })
+                  .map((field: Field) => {
+                    const enumType = schema.enums.find(
+                      (e) => e.name === field.type && e.fields.length
+                    );
 
-                  const Icon = enumType
-                    ? prismaTypesToIcons.Enum
-                    : field.relationField
-                    ? prismaTypesToIcons.Model
-                    : prismaTypesToIcons[field.type] ??
-                      prismaTypesToIcons.default;
+                    const Icon = enumType
+                      ? prismaTypesToIcons.Enum
+                      : field.relationField
+                      ? prismaTypesToIcons.Model
+                      : prismaTypesToIcons[field.type] ??
+                        prismaTypesToIcons.default;
 
-                  return (
-                    <button
-                      className="rounded-lg bg-white shadow-md text-left border border-transparent focus:border-blue-500 hover:border-blue-500 cursor-pointer transition py-3.5 px-4 flex items-center justify-between"
-                      onClick={() => setEditingField(field.name)}
-                      key={field.name}
-                    >
-                      <div className="flex items-center space-x-4">
-                        <div
-                          className={`rounded-md ${
-                            field.relationField || enumType
-                              ? "bg-indigo-100"
-                              : "bg-blue-100"
-                          } flex items-center justify-center p-4`}
-                        >
-                          <Icon
-                            className={`${
+                    return (
+                      <button
+                        className="rounded-lg bg-white shadow-md text-left border border-transparent focus:border-blue-500 hover:border-blue-500 cursor-pointer transition py-3.5 px-4 flex items-center justify-between"
+                        onClick={() => setEditingField(field.name)}
+                        key={field.name}
+                      >
+                        <div className="flex items-center space-x-4">
+                          <div
+                            className={`rounded-md ${
                               field.relationField || enumType
-                                ? "text-indigo-600"
-                                : "text-blue-600"
-                            }`}
-                            size={24}
-                          />
-                        </div>
-                        <div className="flex flex-col space-y-1">
-                          <h4 className="text-lg w-52 font-medium">
-                            {field.name}
-                          </h4>
-                          <div className="flex items-center space-x-2">
-                            <Tag>
-                              {field.list ? "[" : ""}
-                              {field.type}
-                              {field.list ? "]" : ""}
-                            </Tag>
-                            {field.unique && <Tag>Unique</Tag>}
-                            {field.required && <Tag>Required</Tag>}
-                            {field.default && <Tag>{field.default}</Tag>}
-                            {field.isUpdatedAt && <Tag>Updated At</Tag>}
-                            {field.isId && <Tag>ID</Tag>}
+                                ? "bg-indigo-100"
+                                : "bg-blue-100"
+                            } flex items-center justify-center p-4`}
+                          >
+                            <Icon
+                              className={`${
+                                field.relationField || enumType
+                                  ? "text-indigo-600"
+                                  : "text-blue-600"
+                              }`}
+                              size={24}
+                            />
+                          </div>
+                          <div className="flex flex-col space-y-1">
+                            <h4 className="text-lg w-52 font-medium">
+                              {field.name}
+                            </h4>
+                            <div className="flex items-center space-x-2">
+                              <Tag>
+                                {field.list ? "[" : ""}
+                                {field.type}
+                                {field.list ? "]" : ""}
+                              </Tag>
+                              {field.unique && <Tag>Unique</Tag>}
+                              {field.required && <Tag>Required</Tag>}
+                              {field.default && <Tag>{field.default}</Tag>}
+                              {field.isUpdatedAt && <Tag>Updated At</Tag>}
+                              {field.isId && <Tag>ID</Tag>}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div
-                        role="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
+                        <div
+                          role="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
 
-                          updateModel({
-                            fields: model.fields.filter(
-                              (f: Field) => f.name !== field.name
-                            ),
-                          });
-                        }}
-                        aria-label="Delete field"
-                        className="px-4"
-                      >
-                        <Trash2
-                          className="text-red-400 hover:text-red-600 transition"
-                          size={20}
-                        />
-                      </div>
-                    </button>
-                  );
-                })}
+                            updateModel({
+                              fields: model.fields.filter(
+                                (f: Field) => f.name !== field.name
+                              ),
+                            });
+                          }}
+                          aria-label="Delete field"
+                          className="px-4"
+                        >
+                          <Trash2
+                            className="text-red-400 hover:text-red-600 transition"
+                            size={20}
+                          />
+                        </div>
+                      </button>
+                    );
+                  })}
               </div>
 
               <div className="flex-1 max-w-sm model-fields overflow-y-auto bg-gray-200 rounded-lg p-4 flex flex-col space-y-4">
@@ -268,11 +275,13 @@ const Model = () => {
                       description: "",
                       type: "model",
                     })),
-                    ...schema.enums.map((e) => ({
-                      ...e,
-                      description: "",
-                      type: "enum",
-                    })),
+                    ...(schema.database !== "sqlite"
+                      ? schema.enums.map((e) => ({
+                          ...e,
+                          description: "",
+                          type: "enum",
+                        }))
+                      : []),
                   ].map((type) => {
                     const Icon =
                       type.type === "enum"

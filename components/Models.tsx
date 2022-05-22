@@ -13,7 +13,7 @@ import {
   Select,
   Label,
 } from "@prisma/lens";
-import { ID_FIELD } from "../lib/fields";
+import { ID_FIELD, isFieldTypeEnum } from "../lib/fields";
 import {
   Globe,
   Box,
@@ -201,26 +201,30 @@ export default function Models() {
 
           <Separator />
 
-          <Label>Enums</Label>
+          {schema.database !== "sqlite" && (
+            <>
+              <Label>Enums</Label>
 
-          {schema.enums.map((e) => {
-            return (
-              <button
-                className="flex border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg cursor-pointer"
-                onClick={() => {
-                  setEditingEnum(e.name);
-                }}
-                key={e.name}
-              >
-                <Card className="w-full transition flex items-center space-x-3">
-                  <List size={20} className="text-gray-500" />
-                  <h3>{e.name}</h3>
-                </Card>
-              </button>
-            );
-          })}
+              {schema.enums.map((e) => {
+                return (
+                  <button
+                    className="flex border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg cursor-pointer"
+                    onClick={() => {
+                      setEditingEnum(e.name);
+                    }}
+                    key={e.name}
+                  >
+                    <Card className="w-full transition flex items-center space-x-3">
+                      <List size={20} className="text-gray-500" />
+                      <h3>{e.name}</h3>
+                    </Card>
+                  </button>
+                );
+              })}
 
-          <Separator />
+              <Separator />
+            </>
+          )}
 
           <Button
             onPress={() => {
@@ -251,14 +255,16 @@ export default function Models() {
             New model
           </Button>
 
-          <Button
-            onPress={() => {
-              setShowingAddEnum(true);
-            }}
-            variant="secondary"
-          >
-            New enum
-          </Button>
+          {schema.database !== "sqlite" && (
+            <Button
+              onPress={() => {
+                setShowingAddEnum(true);
+              }}
+              variant="secondary"
+            >
+              New enum
+            </Button>
+          )}
 
           <Button
             onPress={() => {
