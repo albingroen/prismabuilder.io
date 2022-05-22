@@ -23,6 +23,7 @@ const UpdateField = ({
 }: UpdateFieldProps) => {
   const { schema } = useSchemaContext();
 
+  const [isUpdatedAt, setIsUpdatedAt] = useState<boolean>(false);
   const [defaultValue, setDefaultValue] = useState<string>("");
   const [type, setType] = useState<FieldType>("" as FieldType);
   const [required, setRequired] = useState<boolean>(false);
@@ -32,6 +33,7 @@ const UpdateField = ({
   const [name, setName] = useState<string>("");
 
   useEffect(() => {
+    setIsUpdatedAt(defaultValues.isUpdatedAt);
     setDefaultValue(defaultValues.default);
     setRequired(defaultValues.required);
     setUnique(defaultValues.unique);
@@ -43,6 +45,7 @@ const UpdateField = ({
 
   const resetState = () => {
     setType("" as FieldType);
+    setIsUpdatedAt(false);
     setDefaultValue("");
     setRequired(false);
     setUnique(false);
@@ -69,6 +72,7 @@ const UpdateField = ({
           onSubmit({
             ...defaultValues,
             default: defaultValue,
+            isUpdatedAt,
             required,
             unique,
             isId,
@@ -167,6 +171,24 @@ const UpdateField = ({
               id="unique"
             />
           </div>
+          {type === "DateTime" && (
+            <div className="flex flex-col space-y-3">
+              <label
+                className="font-medium text-sm text-gray-800"
+                htmlFor="isUpdatedAt"
+              >
+                Updated At
+              </label>
+              <input
+                onChange={(e) => {
+                  setIsUpdatedAt(e.target.checked);
+                }}
+                checked={isUpdatedAt}
+                type="checkbox"
+                id="isUpdatedAt"
+              />
+            </div>
+          )}
           <div className="flex flex-col space-y-3">
             <label className="font-medium text-sm text-gray-800" htmlFor="list">
               List

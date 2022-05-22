@@ -223,6 +223,7 @@ const Model = () => {
                             {field.unique && <Tag>Unique</Tag>}
                             {field.required && <Tag>Required</Tag>}
                             {field.default && <Tag>{field.default}</Tag>}
+                            {field.isUpdatedAt && <Tag>Updated At</Tag>}
                             {field.isId && <Tag>ID</Tag>}
                           </div>
                         </div>
