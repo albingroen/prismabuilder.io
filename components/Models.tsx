@@ -127,6 +127,14 @@ export default function Models() {
             children: "New model",
             icon: "PlusIcon",
           },
+          {
+            id: "quick-actions.new-enum",
+            onClick: () => {
+              setShowingAddEnum(true);
+            },
+            children: "New enum",
+            icon: "PlusIcon",
+          },
         ],
       },
       {
@@ -137,6 +145,18 @@ export default function Models() {
           children: model.name,
           icon: "CubeIcon",
           id: model.name,
+        })),
+      },
+      {
+        heading: "Enums",
+        id: "enums",
+        items: schema.enums.map((e, i) => ({
+          onClick: () => {
+            setEditingEnum(e.name);
+          },
+          icon: "ViewListIcon",
+          children: e.name,
+          id: e.name,
         })),
       },
     ],
