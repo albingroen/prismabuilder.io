@@ -103,6 +103,11 @@ export default function Models() {
     }
   };
 
+  const handleDeleteSchema = () => {
+    setSchemas(schemas.filter((s: SchemaType) => s.name !== schema.name));
+    push("/");
+  };
+
   const filteredCommandPaletteItems = filterItems(
     [
       {
@@ -150,6 +155,14 @@ export default function Models() {
             },
             children: "Generate schema",
             icon: "CodeIcon",
+          },
+          {
+            id: "quick-actions.delete-schema",
+            onClick: () => {
+              handleDeleteSchema();
+            },
+            children: "Delete schema",
+            icon: "TrashIcon",
           },
         ],
       },
@@ -300,10 +313,7 @@ export default function Models() {
               <Menu.Body
                 onSelectionChange={(key) => {
                   if (key === "delete") {
-                    setSchemas(
-                      schemas.filter((s: SchemaType) => s.name !== schema.name)
-                    );
-                    push("/");
+                    handleDeleteSchema();
                   }
                 }}
                 anchor="right"
