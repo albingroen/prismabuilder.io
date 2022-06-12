@@ -94,6 +94,7 @@ export default function Schemas() {
             {items.map(({ id, ...rest }) => (
               <CommandPalette.ListItem
                 index={getItemIndex(filteredCommandPaletteItems, id)}
+                iconType="outline"
                 key={id}
                 {...rest}
               />
