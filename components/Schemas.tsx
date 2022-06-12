@@ -59,7 +59,6 @@ export default function Schemas() {
             onClick: handleCreateSchema,
             children: "New schema",
             icon: "PlusIcon",
-            keywords: ["*"],
           },
         ],
       },
@@ -84,6 +83,11 @@ export default function Schemas() {
         onChangeOpen={setIsCommandPaletteOpen}
         isOpen={isCommandPaletteOpen}
         search={commandPaletteSearch}
+        renderLink={({ href, ...rest }) => (
+          <Link href={href ?? ""} passHref>
+            <a {...rest} />
+          </Link>
+        )}
       >
         {filteredCommandPaletteItems.map(({ id, items, ...rest }) => (
           <CommandPalette.List key={id} {...rest}>

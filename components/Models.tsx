@@ -31,6 +31,7 @@ import { PRISMA_DATABASES } from "../lib/prisma";
 import AddEnum from "./AddEnum";
 import UpdateEnum from "./UpdateEnum";
 import Links from "./Links";
+import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -43,6 +44,25 @@ export default function Models() {
   const [editingName, setEditingName] = useState<boolean>(false);
   const [editingEnum, setEditingEnum] = useState<string>();
   const [name, setName] = useState<string>("");
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] =
+    useState<boolean>(false);
+  const [commandPaletteSearch, setCommandPaletteSearch] = useState<string>("");
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.metaKey && e.key === "k") {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   const isGraphView = pathname.endsWith("/graph");
 
@@ -63,10 +83,94 @@ export default function Models() {
     });
   };
 
+  const handleCreateModel = () => {
+    if (schema.models.some((model: Model) => model.name === "New")) {
+      toast.error("A model called New exists");
+    } else {
+      const newSchema = {
+        ...schema,
+        models: [
+          ...schema.models,
+          {
+            name: "New",
+            fields: [ID_FIELD],
+            enums: [],
+          },
+        ],
+      };
+      setSchema(newSchema);
+      push(`/schemas/${schema.name}/models/${newSchema.models.length - 1}`);
+    }
+  };
+
+  const filteredCommandPaletteItems = filterItems(
+    [
+      {
+        heading: "Pages",
+        id: "pages",
+        items: [
+          {
+            id: "pages.home",
+            children: "Home",
+            icon: "HomeIcon",
+            href: "/",
+          },
+        ],
+      },
+      {
+        heading: "Quick actions",
+        id: "quick-actions",
+        items: [
+          {
+            id: "quick-actions.new-model",
+            onClick: handleCreateModel,
+            children: "New model",
+            icon: "PlusIcon",
+          },
+        ],
+      },
+      {
+        heading: "Models",
+        id: "models",
+        items: schema.models.map((model, i) => ({
+          href: `/schemas/${schema.name}/models/${i}`,
+          children: model.name,
+          icon: "CubeIcon",
+          id: model.name,
+        })),
+      },
+    ],
+    commandPaletteSearch
+  );
+
   if (!schema) return null;
 
   return (
     <>
+      <CommandPalette
+        onChangeSearch={setCommandPaletteSearch}
+        onChangeOpen={setIsCommandPaletteOpen}
+        isOpen={isCommandPaletteOpen}
+        search={commandPaletteSearch}
+        renderLink={({ href, ...rest }) => (
+          <Link href={href ?? ""} passHref>
+            <a {...rest} />
+          </Link>
+        )}
+      >
+        {filteredCommandPaletteItems.map(({ id, items, ...rest }) => (
+          <CommandPalette.List key={id} {...rest}>
+            {items.map(({ id, ...rest }) => (
+              <CommandPalette.ListItem
+                index={getItemIndex(filteredCommandPaletteItems, id)}
+                key={id}
+                {...rest}
+              />
+            ))}
+          </CommandPalette.List>
+        ))}
+      </CommandPalette>
+
       <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
         <div className="flex flex-col space-y-3 flex-1">
           <div>
@@ -228,27 +332,7 @@ export default function Models() {
 
           <Button
             onPress={() => {
-              if (schema.models.some((model: Model) => model.name === "New")) {
-                toast.error("A model called New exists");
-              } else {
-                const newSchema = {
-                  ...schema,
-                  models: [
-                    ...schema.models,
-                    {
-                      name: "New",
-                      fields: [ID_FIELD],
-                      enums: [],
-                    },
-                  ],
-                };
-                setSchema(newSchema);
-                push(
-                  `/schemas/${schema.name}/models/${
-                    newSchema.models.length - 1
-                  }`
-                );
-              }
+              handleCreateModel();
             }}
             variant="secondary"
           >
