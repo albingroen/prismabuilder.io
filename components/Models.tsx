@@ -30,7 +30,7 @@ import { useEffect, useState } from "react";
 import { PRISMA_DATABASES } from "../lib/prisma";
 import AddEnum from "./AddEnum";
 import UpdateEnum from "./UpdateEnum";
-import Links from "./Links";
+import Links, { LINKS } from "./Links";
 import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 
 export default function Models() {
@@ -135,6 +135,22 @@ export default function Models() {
             children: "New enum",
             icon: "PlusIcon",
           },
+          {
+            id: "quick-actions.import-schema",
+            onClick: () => {
+              setShowingImportSchema(true);
+            },
+            children: "Import schema",
+            icon: "DocumentDownloadIcon",
+          },
+          {
+            id: "quick-actions.generate-schema",
+            onClick: () => {
+              setShowingSchema(true);
+            },
+            children: "Generate schema",
+            icon: "CodeIcon",
+          },
         ],
       },
       {
@@ -157,6 +173,18 @@ export default function Models() {
           icon: "ViewListIcon",
           children: e.name,
           id: e.name,
+        })),
+      },
+      {
+        heading: "Links",
+        id: "links",
+        items: LINKS.map((LINK, i) => ({
+          rel: "noreferrer noopener",
+          icon: "ExternalLinkIcon",
+          children: LINK.label,
+          href: LINK.href,
+          id: LINK.label,
+          target: "_blank",
         })),
       },
     ],

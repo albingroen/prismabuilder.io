@@ -1,6 +1,6 @@
 import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 import Link from "next/link";
-import Links from "./Links";
+import Links, { LINKS } from "./Links";
 import toast from "react-hot-toast";
 import { Button, Separator, Card } from "@prisma/lens";
 import { Layers } from "react-feather";
@@ -70,6 +70,18 @@ export default function Schemas() {
           children: schema.name,
           icon: "CollectionIcon",
           id: schema.name,
+        })),
+      },
+      {
+        heading: "Links",
+        id: "links",
+        items: LINKS.map((LINK, i) => ({
+          rel: "noreferrer noopener",
+          icon: "ExternalLinkIcon",
+          children: LINK.label,
+          href: LINK.href,
+          id: LINK.label,
+          target: "_blank",
         })),
       },
     ],
