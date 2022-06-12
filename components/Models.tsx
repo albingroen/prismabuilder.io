@@ -120,6 +120,12 @@ export default function Models() {
             icon: "HomeIcon",
             href: "/",
           },
+          {
+            id: "pages.graph-view",
+            children: "Graph view",
+            icon: "GlobeIcon",
+            href: `/schemas/${schema.name}/graph`,
+          },
         ],
       },
       {
