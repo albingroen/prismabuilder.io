@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import "react-cmdk/dist/cmdk.css";
 import Seo from "../components/Seo";
 import WelcomeModal from "../components/WelcomeModal";
 import splitbee from "@splitbee/web";

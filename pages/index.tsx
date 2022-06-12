@@ -1,5 +1,5 @@
 import Schemas from "../components/Schemas";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
 import { Schema } from "../lib/types";
