@@ -25,7 +25,6 @@
     "react-feather": "^2.0.9",
     "react-flow-renderer": "^9.6.11",
     "react-hot-toast": "^2.1.1",
-    "react-use-keypress": "^1.3.1",
     "tailwindcss": "^2.2.19"
   },
   "devDependencies": {

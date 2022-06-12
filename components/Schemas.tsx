@@ -2,13 +2,12 @@ import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 import Link from "next/link";
 import Links from "./Links";
 import toast from "react-hot-toast";
-import useKeypress from "react-use-keypress";
 import { Button, Separator, Card } from "@prisma/lens";
 import { Layers } from "react-feather";
 import { Schema } from "../lib/types";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
-import { useState } from "react";
 
 export default function Schemas() {
   const { schemas, setSchemas } = useSchemaContext();
@@ -18,13 +17,21 @@ export default function Schemas() {
     useState<boolean>(false);
   const [commandPaletteSearch, setCommandPaletteSearch] = useState<string>("");
 
-  useKeypress("k", (e: KeyboardEvent) => {
-    if (e.metaKey) {
-      e.preventDefault();
-      e.stopPropagation();
-      setIsCommandPaletteOpen((prev) => !prev);
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.metaKey && e.key === "k") {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
     }
-  });
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   function handleCreateSchema() {
     if (schemas.some((schema: Schema) => schema.name === "New schema")) {
