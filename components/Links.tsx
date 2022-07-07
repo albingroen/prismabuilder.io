@@ -33,7 +33,7 @@ const Links = () => (
 
     <hr className="!my-4" />
 
-    <LinkPreview url="https://react-cmdk.com" />
+    <LinkPreview url="https://taskplane.app" />
   </div>
 );
 
