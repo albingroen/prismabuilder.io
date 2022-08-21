@@ -40,4 +40,4 @@ export type Enum = {
   name: string;
 };
 
-export type PrismaDatabase = "postgresql" | "sqlite" | "mysql";
+export type PrismaDatabase = "postgresql" | "sqlite" | "mysql"| "sqlserver";
