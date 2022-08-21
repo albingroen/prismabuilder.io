@@ -124,7 +124,6 @@ const Model = () => {
                       label="Name"
                       value={name}
                       autoFocus
-                      // onkeyPress
                     />
                   </div>
                 ) : (
@@ -218,7 +217,6 @@ const Model = () => {
                               schema.database
                             );
                           }
-                        
                           return true;
                         })
                         .map((field: Field, i) => {
