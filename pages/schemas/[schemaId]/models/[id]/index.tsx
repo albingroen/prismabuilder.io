@@ -31,6 +31,18 @@ const Model = () => {
   const [editingName, setEditingName] = useState(false);
   const [name, setName] = useState<string>("");
 
+  const handleFieldEdit = () => {
+    if (editingName && name !== model.name) {
+      if (schema.models.some((m: Model) => m.name === name)) {
+        toast.error(`A model called ${name} already exists`);
+        setName(model.name);
+      } else {
+        updateModel({ name });
+      }
+    }
+    setEditingName(!editingName);
+  };
+
   const updateModel = (values: any) => {
     setSchema({
       ...schema,
@@ -112,23 +124,14 @@ const Model = () => {
                       label="Name"
                       value={name}
                       autoFocus
+                      // onkeyPress
                     />
                   </div>
                 ) : (
                   <h2 className="text-2xl font-semibold">{name}</h2>
                 )}
                 <button
-                  onClick={() => {
-                    if (editingName && name !== model.name) {
-                      if (schema.models.some((m: Model) => m.name === name)) {
-                        toast.error(`A model called ${name} already exists`);
-                        setName(model.name);
-                      } else {
-                        updateModel({ name });
-                      }
-                    }
-                    setEditingName(!editingName);
-                  }}
+                  onClick={()=> handleFieldEdit()}
                   className="focus:ring-2"
                   aria-label={
                     editingName ? "Save model name" : "Edit model name"
@@ -215,6 +218,7 @@ const Model = () => {
                               schema.database
                             );
                           }
+                        
                           return true;
                         })
                         .map((field: Field, i) => {
@@ -342,7 +346,7 @@ const Model = () => {
                       description: "",
                       type: "model",
                     })),
-                    ...(schema.database !== "sqlite"
+                    ...(schema.database !== "sqlite" && schema.database !== "sqlserver"
                       ? schema.enums.map((e) => ({
                           ...e,
                           description: "",

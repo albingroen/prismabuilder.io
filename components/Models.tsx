@@ -370,7 +370,7 @@ export default function Models() {
 
           <Separator />
 
-          {schema.database !== "sqlite" && (
+          {schema.database !== "sqlite" && schema.database !== "sqlserver" && (
             <>
               <Label>Enums</Label>
 
@@ -404,7 +404,7 @@ export default function Models() {
             New model
           </Button>
 
-          {schema.database !== "sqlite" && (
+          {schema.database !== "sqlite" && schema.database !== "sqlserver" && (
             <Button
               onPress={() => {
                 setShowingAddEnum(true);
