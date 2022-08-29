@@ -37,7 +37,6 @@ export const ID_FIELD: Field = {
   kind: "",
 };
 
-//
 export function isFieldTypeEnum(type: string, database: PrismaDatabase) {
   return !TYPES(database)
     .map((type) => type.name)

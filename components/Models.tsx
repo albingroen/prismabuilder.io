@@ -370,7 +370,7 @@ export default function Models() {
 
           <Separator />
 
-          {schema.database !== "sqlite" && schema.database !== "sqlserver" && (
+          {!["sqlite", "sqlserver"].includes(schema.database) && (
             <>
               <Label>Enums</Label>
 
