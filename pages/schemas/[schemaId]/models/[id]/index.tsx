@@ -131,7 +131,7 @@ const Model = () => {
                   <h2 className="text-2xl font-semibold">{name}</h2>
                 )}
                 <button
-                  onClick={()=> handleFieldEdit()}
+                  onClick={handleFieldEdit}
                   className="focus:ring-2"
                   aria-label={
                     editingName ? "Save model name" : "Edit model name"

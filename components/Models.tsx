@@ -404,7 +404,7 @@ export default function Models() {
             New model
           </Button>
 
-          {schema.database !== "sqlite" && schema.database !== "sqlserver" && (
+          {!["sqlite", "sqlserver"].includes(schema.database) && (
             <Button
               onPress={() => {
                 setShowingAddEnum(true);
