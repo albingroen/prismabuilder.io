@@ -1,5 +1,3 @@
-import LinkPreview from "./LinkPreview";
-
 export const LINKS = [
   {
     label: "Source code",
@@ -30,10 +28,6 @@ const Links = () => (
         </a>
       ))}
     </div>
-
-    <hr className="!my-4" />
-
-    <LinkPreview url="https://taskplane.app" />
   </div>
 );
 
