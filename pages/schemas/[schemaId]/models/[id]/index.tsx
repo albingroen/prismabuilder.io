@@ -344,7 +344,8 @@ const Model = () => {
                       description: "",
                       type: "model",
                     })),
-                    ...(schema.database !== "sqlite" && schema.database !== "sqlserver"
+                    ...(schema.database !== "sqlite" &&
+                    schema.database !== "sqlserver"
                       ? schema.enums.map((e) => ({
                           ...e,
                           description: "",

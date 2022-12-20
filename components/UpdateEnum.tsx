@@ -26,6 +26,32 @@ const UpdateEnum = ({ onCancel, defaultValues }: UpdateEnumProps) => {
       enums: schema.enums.map((e) =>
         e.name === defaultValues.name ? { fields, name } : e
       ),
+      models: schema.models.map((model) => ({
+        ...model,
+        fields: model.fields.map((field) =>
+          field.type === defaultValues.name
+            ? {
+                ...field,
+                type: name,
+              }
+            : field
+        ),
+      })),
+    });
+
+    onCancel();
+  };
+
+  const handleDelete = () => {
+    setSchema({
+      ...schema,
+      enums: schema.enums.filter((e) => e.name !== defaultValues.name),
+      models: schema.models.map((model) => ({
+        ...model,
+        fields: model.fields.filter(
+          (field) => field.type !== defaultValues.name
+        ),
+      })),
     });
 
     onCancel();
@@ -93,6 +119,12 @@ const UpdateEnum = ({ onCancel, defaultValues }: UpdateEnumProps) => {
 
       <Button onPress={onCancel} variant="secondary">
         Cancel
+      </Button>
+
+      <Separator />
+
+      <Button onPress={handleDelete} variant="negative">
+        Delete enum
       </Button>
     </div>
   );
