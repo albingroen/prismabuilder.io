@@ -11,7 +11,7 @@ import {
   Trash2,
   Menu as MenuIcon,
 } from "react-feather";
-import { isFieldTypeEnum, TYPES } from "../../../../../lib/fields";
+import { TYPES } from "../../../../../lib/fields";
 import { prismaTypesToIcons } from "../../../../../lib/icons";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
@@ -209,120 +209,110 @@ const Model = () => {
                       ref={innerRef}
                       className="flex flex-col flex-1 model-fields p-1 overflow-y-auto"
                     >
-                      {model?.fields
-                        ?.filter((field: Field) => {
-                          if (schema.database === "sqlite") {
-                            return !isFieldTypeEnum(
-                              field.type,
-                              schema.database
-                            );
-                          }
-                          return true;
-                        })
-                        .map((field: Field, i) => {
-                          const enumType = schema.enums.find(
-                            (e) => e.name === field.type && e.fields.length
-                          );
+                      {model?.fields.map((field: Field, i) => {
+                        const enumType = schema.enums.find(
+                          (e) => e.name === field.type && e.fields.length
+                        );
 
-                          const Icon = enumType
-                            ? prismaTypesToIcons.Enum
-                            : field.relationField
-                            ? prismaTypesToIcons.Model
-                            : prismaTypesToIcons[field.type] ??
-                              prismaTypesToIcons.default;
+                        const Icon = enumType
+                          ? prismaTypesToIcons.Enum
+                          : field.relationField
+                          ? prismaTypesToIcons.Model
+                          : prismaTypesToIcons[field.type] ??
+                            prismaTypesToIcons.default;
 
-                          return (
-                            <Draggable
-                              draggableId={field.name}
-                              key={field.name}
-                              index={i}
-                            >
-                              {(
-                                { dragHandleProps, draggableProps, innerRef },
-                                { isDragging }
-                              ) => (
-                                <button
-                                  {...draggableProps}
-                                  ref={innerRef}
-                                  className="mb-3 rounded-lg bg-white shadow-md text-left border border-transparent cursor-pointer py-3.5 px-4 flex items-center justify-between"
-                                  onClick={() => setEditingField(field.name)}
-                                >
-                                  <div className="flex items-center space-x-4">
-                                    <div {...dragHandleProps}>
-                                      <MenuIcon
-                                        size={20}
-                                        className={`${
-                                          isDragging
-                                            ? "text-gray-700"
-                                            : "text-gray-500 hover:text-gray-700"
-                                        } transition`}
-                                      />
-                                    </div>
-
-                                    <div
-                                      className={`rounded-md ${
-                                        field.relationField || enumType
-                                          ? "bg-indigo-100"
-                                          : "bg-blue-100"
-                                      } flex items-center justify-center p-4`}
-                                    >
-                                      <Icon
-                                        className={`${
-                                          field.relationField || enumType
-                                            ? "text-indigo-600"
-                                            : "text-blue-600"
-                                        }`}
-                                        size={24}
-                                      />
-                                    </div>
-                                    <div className="flex flex-col space-y-1">
-                                      <h4 className="text-lg w-52 font-medium">
-                                        {field.name}
-                                      </h4>
-                                      <div className="flex items-center space-x-2">
-                                        <Tag>
-                                          {field.list ? "[" : ""}
-                                          {field.type}
-                                          {field.list ? "]" : ""}
-                                        </Tag>
-                                        {field.unique && <Tag>Unique</Tag>}
-                                        {field.required && <Tag>Required</Tag>}
-                                        {field.default && (
-                                          <Tag>{field.default}</Tag>
-                                        )}
-                                        {field.isUpdatedAt && (
-                                          <Tag>Updated At</Tag>
-                                        )}
-                                        {field.isId && <Tag>ID</Tag>}
-                                      </div>
-                                    </div>
+                        return (
+                          <Draggable
+                            draggableId={field.name}
+                            key={field.name}
+                            index={i}
+                          >
+                            {(
+                              { dragHandleProps, draggableProps, innerRef },
+                              { isDragging }
+                            ) => (
+                              <button
+                                {...draggableProps}
+                                ref={innerRef}
+                                className="mb-3 rounded-lg bg-white shadow-md text-left border border-transparent cursor-pointer py-3.5 px-4 flex items-center justify-between"
+                                onClick={() => setEditingField(field.name)}
+                              >
+                                <div className="flex items-center space-x-4">
+                                  <div {...dragHandleProps}>
+                                    <MenuIcon
+                                      size={20}
+                                      className={`${
+                                        isDragging
+                                          ? "text-gray-700"
+                                          : "text-gray-500 hover:text-gray-700"
+                                      } transition`}
+                                    />
                                   </div>
 
                                   <div
-                                    role="button"
-                                    onClick={(e) => {
-                                      e.preventDefault();
-                                      e.stopPropagation();
-
-                                      updateModel({
-                                        fields: model.fields.filter(
-                                          (f: Field) => f.name !== field.name
-                                        ),
-                                      });
-                                    }}
-                                    aria-label="Delete field"
-                                    className="px-4"
+                                    className={`rounded-md ${
+                                      field.relationField || enumType
+                                        ? "bg-indigo-100"
+                                        : "bg-blue-100"
+                                    } flex items-center justify-center p-4`}
                                   >
-                                    <Trash2
-                                      className="text-red-400 hover:text-red-600 transition"
-                                      size={20}
+                                    <Icon
+                                      className={`${
+                                        field.relationField || enumType
+                                          ? "text-indigo-600"
+                                          : "text-blue-600"
+                                      }`}
+                                      size={24}
                                     />
                                   </div>
-                                </button>
-                              )}
-                            </Draggable>
-                          );
-                        })}
+                                  <div className="flex flex-col space-y-1">
+                                    <h4 className="text-lg w-52 font-medium">
+                                      {field.name}
+                                    </h4>
+                                    <div className="flex items-center space-x-2">
+                                      <Tag>
+                                        {field.list ? "[" : ""}
+                                        {field.type}
+                                        {field.list ? "]" : ""}
+                                      </Tag>
+                                      {field.unique && <Tag>Unique</Tag>}
+                                      {field.required && <Tag>Required</Tag>}
+                                      {field.default && (
+                                        <Tag>{field.default}</Tag>
+                                      )}
+                                      {field.isUpdatedAt && (
+                                        <Tag>Updated At</Tag>
+                                      )}
+                                      {field.isId && <Tag>ID</Tag>}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div
+                                  role="button"
+                                  onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+
+                                    updateModel({
+                                      fields: model.fields.filter(
+                                        (f: Field) => f.name !== field.name
+                                      ),
+                                    });
+                                  }}
+                                  aria-label="Delete field"
+                                  className="px-4"
+                                >
+                                  <Trash2
+                                    className="text-red-400 hover:text-red-600 transition"
+                                    size={20}
+                                  />
+                                </div>
+                              </button>
+                            )}
+                          </Draggable>
+                        );
+                      })}
 
                       {placeholder}
                     </div>

@@ -13,7 +13,7 @@ import {
   Select,
   Label,
 } from "@prisma/lens";
-import { ID_FIELD, isFieldTypeEnum } from "../lib/fields";
+import { ID_FIELD } from "../lib/fields";
 import {
   Globe,
   Box,
