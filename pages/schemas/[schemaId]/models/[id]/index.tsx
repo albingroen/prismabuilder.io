@@ -10,6 +10,7 @@ import {
   MoreVertical,
   Trash2,
   Menu as MenuIcon,
+  Copy,
 } from "react-feather";
 import { TYPES } from "../../../../../lib/fields";
 import { prismaTypesToIcons } from "../../../../../lib/icons";
@@ -169,10 +170,39 @@ const Model = () => {
                       });
                       push(`/schemas/${schema.name}`);
                     }
+
+                    if (key === "duplicate") {
+                      const duplicatedModelName = `${model.name} copy`;
+
+                      if (
+                        schema.models.some(
+                          (m) => m.name === duplicatedModelName
+                        )
+                      ) {
+                        toast.error("A model with this name already exists");
+                        return;
+                      }
+
+                      setSchema({
+                        ...schema,
+                        models: [
+                          ...schema.models,
+                          {
+                            ...model,
+                            name: duplicatedModelName,
+                          },
+                        ],
+                      });
+                      push(`/schemas/${schema.name}/models/${Number(id) + 1}`);
+                    }
                   }}
                   anchor="right"
                   title="Actions"
                 >
+                  <Menu.Option key="duplicate">
+                    <span>Duplicate model</span>
+                  </Menu.Option>
+
                   <Menu.Option key="delete">
                     <span className="text-red-400">Delete model</span>
                   </Menu.Option>
@@ -288,25 +318,65 @@ const Model = () => {
                                   </div>
                                 </div>
 
-                                <div
-                                  role="button"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
+                                <div className="flex items-center">
+                                  <div
+                                    role="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
 
-                                    updateModel({
-                                      fields: model.fields.filter(
-                                        (f: Field) => f.name !== field.name
-                                      ),
-                                    });
-                                  }}
-                                  aria-label="Delete field"
-                                  className="px-4"
-                                >
-                                  <Trash2
-                                    className="text-red-400 hover:text-red-600 transition"
-                                    size={20}
-                                  />
+                                      const duplicatedFieldName = `${field.name} copy`;
+
+                                      if (
+                                        model.fields.some(
+                                          (f) => f.name === duplicatedFieldName
+                                        )
+                                      ) {
+                                        toast.error(
+                                          "Field with this name already exists"
+                                        );
+                                        return;
+                                      }
+
+                                      updateModel({
+                                        fields: [
+                                          ...model.fields,
+                                          {
+                                            ...field,
+                                            name: duplicatedFieldName,
+                                          },
+                                        ],
+                                      });
+                                    }}
+                                    title="Duplicate field"
+                                    className="pl-4 pr-2"
+                                  >
+                                    <Copy
+                                      className="text-gray-600 hover:text-gray-900 transition"
+                                      size={20}
+                                    />
+                                  </div>
+
+                                  <div
+                                    role="button"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+
+                                      updateModel({
+                                        fields: model.fields.filter(
+                                          (f: Field) => f.name !== field.name
+                                        ),
+                                      });
+                                    }}
+                                    title="Delete field"
+                                    className="px-4"
+                                  >
+                                    <Trash2
+                                      className="text-red-400 hover:text-red-600 transition"
+                                      size={20}
+                                    />
+                                  </div>
                                 </div>
                               </button>
                             )}
