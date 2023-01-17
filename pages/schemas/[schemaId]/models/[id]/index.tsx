@@ -193,7 +193,9 @@ const Model = () => {
                           },
                         ],
                       });
-                      push(`/schemas/${schema.name}/models/${Number(id) + 1}`);
+                      push(
+                        `/schemas/${schema.name}/models/${schema.models.length}`
+                      );
                     }
                   }}
                   anchor="right"
