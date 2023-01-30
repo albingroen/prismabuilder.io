@@ -9,6 +9,8 @@ import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import PricingModal from "../components/PricingModal";
+import axios from "axios";
 
 splitbee.init();
 
@@ -33,11 +35,16 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, [schemas]);
 
   const [hasSeenWelcomeModal, setHasSeenWelcomeModal] = useState<boolean>(true);
+  const [hasSeenPricingModal, setHasSeenPricingModal] = useState<boolean>(true);
 
   useEffect(() => {
     if (localStorage) {
       setHasSeenWelcomeModal(
         Boolean(localStorage.getItem("hasSeenWelcomeModal"))
+      );
+
+      setHasSeenPricingModal(
+        Boolean(localStorage.getItem("hasSeenPricingModal"))
       );
     }
   }, []);
@@ -45,6 +52,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   const onCloseWelcomeModal = () => {
     localStorage.setItem("hasSeenWelcomeModal", "true");
     setHasSeenWelcomeModal(true);
+  };
+
+  const onClosePricingModal = (price?: number) => {
+    localStorage.setItem("hasSeenPricingModal", "true");
+    setHasSeenPricingModal(true);
+
+    if (price) {
+      try {
+        axios.post("/api/log", {
+          channel: "pricing-survey",
+          event: `Chose $${price}`,
+          icon: "💸",
+        });
+      } catch {}
+    }
   };
 
   const schema = schemas?.find((s) => s.name === router.query.schemaId);
@@ -60,6 +82,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Seo />
 
       <WelcomeModal open={!hasSeenWelcomeModal} onClose={onCloseWelcomeModal} />
+
+      <PricingModal open={!hasSeenPricingModal} onClose={onClosePricingModal} />
 
       <LensProvider>
         <SchemaContext.Provider
