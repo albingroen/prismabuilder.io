@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ManualSchemaEditor from "./ManualSchemaEditor";
 import FileUploadSchemaEditor from "./FileUploadSchemaEditor";
-import { Button } from "@prisma/lens";
+import { Button, Icon } from "@prisma/lens";
+import SchemaInfoTooltip from "./SchemaInfoTooltip";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -35,6 +36,9 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           File Upload
         </Button>
       </div>
+      <SchemaInfoTooltip>
+        <Icon name={"info"} className="text-gray-600" />
+      </SchemaInfoTooltip>
       {schemaSource === "manual" && <ManualSchemaEditor onClose={onClose} />}
       {schemaSource === "fileUpload" && (
         <FileUploadSchemaEditor onClose={onClose} />
