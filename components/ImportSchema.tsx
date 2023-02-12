@@ -1,5 +1,6 @@
 import React from "react";
 import ManualSchemaEditor from "./ManualSchemaEditor";
+import FileUploadSchemaEditor from "./FileUploadSchemaEditor";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -12,6 +13,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
         Be wary that importing a schema will omit any default values on fields.
       </p>
       <ManualSchemaEditor onClose={onClose} />
+      <FileUploadSchemaEditor onClose={onClose} />
     </div>
   );
 };
