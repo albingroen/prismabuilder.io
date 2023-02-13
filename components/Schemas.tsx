@@ -96,8 +96,8 @@ export default function Schemas() {
         isOpen={isCommandPaletteOpen}
         search={commandPaletteSearch}
         renderLink={({ href, ...rest }) => (
-          <Link href={href ?? ""} passHref>
-            <a {...rest} />
+          <Link href={href ?? ""} className={rest.className} style={rest.style}>
+            {rest.children}
           </Link>
         )}
       >
@@ -119,13 +119,15 @@ export default function Schemas() {
         <div className="flex flex-col space-y-3 flex-1">
           {schemas.map((schema: Schema) => {
             return (
-              <Link href={`/schemas/${schema.name}`} key={schema.name}>
-                <a className="border border-transparent hover:border-blue-500 focus:border-blue-500 transition rounded-lg">
-                  <Card className="flex items-center space-x-3">
-                    <Layers size={20} className="text-gray-500" />
-                    <h3>{schema.name}</h3>
-                  </Card>
-                </a>
+              <Link
+                className="border border-transparent hover:border-blue-500 focus:border-blue-500 transition rounded-lg"
+                href={`/schemas/${schema.name}`}
+                key={schema.name}
+              >
+                <Card className="flex items-center space-x-3">
+                  <Layers size={20} className="text-gray-500" />
+                  <h3>{schema.name}</h3>
+                </Card>
               </Link>
             );
           })}

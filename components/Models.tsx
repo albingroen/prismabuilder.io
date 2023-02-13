@@ -220,8 +220,8 @@ export default function Models() {
         isOpen={isCommandPaletteOpen}
         search={commandPaletteSearch}
         renderLink={({ href, ...rest }) => (
-          <Link href={href ?? ""} passHref>
-            <a {...rest} />
+          <Link href={href ?? ""} className={rest.className} style={rest.style}>
+            {rest.children}
           </Link>
         )}
       >
@@ -242,10 +242,11 @@ export default function Models() {
       <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
         <div className="flex flex-col space-y-3 flex-1">
           <div>
-            <Link href="/">
-              <a className="text-sm text-blue-500 hover:text-blue-700 transition focus:ring-2">
-                &larr; Change schema
-              </a>
+            <Link
+              href="/"
+              className="text-sm text-blue-500 hover:text-blue-700 transition focus:ring-2"
+            >
+              &larr; Change schema
             </Link>
           </div>
 
@@ -355,15 +356,14 @@ export default function Models() {
           {schema.models.map((model, i) => {
             return (
               <Link
+                className="border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg"
                 href={`/schemas/${schema.name}/models/${i}`}
                 key={model.name}
               >
-                <a className="border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg">
-                  <Card className="flex items-center space-x-3">
-                    <Box size={20} className="text-gray-500" />
-                    <h3>{model.name}</h3>
-                  </Card>
-                </a>
+                <Card className="flex items-center space-x-3">
+                  <Box size={20} className="text-gray-500" />
+                  <h3>{model.name}</h3>
+                </Card>
               </Link>
             );
           })}
@@ -437,20 +437,16 @@ export default function Models() {
 
         <div className="flex flex-col space-y-4 items-start">
           <Link
-            passHref
             href={
               isGraphView
                 ? `/schemas/${schema.name}`
                 : `/schemas/${schema.name}/graph`
             }
+            className="text-gray-500 hover:text-gray-700 transition focus:ring-2"
+            aria-label={isGraphView ? "Exit Graph view" : "Graph view"}
+            title={isGraphView ? "Exit Graph view" : "Graph view"}
           >
-            <a
-              className="text-gray-500 hover:text-gray-700 transition focus:ring-2"
-              aria-label={isGraphView ? "Exit Graph view" : "Graph view"}
-              title={isGraphView ? "Exit Graph view" : "Graph view"}
-            >
-              {isGraphView ? <X /> : <Globe />}
-            </a>
+            {isGraphView ? <X /> : <Globe />}
           </Link>
 
           <Links />

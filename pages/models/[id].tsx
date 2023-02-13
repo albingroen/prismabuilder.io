@@ -30,10 +30,8 @@ const Model = () => {
   return (
     <div className="p-8 space-y-4 flex flex-col">
       <p className="text-lg">This page is deprecated</p>
-      <Link href="/" passHref>
-        <a>
-          <Button>Go home</Button>
-        </a>
+      <Link href="/">
+        <Button>Go home</Button>
       </Link>
     </div>
   );
