@@ -35,6 +35,9 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           File Upload
         </Button>
       </div>
+      <p className="text-sm text-gray-700">
+        Be wary that importing a schema will omit any default values on fields.
+      </p>
       {schemaSource === "manual" && <ManualSchemaEditor onClose={onClose} />}
       {schemaSource === "fileUpload" && (
         <FileUploadSchemaEditor onClose={onClose} />
