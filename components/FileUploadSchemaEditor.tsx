@@ -1,11 +1,11 @@
 import toast from "react-hot-toast";
 import { Button } from "@prisma/lens";
-import { Enum } from "../lib/types";
 import { useSchemaContext } from "../lib/context";
 import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { parseSchema } from "../lib/schemaApi";
 import { isModuleColliding } from "../lib/isModuleColliding";
+import { isEnumColliding } from "../lib/isEnumColliding";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -77,13 +77,7 @@ const FileUploadSchemaEditor = ({ onClose }: ImportSchemaProps) => {
               if (isModuleColliding(schema, importedSchema)) {
                 toast.error("Some model has a colliding name");
                 setImportSchemaLoading(false);
-              } else if (
-                schema.enums.some((enumValue: Enum) =>
-                  importedSchema.enums
-                    .map((e: Enum) => e.name)
-                    .includes(enumValue.name)
-                )
-              ) {
+              } else if (isEnumColliding(schema, importedSchema)) {
                 toast.error("Some enum has a colliding name");
                 setImportSchemaLoading(false);
               } else if (importedSchema.models?.length) {
