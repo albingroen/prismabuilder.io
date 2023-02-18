@@ -1,10 +1,9 @@
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Button } from "@prisma/lens";
 import { Enum, Model } from "../lib/types";
-import { apiUrl } from "../lib/config";
 import { useSchemaContext } from "../lib/context";
 import React, { useState } from "react";
+import { parseSchema } from "../lib/schemaApi";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -30,10 +29,8 @@ const ManualSchemaEditor = ({ onClose }: ImportSchemaProps) => {
       <Button
         onPress={() => {
           setImportSchemaLoading(true);
-          axios
-            .post(`${apiUrl}/parse`, { schema: importSchema })
-            .then((res) => {
-              const importedSchema = res.data;
+          parseSchema(importSchema)
+            .then((importedSchema) => {
               if (
                 schema.models.some((model: Model) =>
                   importedSchema.models
