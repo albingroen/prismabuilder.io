@@ -1,9 +1,10 @@
 import toast from "react-hot-toast";
 import { Button } from "@prisma/lens";
-import { Enum, Model } from "../lib/types";
+import { Enum } from "../lib/types";
 import { useSchemaContext } from "../lib/context";
 import React, { useState } from "react";
 import { parseSchema } from "../lib/schemaApi";
+import { isModuleColliding } from "../lib/isModuleColliding";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -31,13 +32,7 @@ const ManualSchemaEditor = ({ onClose }: ImportSchemaProps) => {
           setImportSchemaLoading(true);
           parseSchema(importSchema)
             .then((importedSchema) => {
-              if (
-                schema.models.some((model: Model) =>
-                  importedSchema.models
-                    .map((m: Model) => m.name)
-                    .includes(model.name)
-                )
-              ) {
+              if (isModuleColliding(schema, importedSchema)) {
                 toast.error("Some model has a colliding name");
                 setImportSchemaLoading(false);
               } else if (
