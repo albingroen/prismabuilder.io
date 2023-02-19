@@ -1,49 +1,47 @@
+import Button from "./Button";
+import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
+import Dropdown from "./Dropdown";
+import EnumComponent from "./Enum";
 import ImportSchema from "./ImportSchema";
 import Link from "next/link";
 import Modal from "./Modal";
 import Schema from "./Schema";
+import Select from "./Select";
+import Sidebar from "./Sidebar";
+import SidebarItem from "./SidebarItem";
+import Stack from "./Stack";
 import toast from "react-hot-toast";
+import { ArrowLeftIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import {
-  Button,
-  Separator,
-  Card,
-  Title,
-  TextField,
-  Menu,
-  Select,
-  Label,
-} from "@prisma/lens";
+  ArrowUpTrayIcon,
+  CubeIcon,
+  EyeIcon,
+  ListBulletIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
+import { BoltIcon, CubeIcon as CubeIconSolid } from "@heroicons/react/24/solid";
+import {
+  Enum,
+  Model,
+  PrismaDatabase,
+  Schema as SchemaType,
+} from "../lib/types";
 import { ID_FIELD } from "../lib/fields";
-import {
-  Globe,
-  Box,
-  X,
-  Edit,
-  CheckSquare,
-  MoreVertical,
-  List,
-} from "react-feather";
-import { Enum, Model, Schema as SchemaType } from "../lib/types";
+import { LINKS } from "./Links";
+import { PRISMA_DATABASES } from "../lib/prisma";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
-import { useEffect, useState } from "react";
-import { PRISMA_DATABASES } from "../lib/prisma";
-import AddEnum from "./AddEnum";
-import UpdateEnum from "./UpdateEnum";
-import Links, { LINKS } from "./Links";
-import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
-  const { push, pathname, asPath } = useRouter();
+  const { push, query } = useRouter();
 
   const [showingImportSchema, setShowingImportSchema] =
     useState<boolean>(false);
   const [showingAddEnum, setShowingAddEnum] = useState<boolean>(false);
   const [showingSchema, setShowingSchema] = useState<boolean>(false);
-  const [editingName, setEditingName] = useState<boolean>(false);
   const [editingEnum, setEditingEnum] = useState<string>();
-  const [name, setName] = useState<string>("");
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] =
     useState<boolean>(false);
   const [commandPaletteSearch, setCommandPaletteSearch] = useState<string>("");
@@ -63,18 +61,6 @@ export default function Models() {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
-
-  const isGraphView = pathname.endsWith("/graph");
-
-  useEffect(() => {
-    if (schema.name) {
-      setName(schema.name);
-    }
-  }, [schema]);
-
-  useEffect(() => {
-    setEditingName(false);
-  }, [asPath]);
 
   const updateSchema = (values: any) => {
     setSchema({
@@ -122,8 +108,8 @@ export default function Models() {
           },
           {
             id: "pages.graph-view",
-            children: "Graph view",
-            icon: "GlobeIcon",
+            children: "Visualize schema",
+            icon: "EyeIcon",
             href: `/schemas/${schema.name}/graph`,
           },
         ],
@@ -152,7 +138,7 @@ export default function Models() {
               setShowingImportSchema(true);
             },
             children: "Import schema",
-            icon: "DocumentDownloadIcon",
+            icon: "ArrowUpTrayIcon",
           },
           {
             id: "quick-actions.generate-schema",
@@ -160,7 +146,7 @@ export default function Models() {
               setShowingSchema(true);
             },
             children: "Generate schema",
-            icon: "CodeIcon",
+            icon: "BoltIcon",
           },
           {
             id: "quick-actions.delete-schema",
@@ -185,11 +171,11 @@ export default function Models() {
       {
         heading: "Enums",
         id: "enums",
-        items: schema.enums.map((e, i) => ({
+        items: schema.enums.map((e) => ({
           onClick: () => {
             setEditingEnum(e.name);
           },
-          icon: "ViewListIcon",
+          icon: "ListBulletIcon",
           children: e.name,
           id: e.name,
         })),
@@ -199,7 +185,7 @@ export default function Models() {
         id: "links",
         items: LINKS.map((LINK, i) => ({
           rel: "noreferrer noopener",
-          icon: "ExternalLinkIcon",
+          icon: "ArrowTopRightOnSquareIcon",
           children: LINK.label,
           href: LINK.href,
           id: LINK.label,
@@ -239,278 +225,239 @@ export default function Models() {
         ))}
       </CommandPalette>
 
-      <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
-        <div className="flex flex-col space-y-3 flex-1">
-          <div>
-            <Link
-              href="/"
-              className="text-sm text-blue-500 hover:text-blue-700 transition focus:ring-2"
-            >
-              &larr; Change schema
-            </Link>
-          </div>
-
-          <Separator />
-
-          <div
-            className={`flex justify-between ${
-              editingName ? "items-start" : "items-center"
-            }`}
-          >
-            <div
-              className={`flex ${
-                editingName ? "items-end" : "items-center"
-              } space-x-4`}
-            >
-              {editingName ? (
-                <div>
-                  <TextField
-                    onChange={setName}
-                    placeholder="Blog"
-                    inputMode="text"
-                    label="Name"
-                    value={name}
-                    autoFocus
-                  />
-                </div>
-              ) : (
-                <Title>{name}</Title>
-              )}
-
-              <button
-                onClick={() => {
-                  if (editingName && name !== schema.name) {
-                    if (schemas.some((s) => s.name === name)) {
-                      toast.error(`A schema called ${name} exists`);
-                      setName(schema.name);
-                    } else {
-                      updateSchema({ name });
-                      push(`/schemas/${name}`);
-                    }
-                  }
-                  setEditingName(!editingName);
-                }}
-                aria-label={
-                  editingName ? "Save schema name" : "Edit schema name"
-                }
-                className="focus:ring-2"
-              >
-                {editingName ? (
-                  <CheckSquare
-                    className="text-gray-700 hover:text-gray-900 transition"
-                    size={20}
-                  />
-                ) : (
-                  <Edit
-                    className="text-gray-700 hover:text-gray-900 transition"
-                    size={20}
-                  />
-                )}
-              </button>
-            </div>
-
-            <Menu.Container>
-              <Button variant="quiet">
-                <MoreVertical
-                  className="text-gray-500 hover:text-gray-900 transition"
-                  aria-label="More"
-                  size={20}
-                />
-              </Button>
-              <Menu.Body
-                onSelectionChange={(key) => {
-                  if (key === "delete") {
-                    handleDeleteSchema();
-                  }
-                }}
-                anchor="right"
-                title="Actions"
-              >
-                <Menu.Option key="delete">
-                  <span className="text-red-400">Delete schema</span>
-                </Menu.Option>
-              </Menu.Body>
-            </Menu.Container>
-          </div>
-
-          <Select.Container
-            selectedKey={schema.database}
-            onSelectionChange={(key) => {
-              setSchema({
-                ...schema,
-                database: key,
-              });
-            }}
-            placeholder="Select a provider"
-            label="Provider"
-          >
-            {PRISMA_DATABASES.map((db) => (
-              <Select.Option key={db.value}>{db.label}</Select.Option>
-            ))}
-          </Select.Container>
-
-          <Separator />
-
-          <Label>Models</Label>
-
-          {schema.models.map((model, i) => {
-            return (
-              <Link
-                className="border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg"
-                href={`/schemas/${schema.name}/models/${i}`}
-                key={model.name}
-              >
-                <Card className="flex items-center space-x-3">
-                  <Box size={20} className="text-gray-500" />
-                  <h3>{model.name}</h3>
-                </Card>
-              </Link>
-            );
-          })}
-
-          <Separator />
-
-          {!["sqlite", "sqlserver"].includes(schema.database) && (
-            <>
-              <Label>Enums</Label>
-
-              {schema.enums.map((e) => {
-                return (
-                  <button
-                    className="flex border border-transparent focus:border-blue-500 hover:border-blue-500 transition rounded-lg cursor-pointer"
-                    onClick={() => {
-                      setEditingEnum(e.name);
-                    }}
-                    key={e.name}
-                  >
-                    <Card className="w-full transition flex items-center space-x-3">
-                      <List size={20} className="text-gray-500" />
-                      <h3>{e.name}</h3>
-                    </Card>
-                  </button>
-                );
-              })}
-
-              <Separator />
-            </>
-          )}
-
-          <Button
-            onPress={() => {
-              handleCreateModel();
-            }}
-            variant="secondary"
-          >
-            New model
-          </Button>
-
-          {!["sqlite", "sqlserver"].includes(schema.database) && (
+      <Sidebar
+        withLinks={false}
+        extra={
+          <Stack direction="vertical">
             <Button
-              onPress={() => {
-                setShowingAddEnum(true);
-              }}
+              type="button"
               variant="secondary"
+              icon={EyeIcon}
+              onClick={() => {
+                push(`/schemas/${schema.name}/graph`);
+              }}
             >
-              New enum
+              Visualize schema
             </Button>
-          )}
 
-          <Button
-            onPress={() => {
-              setShowingImportSchema(true);
-            }}
-            variant="secondary"
-          >
-            Import schema
-          </Button>
-
-          {schema.models.length ? (
             <Button
-              onPress={() => {
+              type="button"
+              variant="secondary"
+              icon={ArrowUpTrayIcon}
+              onClick={() => [setShowingImportSchema(true)]}
+            >
+              Import schema
+            </Button>
+
+            <Button
+              icon={BoltIcon}
+              type="button"
+              onClick={() => {
                 setShowingSchema(true);
               }}
             >
               Generate schema
             </Button>
-          ) : null}
-        </div>
-
-        <div className="flex flex-col space-y-4 items-start">
+          </Stack>
+        }
+      >
+        <div className="p-5">
           <Link
-            href={
-              isGraphView
-                ? `/schemas/${schema.name}`
-                : `/schemas/${schema.name}/graph`
-            }
-            className="text-gray-500 hover:text-gray-700 transition focus:ring-2"
-            aria-label={isGraphView ? "Exit Graph view" : "Graph view"}
-            title={isGraphView ? "Exit Graph view" : "Graph view"}
+            href="/"
+            className="text-gray-600 font-medium text-sm flex items-center gap-2 hover:underline underline-offset-4"
           >
-            {isGraphView ? <X /> : <Globe />}
+            <ArrowLeftIcon className="w-4" />
+            <span>Back</span>
           </Link>
 
-          <Links />
-        </div>
-      </div>
+          <Stack align="center" className="mt-5" justify="between">
+            <h1
+              className="text-2xl p-2 -m-2 hover:bg-gray-100 focus:bg-gray-200 transition rounded-md font-medium truncate leading-none focus:outline-none"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  e.currentTarget.blur();
+                }
+              }}
+              onBlur={(e) => {
+                const newName = e.currentTarget.innerText.trim();
 
-      <Modal
-        onClose={() => {
-          setShowingSchema(false);
-        }}
-        open={showingSchema}
-        heading="Schema"
-      >
-        <Schema
-          onCancel={() => {
+                if (newName && newName !== schema.name) {
+                  updateSchema({
+                    name: newName,
+                  });
+
+                  push(`/schemas/${newName}`);
+                }
+              }}
+              contentEditable
+            >
+              {schema.name}
+            </h1>
+
+            <Dropdown
+              items={[
+                {
+                  label: "Delete schema",
+                  icon: TrashIcon,
+                  onClick: handleDeleteSchema,
+                },
+              ]}
+            >
+              <button type="button" className="icon-button">
+                <EllipsisVerticalIcon className="w-5 icon-button-button" />
+              </button>
+            </Dropdown>
+          </Stack>
+
+          <Select
+            label="Provider"
+            className="mt-3"
+            id="provider"
+            value={schema.database}
+            onChange={(e) => {
+              setSchema({
+                ...schema,
+                database: e.currentTarget.value as PrismaDatabase,
+              });
+            }}
+          >
+            {PRISMA_DATABASES.map((PRISMA_DATABASE) => (
+              <option key={PRISMA_DATABASE.value} value={PRISMA_DATABASE.value}>
+                {PRISMA_DATABASE.label}
+              </option>
+            ))}
+          </Select>
+
+          <hr className="mt-5 border-gray-200/80 -mx-5" />
+
+          <Stack direction="vertical" className="mt-4">
+            <div>
+              <p className="label">Models</p>
+
+              {schema.models.length ? (
+                <ul className="w-full space-y-px">
+                  {schema.models.map((model, i) => {
+                    const isActive = query.id === String(i);
+
+                    return (
+                      <li key={model.name}>
+                        <SidebarItem
+                          href={`/schemas/${schema.name}/models/${i}`}
+                          icon={isActive ? CubeIconSolid : CubeIcon}
+                          isActive={isActive}
+                        >
+                          {model.name}
+                        </SidebarItem>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : null}
+            </div>
+
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleCreateModel}
+            >
+              New model
+            </Button>
+          </Stack>
+
+          <hr className="mt-5 mb-4 border-gray-200/80 -mx-5" />
+
+          <Stack direction="vertical">
+            <div>
+              <p className="label">Enums</p>
+
+              {schema.enums.length ? (
+                <ul className="w-full space-y-px">
+                  {schema.enums.map((schemaEnum, i) => (
+                    <li key={schemaEnum.name}>
+                      <SidebarItem
+                        icon={ListBulletIcon}
+                        onClick={() => {
+                          setEditingEnum(schemaEnum.name);
+                        }}
+                      >
+                        {schemaEnum.name}
+                      </SidebarItem>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
+
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                setShowingAddEnum(true);
+              }}
+            >
+              New enum
+            </Button>
+          </Stack>
+        </div>
+      </Sidebar>
+
+      {showingSchema && (
+        <Modal
+          onClose={() => {
             setShowingSchema(false);
           }}
-        />
-      </Modal>
+          heading="Schema"
+        >
+          {({ close }) => <Schema onCancel={close} />}
+        </Modal>
+      )}
 
-      <Modal
-        onClose={() => {
-          setShowingImportSchema(false);
-        }}
-        open={showingImportSchema}
-        heading="Import schema"
-      >
-        <ImportSchema
+      {showingImportSchema && (
+        <Modal
           onClose={() => {
             setShowingImportSchema(false);
           }}
-        />
-      </Modal>
+          heading="Import schema"
+        >
+          {() => (
+            <ImportSchema
+              onClose={() => {
+                setShowingImportSchema(false);
+              }}
+            />
+          )}
+        </Modal>
+      )}
 
-      <Modal
-        onClose={() => {
-          setShowingAddEnum(false);
-        }}
-        open={showingAddEnum}
-        heading="New enum"
-      >
-        <AddEnum
-          onCancel={() => {
+      {showingAddEnum && (
+        <Modal
+          onClose={() => {
             setShowingAddEnum(false);
           }}
-        />
-      </Modal>
+          heading="New enum"
+        >
+          {({ close }) => <EnumComponent onCancel={close} />}
+        </Modal>
+      )}
 
-      <Modal
-        onClose={() => {
-          setEditingEnum(undefined);
-        }}
-        open={Boolean(editingEnum)}
-        heading="Update enum"
-      >
-        <UpdateEnum
-          defaultValues={
-            schema.enums.find((e) => e.name === editingEnum) ?? ({} as Enum)
-          }
-          onCancel={() => {
+      {editingEnum && (
+        <Modal
+          onClose={() => {
             setEditingEnum(undefined);
           }}
-        />
-      </Modal>
+          heading="Update enum"
+        >
+          {({ close }) => (
+            <EnumComponent
+              defaultValues={
+                schema.enums.find((e) => e.name === editingEnum) ?? ({} as Enum)
+              }
+              onCancel={close}
+            />
+          )}
+        </Modal>
+      )}
     </>
   );
 }

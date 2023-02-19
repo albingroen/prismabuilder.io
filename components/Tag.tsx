@@ -5,7 +5,7 @@ type TagProps = {
 };
 
 const Tag = ({ children }: TagProps) => (
-  <div className="bg-gray-200 rounded py-0.5 text-gray-700 px-1 text-sm">
+  <div className="bg-gray-100 rounded py-0.5 text-gray-700 px-1 text-sm">
     {children}
   </div>
 );
