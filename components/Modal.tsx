@@ -1,43 +1,92 @@
+import Stack from "./Stack";
+import classNames from "../lib/classNames";
 import { Dialog } from "@headlessui/react";
-import { ReactNode } from "react";
-import { X } from "react-feather";
+import { XMarkIcon } from "@heroicons/react/20/solid";
+import { useState, useEffect } from "react";
 
 type ModalProps = {
+  children: ({ close }: { close: () => void }) => JSX.Element;
+  isCloseButtonVisible?: boolean;
+  contentClassName?: string;
+  description?: string;
   onClose: () => void;
-  children: ReactNode;
+  className?: string;
   heading?: string;
-  open: boolean;
 };
 
-const Modal = ({ children, heading, open, onClose }: ModalProps) => {
+const Modal = ({
+  isCloseButtonVisible = true,
+  contentClassName,
+  description,
+  className,
+  children,
+  onClose,
+  heading,
+}: ModalProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    setIsOpen(true);
+  }, []);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    onClose();
+  };
+
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
-      className="fixed z-10 inset-0 overflow-y-auto"
+      className="fixed z-10 inset-0 overflow-y-auto antialiased font-[Inter]"
+      as="div"
+      onClose={handleClose}
+      open={isOpen}
     >
+      <div className="fixed inset-0 bg-gray-500/50" />
+
       <div className="flex items-center justify-center min-h-screen">
-        <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
+        <Dialog.Panel
+          className={classNames(
+            "relative bg-white rounded-lg w-full shadow mx-auto max-w-screen-sm overflow-hidden",
+            className
+          )}
+        >
+          {(heading || description) && (
+            <Stack align="start" className="p-5 border-b justify-between">
+              <Stack direction="vertical" spacing="small">
+                {heading && (
+                  <Dialog.Title className="text-xl font-medium">
+                    {heading}
+                  </Dialog.Title>
+                )}
 
-        <div className="w-full relative bg-white rounded-lg max-w-2xl mx-auto my-8">
-          {heading && (
-            <div className="p-4 border-b flex justify-between items-center space-x-4">
-              <Dialog.Title className="text-xl font-medium">
-                {heading}
-              </Dialog.Title>
+                {description && (
+                  <Dialog.Description className="text-gray-800 text-sm leading-relaxed">
+                    {description}
+                  </Dialog.Description>
+                )}
+              </Stack>
 
-              <button
-                className="text-gray-500 hover:text-gray-600 transition"
-                aria-label="Exit modal"
-                onClick={onClose}
-              >
-                <X />
-              </button>
-            </div>
+              {isCloseButtonVisible && (
+                <button
+                  type="button"
+                  title="Close modal"
+                  className="text-gray-400 hover:text-inherit transition rounded-md focus:outline-none"
+                  onClick={handleClose}
+                >
+                  <XMarkIcon className="w-6" />
+                </button>
+              )}
+            </Stack>
           )}
 
-          <div className="p-6 overflow-auto">{children}</div>
-        </div>
+          {children && (
+            <div className={classNames("p-5", contentClassName)}>
+              {children({
+                close: handleClose,
+              })}
+            </div>
+          )}
+        </Dialog.Panel>
       </div>
     </Dialog>
   );

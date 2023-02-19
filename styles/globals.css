@@ -3,11 +3,62 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    @apply bg-gray-100;
+  }
+
+  body {
+    @apply antialiased;
+  }
+
   code {
     @apply bg-gray-200 border rounded-md py-1 px-2 font-medium tracking-tight;
   }
 }
 
+@layer components {
+  .label {
+    @apply text-gray-500 text-sm mb-2 inline-block;
+  }
+
+  .input {
+    @apply border text-sm border-gray-200 rounded-md p-2 shadow-sm hover:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-500;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.2s ease;
+  }
+
+  .dropdown-menu-subtrigger[data-state="open"] {
+    @apply bg-gray-50;
+  }
+
+  .dropdown-menu-item[data-highlighted] {
+    @apply bg-gray-100 outline-none;
+  }
+
+  .dropdown-menu-item[data-highlighted] * {
+    @apply opacity-100 outline-none;
+  }
+
+  .icon-button {
+    @apply p-1.5 rounded-md enabled:hover:bg-gray-100 enabled:focus-visible:bg-gray-100 border border-transparent enabled:hover:border-gray-200 enabled:focus-visible:border-gray-200 focus:outline-none focus:ring-0 text-gray-500 enabled:hover:text-inherit enabled:focus-visible:text-inherit;
+  }
+
+  .icon-button-icon {
+    @apply w-[18px];
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 100;
+    }
+  }
+}
+
 .model-fields {
-  height: calc(100vh - 160px);
+  height: calc(100vh - 142px);
 }

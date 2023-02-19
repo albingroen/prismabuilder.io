@@ -1,9 +1,12 @@
+import Button from "./Button";
+import Spinner from "./Spinner";
+import Stack from "./Stack";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { Button, Loader } from "@prisma/lens";
+import { ClipboardIcon } from "@heroicons/react/24/solid";
 import { SchemaContext } from "../lib/context";
-import { useContext, useEffect, useState } from "react";
 import { apiUrl } from "../lib/config";
+import { useContext, useEffect, useState } from "react";
 
 type SchemaProps = {
   onCancel: () => void;
@@ -33,7 +36,8 @@ const Schema = ({ onCancel }: SchemaProps) => {
         <div className="flex flex-col space-y-4">
           <div>
             <Button
-              onPress={() => {
+              icon={ClipboardIcon}
+              onClick={() => {
                 try {
                   navigator.clipboard.writeText(result);
                   toast.success("Copied schema to clipboard");
@@ -48,15 +52,15 @@ const Schema = ({ onCancel }: SchemaProps) => {
           <pre className="bg-gray-200 overflow-auto p-4 rounded-md">
             {result}
           </pre>
-          <Button onPress={onCancel} variant="secondary">
+          <Button onClick={onCancel} variant="secondary">
             Cancel
           </Button>
         </div>
       ) : (
         loading && (
-          <div className="flex items-center justify-center h-64">
-            <Loader />
-          </div>
+          <Stack align="center" justify="center" className="h-64">
+            <Spinner />
+          </Stack>
         )
       )}
     </div>

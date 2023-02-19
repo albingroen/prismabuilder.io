@@ -1,16 +1,21 @@
 import "../styles/globals.css";
 import "react-cmdk/dist/cmdk.css";
+import PricingModal from "../components/PricingModal";
 import Seo from "../components/Seo";
 import WelcomeModal from "../components/WelcomeModal";
+import axios from "axios";
 import splitbee from "@splitbee/web";
 import type { AppProps } from "next/app";
-import { LensProvider } from "@prisma/lens";
+import { Inter } from "@next/font/google";
 import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
-import PricingModal from "../components/PricingModal";
-import axios from "axios";
+
+export const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 splitbee.init();
 
@@ -29,7 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   useEffect(() => {
-    if (window) {
+    if (window && schemas.length) {
       localStorage.setItem("schemas", JSON.stringify(schemas));
     }
   }, [schemas]);
@@ -81,36 +86,34 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Seo />
 
-      <WelcomeModal open={!hasSeenWelcomeModal} onClose={onCloseWelcomeModal} />
+      {!hasSeenWelcomeModal && <WelcomeModal onClose={onCloseWelcomeModal} />}
 
-      <PricingModal open={!hasSeenPricingModal} onClose={onClosePricingModal} />
+      {!hasSeenPricingModal && <PricingModal onClose={onClosePricingModal} />}
 
-      <LensProvider>
-        <SchemaContext.Provider
-          value={{
-            schema,
-            schemas,
-            setSchemas,
-            setSchema: (newValues) => {
-              setSchemas(
-                schemas.map((s) =>
-                  s.name === schema.name
-                    ? {
-                        ...schema,
-                        ...newValues,
-                      }
-                    : s
-                )
-              );
-            },
-          }}
-        >
-          <main className="antialiased">
-            <Component {...pageProps} />
-            <Toaster />
-          </main>
-        </SchemaContext.Provider>
-      </LensProvider>
+      <SchemaContext.Provider
+        value={{
+          schema,
+          schemas,
+          setSchemas,
+          setSchema: (newValues) => {
+            setSchemas(
+              schemas.map((s) =>
+                s.name === schema.name
+                  ? {
+                      ...schema,
+                      ...newValues,
+                    }
+                  : s
+              )
+            );
+          },
+        }}
+      >
+        <main className={`${inter.variable} font-sans h-screen flex`}>
+          <Component {...pageProps} />
+          <Toaster />
+        </main>
+      </SchemaContext.Provider>
     </>
   );
 }

@@ -3,13 +3,13 @@ import SchemaGraph from "../../../components/SchemaGraph";
 
 const GraphPage = () => {
   return (
-    <div className="flex">
+    <>
       <Models />
 
-      <div className="flex-1 bg-gray-100 h-screen">
+      <div className="flex-1">
         <SchemaGraph />
       </div>
-    </div>
+    </>
   );
 };
 

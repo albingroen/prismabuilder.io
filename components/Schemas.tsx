@@ -1,13 +1,17 @@
+import Button from "./Button";
 import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 import Link from "next/link";
-import Links, { LINKS } from "./Links";
+import Sidebar from "./Sidebar";
+import SidebarItem from "./SidebarItem";
 import toast from "react-hot-toast";
-import { Button, Separator, Card } from "@prisma/lens";
-import { Layers } from "react-feather";
+import { CircleStackIcon } from "@heroicons/react/24/outline";
+import { LINKS } from "./Links";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import { Schema } from "../lib/types";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
+import Stack from "./Stack";
 
 export default function Schemas() {
   const { schemas, setSchemas } = useSchemaContext();
@@ -68,16 +72,16 @@ export default function Schemas() {
         items: schemas.map((schema) => ({
           href: `/schemas/${schema.name}`,
           children: schema.name,
-          icon: "CollectionIcon",
+          icon: "CircleStackIcon",
           id: schema.name,
         })),
       },
       {
         heading: "Links",
         id: "links",
-        items: LINKS.map((LINK, i) => ({
+        items: LINKS.map((LINK) => ({
           rel: "noreferrer noopener",
-          icon: "ExternalLinkIcon",
+          icon: "ArrowTopRightOnSquareIcon",
           children: LINK.label,
           href: LINK.href,
           id: LINK.label,
@@ -115,37 +119,51 @@ export default function Schemas() {
         ))}
       </CommandPalette>
 
-      <div className="flex flex-col border flex-1 max-w-sm h-screen overflow-y-auto p-4 space-y-3 bg-gray-100">
-        <div className="flex flex-col space-y-3 flex-1">
-          {schemas.map((schema: Schema) => {
-            return (
-              <Link
-                className="border border-transparent hover:border-blue-500 focus:border-blue-500 transition rounded-lg"
-                href={`/schemas/${schema.name}`}
-                key={schema.name}
-              >
-                <Card className="flex items-center space-x-3">
-                  <Layers size={20} className="text-gray-500" />
-                  <h3>{schema.name}</h3>
-                </Card>
-              </Link>
-            );
-          })}
+      <Sidebar>
+        <div className="p-5">
+          <p className="text-gray-600 font-medium text-sm">Schemas</p>
 
-          {schemas.length ? <Separator /> : null}
+          <ul className="mt-2.5 w-full">
+            {schemas.map((schema) => (
+              <li key={schema.name}>
+                <SidebarItem
+                  href={`/schemas/${schema.name}`}
+                  icon={CircleStackIcon}
+                >
+                  {schema.name}
+                </SidebarItem>
+              </li>
+            ))}
+          </ul>
 
           <Button
-            onPress={() => {
+            className="mt-3.5"
+            icon={PlusIcon}
+            type="button"
+            onClick={() => {
               handleCreateSchema();
             }}
-            variant="secondary"
           >
             New schema
           </Button>
         </div>
+      </Sidebar>
 
-        <Links />
-      </div>
+      <Stack className="flex-1" justify="center" align="center">
+        <Stack
+          direction="vertical"
+          align="start"
+          className="p-7 rounded-md border border-gray-300 border-dashed"
+        >
+          <ol className="list-decimal space-y-2 list-inside text-gray-700">
+            <li>Click &ldquo;New schema&rdquo;</li>
+            <li>Name your schema</li>
+            <li>Choose a provider</li>
+            <li>Create your models</li>
+            <li>Click &ldquo;Generate schema&rdquo;</li>
+          </ol>
+        </Stack>
+      </Stack>
     </>
   );
 }
