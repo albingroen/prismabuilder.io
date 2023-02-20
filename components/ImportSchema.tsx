@@ -1,12 +1,11 @@
 import Button from "./Button";
+import Stack from "./Stack";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Enum, Model } from "../lib/types";
 import { apiUrl } from "../lib/config";
-import { useSchemaContext } from "../lib/context";
-import { useState } from "react";
-import Stack from "./Stack";
 import { useFormik } from "formik";
+import { useSchemaContext } from "../lib/context";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -72,12 +71,39 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           name="schema"
           value={form.values.schema}
           onChange={form.handleChange}
-          className="rounded-lg focus:outline-none focus:ring-0 focus:border-indigo-500"
+          className="rounded-lg focus:outline-none focus:ring-0 focus:border-indigo-500 w-full resize-none pb-20 font-mono whitespace-pre-wrap overflow-auto"
         />
 
-        <Button type="submit" isLoading={form.isSubmitting}>
-          Import schema
-        </Button>
+        <input
+          type="file"
+          multiple={false}
+          accept=".prisma"
+          key={form.values.schema}
+          onChange={async (e) => {
+            const file = e.currentTarget.files?.[0];
+
+            if (file) {
+              form.setFieldValue("schema", await file.text());
+            }
+          }}
+        />
+
+        <Stack direction="vertical" spacing="small">
+          <Button type="submit" isLoading={form.isSubmitting}>
+            Import schema
+          </Button>
+
+          <Button
+            type="button"
+            variant="secondary"
+            onClick={() => {
+              form.resetForm();
+              onClose();
+            }}
+          >
+            Cancel
+          </Button>
+        </Stack>
       </Stack>
     </form>
   );
