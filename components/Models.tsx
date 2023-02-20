@@ -336,7 +336,7 @@ export default function Models() {
               <p className="label">Models</p>
 
               {schema.models.length ? (
-                <ul className="w-full space-y-px">
+                <ul className="w-full">
                   {schema.models.map((model, i) => {
                     const isActive = query.id === String(i);
 
@@ -372,7 +372,7 @@ export default function Models() {
               <p className="label">Enums</p>
 
               {schema.enums.length ? (
-                <ul className="w-full space-y-px">
+                <ul className="w-full">
                   {schema.enums.map((schemaEnum, i) => (
                     <li key={schemaEnum.name}>
                       <SidebarItem

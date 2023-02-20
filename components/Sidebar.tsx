@@ -14,7 +14,7 @@ export default function Sidebar({
   extra,
 }: SidebarProps) {
   return (
-    <aside className="flex flex-col w-full max-w-sm h-screen bg-white border-r">
+    <aside className="flex flex-col w-full max-w-xs h-screen bg-white border-r">
       <div className="flex-1 w-full overflow-y-auto">{children}</div>
 
       <Stack direction="vertical" spacing="small" className="w-full p-5">

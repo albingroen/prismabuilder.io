@@ -37,7 +37,7 @@ const Button = (
       disabled={disabled}
       className={classNames(
         "font-medium rounded-md py-2 px-4 w-full text-sm relative disabled:opacity-50",
-        "focus:outline-none focus:ring-1",
+        "focus:outline-none focus-visible:ring-1",
         {
           primary:
             "bg-gray-900 enabled:hover:bg-gray-700 text-white enabled:focus-visible:ring-white enabled:focus-visible:bg-gray-700",
