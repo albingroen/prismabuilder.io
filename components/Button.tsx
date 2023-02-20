@@ -15,12 +15,15 @@ interface ButtonProps
   > {
   variant?: "primary" | "secondary";
   isLoading?: boolean;
+  className?: string;
   icon?: HeroIcon;
+  block?: boolean;
 }
 
 const Button = (
   {
     variant = "primary",
+    block = true,
     isLoading,
     icon: Icon,
     className,
@@ -36,7 +39,7 @@ const Button = (
       {...rest}
       disabled={disabled}
       className={classNames(
-        "font-medium rounded-md py-2 px-4 w-full text-sm relative disabled:opacity-50",
+        "font-medium rounded-md py-2 px-4 text-sm relative disabled:opacity-50",
         "focus:outline-none focus-visible:ring-1",
         {
           primary:
@@ -44,6 +47,7 @@ const Button = (
           secondary:
             "bg-gray-100 enabled:hover:bg-gray-200 enabled:focus-visible:ring-black enabled:focus-visible:bg-gray-200",
         }[variant],
+        block && "w-full",
         className
       )}
       ref={ref}
