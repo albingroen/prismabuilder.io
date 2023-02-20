@@ -331,7 +331,7 @@ export default function Models() {
 
           <hr className="mt-5 border-gray-200/80 -mx-5" />
 
-          <Stack direction="vertical" className="mt-4">
+          <Stack direction="vertical" className="mt-4" spacing="small">
             <div>
               <p className="label">Models</p>
 
@@ -367,7 +367,7 @@ export default function Models() {
 
           <hr className="mt-5 mb-4 border-gray-200/80 -mx-5" />
 
-          <Stack direction="vertical">
+          <Stack direction="vertical" spacing="small">
             <div>
               <p className="label">Enums</p>
 
