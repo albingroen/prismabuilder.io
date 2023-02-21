@@ -3,6 +3,7 @@ import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
 import Link from "next/link";
 import Sidebar from "./Sidebar";
 import SidebarItem from "./SidebarItem";
+import Stack from "./Stack";
 import toast from "react-hot-toast";
 import { CircleStackIcon } from "@heroicons/react/24/outline";
 import { LINKS } from "./Links";
@@ -11,7 +12,6 @@ import { Schema } from "../lib/types";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
-import Stack from "./Stack";
 
 export default function Schemas() {
   const { schemas, setSchemas } = useSchemaContext();
@@ -120,33 +120,34 @@ export default function Schemas() {
       </CommandPalette>
 
       <Sidebar>
-        <div className="p-5">
-          <p className="text-gray-600 font-medium text-sm">Schemas</p>
+        <Stack direction="vertical" className="p-5">
+          <p className="label-flat">Schemas</p>
 
-          <ul className="mt-2.5 w-full">
-            {schemas.map((schema) => (
-              <li key={schema.name}>
-                <SidebarItem
-                  href={`/schemas/${schema.name}`}
-                  icon={CircleStackIcon}
-                >
-                  {schema.name}
-                </SidebarItem>
-              </li>
-            ))}
-          </ul>
+          <Stack direction="vertical" spacing="large">
+            <ul className="w-full">
+              {schemas.map((schema) => (
+                <li key={schema.name}>
+                  <SidebarItem
+                    href={`/schemas/${schema.name}`}
+                    icon={CircleStackIcon}
+                  >
+                    {schema.name}
+                  </SidebarItem>
+                </li>
+              ))}
+            </ul>
 
-          <Button
-            className="mt-3.5"
-            icon={PlusIcon}
-            type="button"
-            onClick={() => {
-              handleCreateSchema();
-            }}
-          >
-            New schema
-          </Button>
-        </div>
+            <Button
+              icon={PlusIcon}
+              type="button"
+              onClick={() => {
+                handleCreateSchema();
+              }}
+            >
+              New schema
+            </Button>
+          </Stack>
+        </Stack>
       </Sidebar>
 
       <Stack className="flex-1" justify="center" align="center">
