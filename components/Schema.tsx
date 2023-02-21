@@ -49,7 +49,7 @@ const Schema = ({ onCancel }: SchemaProps) => {
               Copy to clipboard
             </Button>
           </div>
-          <pre className="bg-gray-200 dark:bg-neutral-800 overflow-auto p-4 rounded-md">
+          <pre className="max-h-[500px] bg-gray-200 dark:bg-neutral-800 overflow-auto p-4 rounded-md overflow-auto">
             {result}
           </pre>
           <Button onClick={onCancel} variant="secondary">
