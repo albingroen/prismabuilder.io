@@ -331,7 +331,7 @@ export default function Models() {
             ))}
           </Select>
 
-          <hr className="mt-6 mb-5 -mx-5" />
+          <hr className="mt-5 mb-4 -mx-5" />
 
           <Stack direction="vertical" spacing="mini">
             <Stack align="center" justify="between">
@@ -368,7 +368,9 @@ export default function Models() {
             ) : null}
           </Stack>
 
-          <Stack direction="vertical" spacing="mini" className="mt-5">
+          <hr className="my-4 -mx-5" />
+
+          <Stack direction="vertical" spacing="mini">
             <Stack align="center" justify="between">
               <p className="label-flat">Enums</p>
 
