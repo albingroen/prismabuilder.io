@@ -1,7 +1,7 @@
-import ReactFlow, { Background } from "react-flow-renderer";
-import { useSchemaContext } from "../lib/context";
-import { TYPES } from "../lib/fields";
+import ReactFlow from "react-flow-renderer";
 import { Enum, Field, Model } from "../lib/types";
+import { TYPES } from "../lib/fields";
+import { useSchemaContext } from "../lib/context";
 
 const onLoad = (reactFlowInstance: any) => {
   reactFlowInstance.fitView();
@@ -101,9 +101,7 @@ const SchemaGraph = () => {
           : []
       }
       onLoad={onLoad}
-    >
-      <Background color="#aaa" gap={16} />
-    </ReactFlow>
+    />
   );
 };
 
