@@ -6,6 +6,7 @@ import { Enum, Model } from "../lib/types";
 import { apiUrl } from "../lib/config";
 import { useFormik } from "formik";
 import { useSchemaContext } from "../lib/context";
+import { classNames } from "react-cmdk";
 
 type ImportSchemaProps = {
   onClose: () => void;
@@ -60,7 +61,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
   return (
     <form onSubmit={form.handleSubmit}>
       <Stack direction="vertical" spacing="huge">
-        <p className="text-sm text-gray-700">
+        <p className="text-sm text-gray-700 dark:text-neutral-500">
           Be wary that importing a schema will omit any default values on
           fields.
         </p>
@@ -71,10 +72,15 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           name="schema"
           value={form.values.schema}
           onChange={form.handleChange}
-          className="rounded-lg p-4 placeholder-gray-300 focus:outline-none border-gray-300 focus:ring-0 focus:border-indigo-500 w-full resize-none pb-20 font-mono whitespace-pre-wrap overflow-auto"
+          className={classNames(
+            "bg-transparent rounded-lg p-4 placeholder-gray-300 focus:outline-none border-gray-300 focus:ring-0 focus:border-indigo-500 w-full resize-none pb-20 font-mono whitespace-pre-wrap overflow-auto",
+            "dark:border-neutral-700 dark:focus:border-blue-600 dark:placeholder-neutral-700"
+          )}
           placeholder={`model User {
   id  String  @id @unique @default(cuid())
-}`}
+}
+
+...`}
         />
 
         <input

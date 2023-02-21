@@ -104,10 +104,17 @@ const Model = () => {
       <Models />
 
       {model && (
-        <div className="flex-1 p-8 flex flex-col space-y-4">
+        <Stack
+          spacing="large"
+          direction="vertical"
+          className="flex-1 max-w-[2000px] p-8 mx-auto"
+        >
           <Stack align="center" justify="between">
             <h2
-              className="text-2xl p-2 -m-2 hover:bg-gray-200 focus:bg-gray-200 transition rounded-md font-medium focus:outline-none"
+              className={classNames(
+                "text-2xl p-2 -m-2 hover:bg-gray-200 focus:bg-gray-200 transition rounded-md font-medium focus:outline-none",
+                "dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+              )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -178,7 +185,7 @@ const Model = () => {
             </Dropdown>
           </Stack>
 
-          <hr />
+          <hr className="dark:border-neutral-700" />
 
           <div className="flex space-x-8">
             <DragDropContext
@@ -235,24 +242,26 @@ const Model = () => {
                               type="button"
                               className={classNames(
                                 "bg-white rounded-lg mb-3 w-full flex text-left items-center justify-between p-4 border focus:outline-none focus:ring-0",
+                                "dark:bg-[#333333] dark:shadow-neutral-900/80",
                                 isDragging
                                   ? "border-indigo-500 shadow-lg"
-                                  : "shadow border-white hover:border-indigo-500 focus-visible:border-indigo-500"
+                                  : "shadow border-white dark:border-neutral-700 hover:border-indigo-500 focus-visible:border-indigo-500 dark:hover:border-blue-600 dark:focus-visible:border-blue-600"
                               )}
                               onClick={() => setEditingField(field.name)}
                             >
                               <div className="flex items-center space-x-4">
                                 <div {...dragHandleProps}>
                                   <Bars3Icon
-                                    className={`w-5 ${
+                                    className={classNames(
+                                      "w-5 transition",
                                       isDragging
                                         ? "text-inherit"
-                                        : "text-gray-400 hover:text-inherit"
-                                    } transition`}
+                                        : "text-gray-400 dark:text-neutral-500 hover:text-inherit dark:hover:text-inherit"
+                                    )}
                                   />
                                 </div>
 
-                                <div className="rounded-md !bg-gray-100 flex items-center justify-center p-5">
+                                <div className="rounded-md bg-gray-100 dark:bg-neutral-600 flex items-center justify-center p-5">
                                   <Icon className="w-6" />
                                 </div>
 
@@ -316,7 +325,7 @@ const Model = () => {
                                   title="Duplicate field"
                                   className="pl-4 pr-2"
                                 >
-                                  <ClipboardDocumentIcon className="w-5 text-gray-600 hover:text-gray-900 transition" />
+                                  <ClipboardDocumentIcon className="w-5 text-gray-600 dark:text-neutral-500 hover:text-inherit dark:hover:text-inherit transition" />
                                 </div>
 
                                 <div
@@ -334,7 +343,7 @@ const Model = () => {
                                   title="Delete field"
                                   className="px-4"
                                 >
-                                  <TrashIcon className="text-red-400 hover:text-red-600 transition w-5" />
+                                  <TrashIcon className="text-red-400 dark:text-rose-700 hover:text-red-600 dark:hover:text-rose-400 transition w-5" />
                                 </div>
                               </div>
                             </button>
@@ -349,7 +358,7 @@ const Model = () => {
               </Droppable>
             </DragDropContext>
 
-            <div className="flex-1 max-w-sm model-fields overflow-y-auto bg-gray-200 rounded-lg p-4 flex flex-col space-y-4">
+            <div className="flex-1 max-w-sm model-fields overflow-y-auto bg-gray-200 dark:bg-neutral-900 rounded-lg p-4 flex flex-col space-y-4">
               <h2 className="font-medium text-xl">Add field</h2>
 
               <Stack direction="vertical">
@@ -385,20 +394,18 @@ const Model = () => {
                       type="button"
                       className={classNames(
                         "rounded-lg bg-white shadow text-left border border-transparent focus:outline-none focus:ring-0 focus:border-indigo-500 hover:border-indigo-500 py-3 px-4 flex items-center space-x-3.5 group",
-                        type.type === "model" || type.type === "enum"
-                          ? "bg-indigo-100"
-                          : "bg-blue-100"
+                        "dark:bg-neutral-800 dark:hover:border-blue-600"
                       )}
                       onClick={() => setAddingField(type.name as FieldType)}
                       key={type.name}
                     >
-                      <div className="rounded-md bg-gray-100 text-gray-500 group-hover:text-inherit flex items-center justify-center p-3">
-                        <Icon className={classNames("w-5")} />
+                      <div className="rounded-md bg-gray-100 dark:bg-neutral-700 text-gray-500 dark:text-neutral-300 group-hover:text-inherit flex items-center justify-center p-3">
+                        <Icon className="w-5" />
                       </div>
 
                       <Stack direction="vertical" spacing="tiny">
                         <h4 className="font-medium">{type.name}</h4>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-gray-500 dark:text-neutral-500">
                           {type.description}
                         </p>
                       </Stack>
@@ -408,7 +415,7 @@ const Model = () => {
               </Stack>
             </div>
           </div>
-        </div>
+        </Stack>
       )}
     </>
   );

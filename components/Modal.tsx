@@ -41,17 +41,20 @@ const Modal = ({
       onClose={handleClose}
       open={isOpen}
     >
-      <div className="fixed inset-0 bg-gray-500/50" />
+      <div className="fixed inset-0 bg-gray-500/50 dark:bg-neutral-800/75" />
 
       <div className="flex items-center justify-center min-h-screen">
         <Dialog.Panel
           className={classNames(
-            "relative bg-white rounded-lg w-full shadow mx-auto max-w-screen-sm overflow-hidden",
+            "relative bg-white dark:bg-neutral-900 rounded-lg w-full shadow mx-auto max-w-screen-sm overflow-hidden",
             className
           )}
         >
           {(heading || description) && (
-            <Stack align="start" className="p-5 border-b justify-between">
+            <Stack
+              align="start"
+              className="p-5 border-b dark:border-neutral-800 justify-between"
+            >
               <Stack direction="vertical" spacing="small">
                 {heading && (
                   <Dialog.Title className="text-xl font-medium">
@@ -70,7 +73,7 @@ const Modal = ({
                 <button
                   type="button"
                   title="Close modal"
-                  className="text-gray-400 hover:text-inherit transition rounded-md focus:outline-none"
+                  className="text-gray-400 dark:text-neutral-500 hover:text-inherit dark:hover:text-inherit transition rounded-md focus:outline-none"
                   onClick={handleClose}
                 >
                   <XMarkIcon className="w-6" />

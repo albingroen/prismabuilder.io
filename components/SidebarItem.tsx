@@ -27,7 +27,8 @@ export default function SidebarItem({
       href={href}
       className={classNames(
         "hover:bg-gray-100 px-2 py-1.5 -mx-2 rounded-md flex items-center gap-2.5 group",
-        "focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:bg-gray-100"
+        "focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:bg-gray-100",
+        "dark:hover:bg-neutral-800 dark:focus-visible:ring-white dark:focus-visible:bg-neutral-800"
       )}
       onClick={
         onClick
@@ -39,7 +40,12 @@ export default function SidebarItem({
           : undefined
       }
     >
-      <Icon className="w-[18px] transition text-gray-500 group-hover:text-inherit" />
+      <Icon
+        className={classNames(
+          "w-[18px] transition text-gray-500 group-hover:text-inherit group-focus-visible:text-inherit",
+          "dark:text-neutral-500"
+        )}
+      />
       <p className="flex-1 truncate">{children}</p>
     </Link>
   );

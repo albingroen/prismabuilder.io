@@ -23,7 +23,7 @@ const Checkbox = (
         {...rest}
         ref={ref}
         type="checkbox"
-        className="rounded h-5 w-5 border-gray-300 hover:border-gray-400 text-black focus:outline-none focus:ring-0 focus-visible:ring-1 focus-visible:ring-black"
+        className="bg-transparent rounded h-5 w-5 border-gray-300 dark:border-neutral-600 hover:border-gray-400 text-black dark:text-neutral-600 focus:outline-none focus:ring-0 focus-visible:ring-1 focus-visible:ring-black dark:focus-visible:ring-white"
       />
     </Stack>
   );
