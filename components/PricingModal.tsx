@@ -2,6 +2,7 @@ import Button from "./Button";
 import Modal from "./Modal";
 import cn from "../lib/classNames";
 import { useState } from "react";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 type PricingModalProps = {
   onClose: (price?: number) => void;
@@ -20,9 +21,9 @@ const PricingModal = ({ onClose }: PricingModalProps) => {
     >
       {({ close }) => (
         <div className="flex flex-col gap-4 antialiased">
-          <div className="flex flex-col items-center text-center rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 pt-10 px-10 pb-5 shadow-inner">
+          <div className="flex flex-col items-center text-center pt-8 px-10 pb-5">
             <div className="flex flex-col items-center gap-3.5">
-              <h1 className="text-3xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-black to-yellow-700">
+              <h1 className="text-3xl font-medium">
                 Prismabuilder<span className="text-yellow-500">++</span>
               </h1>
 
@@ -31,19 +32,18 @@ const PricingModal = ({ onClose }: PricingModalProps) => {
               </i>
             </div>
 
-            <hr className="mt-8 max-w-sm border-gray-300 w-full" />
+            <hr className="mt-8 max-w-sm border-gray-300 dark:border-neutral-800 w-full" />
 
             <ul className="flex flex-col gap-3.5 text-xl text-left mt-9">
               <li>💾 &nbsp;Save your schemas in the cloud</li>
               <li>🖥️ &nbsp;Access to a desktop version of the app</li>
               <li>📣 &nbsp;Priority on GitHub issues and features</li>
-              <li>🌚 &nbsp;Exclusive dark mode color theme</li>
             </ul>
 
-            <hr className="mt-8 max-w-sm border-gray-300 w-full" />
+            <hr className="mt-8 max-w-sm border-gray-300 dark:border-neutral-800 w-full" />
 
             <p
-              className="mt-9 text-xl leading-tight font-semibold"
+              className="mt-9 text-xl leading-tight font-medium"
               style={{ lineHeight: 1.6 }}
             >
               How much would you be willing to pay for Prismabuilder++ on a
@@ -58,8 +58,8 @@ const PricingModal = ({ onClose }: PricingModalProps) => {
                   className={cn(
                     "rounded-lg border p-5 flex flex-col items-center transition",
                     PRICE === price
-                      ? "border-indigo-500 bg-indigo-500 text-white"
-                      : "border-gray-500 hover:bg-gray-200 hover:border-gray-600"
+                      ? "border-indigo-500 dark:border-blue-600 bg-indigo-500 dark:bg-blue-600 text-white"
+                      : "border-gray-300 dark:border-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-800 hover:border-gray-400 dark:hover:border-neutral-700"
                   )}
                   onClick={() => {
                     setPrice(PRICE === price ? undefined : PRICE);
@@ -75,12 +75,13 @@ const PricingModal = ({ onClose }: PricingModalProps) => {
             <Button
               type="button"
               className="mt-10"
-              variant="secondary"
+              variant={price ? "primary" : "secondary"}
+              icon={price ? CheckIcon : undefined}
               onClick={() => {
                 close();
               }}
             >
-              Close
+              {price ? "Done" : "Close"}
             </Button>
           </div>
         </div>

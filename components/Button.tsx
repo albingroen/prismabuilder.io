@@ -42,10 +42,14 @@ const Button = (
         "font-medium rounded-md py-2 px-4 text-sm relative disabled:opacity-50",
         "focus:outline-none focus-visible:ring-1",
         {
-          primary:
+          primary: classNames(
             "bg-gray-900 enabled:hover:bg-gray-700 text-white enabled:focus-visible:ring-white enabled:focus-visible:bg-gray-700",
-          secondary:
+            "dark:bg-white dark:enabled:hover:bg-neutral-200 dark:text-black dark:enabled:focus-visible:ring-white dark:enabled:focus-visible:bg-neutral-200"
+          ),
+          secondary: classNames(
             "bg-gray-100 enabled:hover:bg-gray-200 enabled:focus-visible:ring-black enabled:focus-visible:bg-gray-200",
+            "dark:bg-neutral-800 dark:enabled:hover:bg-neutral-700 dark:enabled:focus-visible:ring-white dark:enabled:focus-visible:bg-neutral-700"
+          ),
         }[variant],
         block && "w-full",
         className

@@ -134,7 +134,7 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
           Add value +
         </Button>
 
-        <hr />
+        <hr className="dark:border-neutral-800" />
 
         <Button type="submit">
           {defaultValues ? "Update" : "Create"} enum
@@ -146,7 +146,7 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
 
         {defaultValues && (
           <>
-            <hr />
+            <hr className="dark:border-neutral-800" />
 
             <Button onClick={handleDelete} variant="secondary" type="button">
               Delete enum

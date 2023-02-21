@@ -11,6 +11,7 @@ import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import { classNames } from "react-cmdk";
 
 export const inter = Inter({
   subsets: ["latin"],
@@ -86,10 +87,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Seo />
 
-      {!hasSeenWelcomeModal && <WelcomeModal onClose={onCloseWelcomeModal} />}
-
-      {!hasSeenPricingModal && <PricingModal onClose={onClosePricingModal} />}
-
       <SchemaContext.Provider
         value={{
           schema,
@@ -109,9 +106,21 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <main className={`${inter.variable} font-sans h-screen flex`}>
+        <main className={classNames(inter.variable, "font-sans h-screen flex")}>
+          {!hasSeenWelcomeModal && (
+            <WelcomeModal onClose={onCloseWelcomeModal} />
+          )}
+
+          {!hasSeenPricingModal && (
+            <PricingModal onClose={onClosePricingModal} />
+          )}
+
           <Component {...pageProps} />
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              className: "dark:!bg-neutral-900 dark:!text-white",
+            }}
+          />
         </main>
       </SchemaContext.Provider>
     </>

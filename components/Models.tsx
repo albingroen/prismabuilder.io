@@ -1,5 +1,9 @@
 import Button from "./Button";
-import CommandPalette, { filterItems, getItemIndex } from "react-cmdk";
+import CommandPalette, {
+  classNames,
+  filterItems,
+  getItemIndex,
+} from "react-cmdk";
 import Dropdown from "./Dropdown";
 import EnumComponent from "./Enum";
 import ImportSchema from "./ImportSchema";
@@ -266,7 +270,7 @@ export default function Models() {
         <div className="p-5">
           <Link
             href="/"
-            className="text-gray-600 font-medium text-sm flex items-center gap-2 hover:underline underline-offset-4"
+            className="text-gray-600 dark:text-neutral-500 font-medium text-sm flex items-center gap-2 hover:underline underline-offset-4"
           >
             <ArrowLeftIcon className="w-4" />
             <span>Back</span>
@@ -274,7 +278,10 @@ export default function Models() {
 
           <Stack align="center" className="mt-5" justify="between">
             <h1
-              className="text-2xl p-2 -m-2 hover:bg-gray-100 focus:bg-gray-100 transition rounded-md font-medium truncate leading-none focus:outline-none"
+              className={classNames(
+                "text-2xl p-2 -m-2 hover:bg-gray-100 focus:bg-gray-100 transition rounded-md font-medium truncate leading-none focus:outline-none",
+                "dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+              )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -331,7 +338,7 @@ export default function Models() {
             ))}
           </Select>
 
-          <hr className="mt-5 mb-4 -mx-5" />
+          <hr className="mt-5 mb-4 -mx-5 dark:border-neutral-800" />
 
           <Stack direction="vertical" spacing="mini">
             <Stack align="center" justify="between">
@@ -368,7 +375,7 @@ export default function Models() {
             ) : null}
           </Stack>
 
-          <hr className="my-4 -mx-5" />
+          <hr className="my-4 -mx-5 dark:border-neutral-800" />
 
           <Stack direction="vertical" spacing="mini">
             <Stack align="center" justify="between">

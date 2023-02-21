@@ -49,7 +49,7 @@ const itemStyles = (disabled?: boolean, isSubMenuTrigger?: boolean) =>
   );
 
 const contentStyles =
-  "fade-in bg-white rounded-lg shadow-lg p-1.5 border min-w-[256px] font-[Inter]";
+  "fade-in bg-white dark:bg-neutral-900 rounded-lg shadow-lg p-1.5 border dark:border-neutral-800 min-w-[256px] font-[Inter]";
 
 const iconStyles = "w-4 icon opacity-50 transition-opacity duration-75";
 

@@ -3,30 +3,22 @@
 @tailwind utilities;
 
 @layer base {
-  html {
-    @apply bg-gray-100;
-  }
-
   body {
-    @apply antialiased;
-  }
-
-  code {
-    @apply bg-gray-200 border rounded-md py-1 px-2 font-medium tracking-tight;
+    @apply antialiased bg-gray-100 dark:bg-neutral-800 text-black dark:text-white;
   }
 }
 
 @layer components {
   .label {
-    @apply text-gray-500 text-sm mb-2 inline-block;
+    @apply text-gray-500 dark:text-neutral-500 text-sm mb-2 inline-block;
   }
 
   .label-flat {
-    @apply text-gray-500 text-sm inline-block leading-none;
+    @apply text-gray-500 dark:text-neutral-500 text-sm inline-block leading-none;
   }
 
   .input {
-    @apply border text-sm border-gray-300 rounded-md p-2 shadow-sm hover:border-gray-400 focus:outline-none focus:ring-0 focus:border-gray-500;
+    @apply placeholder-gray-400 dark:placeholder-neutral-600 bg-transparent border text-sm border-gray-300 dark:border-neutral-700 rounded-md p-2 shadow-sm hover:border-gray-400 dark:hover:border-neutral-600 focus:outline-none focus:ring-0 focus:border-gray-500 dark:focus:border-neutral-500;
   }
 
   .fade-in {
@@ -34,11 +26,11 @@
   }
 
   .dropdown-menu-subtrigger[data-state="open"] {
-    @apply bg-gray-50;
+    @apply bg-gray-50 dark:bg-neutral-800;
   }
 
   .dropdown-menu-item[data-highlighted] {
-    @apply bg-gray-100 outline-none;
+    @apply bg-gray-100 dark:bg-neutral-800 outline-none;
   }
 
   .dropdown-menu-item[data-highlighted] * {
@@ -50,15 +42,15 @@
   }
 
   .icon-button {
-    @apply enabled:hover:bg-gray-100 enabled:focus-visible:bg-gray-100 text-gray-500 icon-button-base;
+    @apply enabled:hover:bg-gray-100 dark:enabled:hover:bg-neutral-800 enabled:focus-visible:bg-gray-100 dark:enabled:focus-visible:bg-neutral-800 text-gray-500 dark:text-neutral-500 icon-button-base;
   }
 
   .icon-button-light {
-    @apply enabled:hover:bg-gray-100 enabled:focus-visible:bg-gray-100 text-gray-400 icon-button-base;
+    @apply enabled:hover:bg-gray-100 dark:enabled:hover:bg-neutral-800 enabled:focus-visible:bg-gray-100 dark:enabled:focus-visible:bg-neutral-800 text-gray-400 text-neutral-500 icon-button-base;
   }
 
   .icon-button-dark {
-    @apply enabled:hover:bg-gray-200 enabled:focus-visible:bg-gray-200 text-gray-600 icon-button-base;
+    @apply enabled:hover:bg-gray-200 dark:enabled:hover:bg-neutral-700 enabled:focus-visible:bg-gray-200 dark:enabled:focus-visible:bg-neutral-700 text-gray-600 dark:text-neutral-500 icon-button-base;
   }
 
   .icon-button-icon {

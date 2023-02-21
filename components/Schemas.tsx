@@ -121,9 +121,9 @@ export default function Schemas() {
 
       <Sidebar>
         <Stack direction="vertical" className="p-5">
-          <p className="label-flat">Schemas</p>
+          <p className="label-flat">My schemas</p>
 
-          <Stack direction="vertical" spacing="large">
+          <Stack direction="vertical" spacing="huge">
             <ul className="w-full">
               {schemas.map((schema) => (
                 <li key={schema.name}>
@@ -154,9 +154,9 @@ export default function Schemas() {
         <Stack
           direction="vertical"
           align="start"
-          className="p-7 rounded-md border border-gray-300 border-dashed"
+          className="p-7 rounded-md border border-gray-300 dark:border-neutral-600 border-dashed"
         >
-          <ol className="list-decimal space-y-2 list-inside text-gray-700">
+          <ol className="list-decimal space-y-2 list-inside text-gray-700 dark:text-neutral-500">
             <li>Click &ldquo;New schema&rdquo;</li>
             <li>Name your schema</li>
             <li>Choose a provider</li>
