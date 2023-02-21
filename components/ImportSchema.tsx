@@ -71,7 +71,10 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           name="schema"
           value={form.values.schema}
           onChange={form.handleChange}
-          className="rounded-lg focus:outline-none focus:ring-0 focus:border-indigo-500 w-full resize-none pb-20 font-mono whitespace-pre-wrap overflow-auto"
+          className="rounded-lg p-4 placeholder-gray-300 focus:outline-none border-gray-300 focus:ring-0 focus:border-indigo-500 w-full resize-none pb-20 font-mono whitespace-pre-wrap overflow-auto"
+          placeholder={`model User {
+  id  String  @id @unique @default(cuid())
+}`}
         />
 
         <input

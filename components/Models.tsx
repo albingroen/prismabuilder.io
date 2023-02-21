@@ -11,12 +11,14 @@ import Sidebar from "./Sidebar";
 import SidebarItem from "./SidebarItem";
 import Stack from "./Stack";
 import toast from "react-hot-toast";
-import { ArrowLeftIcon, EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
 import {
   ArrowUpTrayIcon,
   CubeIcon,
+  EllipsisVerticalIcon,
   EyeIcon,
   ListBulletIcon,
+  PlusIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { BoltIcon, CubeIcon as CubeIconSolid } from "@heroicons/react/24/solid";
@@ -272,7 +274,7 @@ export default function Models() {
 
           <Stack align="center" className="mt-5" justify="between">
             <h1
-              className="text-2xl p-2 -m-2 hover:bg-gray-100 focus:bg-gray-200 transition rounded-md font-medium truncate leading-none focus:outline-none"
+              className="text-2xl p-2 -m-2 hover:bg-gray-100 focus:bg-gray-100 transition rounded-md font-medium truncate leading-none focus:outline-none"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -304,7 +306,7 @@ export default function Models() {
                 },
               ]}
             >
-              <button type="button" className="icon-button">
+              <button type="button" className="icon-button-light">
                 <EllipsisVerticalIcon className="w-5 icon-button-button" />
               </button>
             </Dropdown>
@@ -329,75 +331,75 @@ export default function Models() {
             ))}
           </Select>
 
-          <hr className="mt-5 border-gray-200/80 -mx-5" />
+          <hr className="mt-6 mb-5 -mx-5" />
 
-          <Stack direction="vertical" className="mt-4" spacing="small">
-            <div>
-              <p className="label">Models</p>
+          <Stack direction="vertical" spacing="mini">
+            <Stack align="center" justify="between">
+              <p className="label-flat">Models</p>
 
-              {schema.models.length ? (
-                <ul className="w-full">
-                  {schema.models.map((model, i) => {
-                    const isActive = query.id === String(i);
+              <button
+                type="button"
+                title="New model"
+                className="icon-button-light"
+                onClick={handleCreateModel}
+              >
+                <PlusIcon className="icon-button-icon" />
+              </button>
+            </Stack>
 
-                    return (
-                      <li key={model.name}>
-                        <SidebarItem
-                          href={`/schemas/${schema.name}/models/${i}`}
-                          icon={isActive ? CubeIconSolid : CubeIcon}
-                          isActive={isActive}
-                        >
-                          {model.name}
-                        </SidebarItem>
-                      </li>
-                    );
-                  })}
-                </ul>
-              ) : null}
-            </div>
+            {schema.models.length ? (
+              <ul className="w-full">
+                {schema.models.map((model, i) => {
+                  const isActive = query.id === String(i);
 
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={handleCreateModel}
-            >
-              New model
-            </Button>
-          </Stack>
-
-          <hr className="mt-5 mb-4 border-gray-200/80 -mx-5" />
-
-          <Stack direction="vertical" spacing="small">
-            <div>
-              <p className="label">Enums</p>
-
-              {schema.enums.length ? (
-                <ul className="w-full">
-                  {schema.enums.map((schemaEnum, i) => (
-                    <li key={schemaEnum.name}>
+                  return (
+                    <li key={model.name}>
                       <SidebarItem
-                        icon={ListBulletIcon}
-                        onClick={() => {
-                          setEditingEnum(schemaEnum.name);
-                        }}
+                        href={`/schemas/${schema.name}/models/${i}`}
+                        icon={isActive ? CubeIconSolid : CubeIcon}
+                        isActive={isActive}
                       >
-                        {schemaEnum.name}
+                        {model.name}
                       </SidebarItem>
                     </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div>
+                  );
+                })}
+              </ul>
+            ) : null}
+          </Stack>
 
-            <Button
-              type="button"
-              variant="secondary"
-              onClick={() => {
-                setShowingAddEnum(true);
-              }}
-            >
-              New enum
-            </Button>
+          <Stack direction="vertical" spacing="mini" className="mt-5">
+            <Stack align="center" justify="between">
+              <p className="label-flat">Enums</p>
+
+              <button
+                type="button"
+                className="icon-button-light"
+                title="New enum"
+                onClick={() => {
+                  setShowingAddEnum(true);
+                }}
+              >
+                <PlusIcon className="icon-button-icon" />
+              </button>
+            </Stack>
+
+            {schema.enums.length ? (
+              <ul className="w-full">
+                {schema.enums.map((schemaEnum) => (
+                  <li key={schemaEnum.name}>
+                    <SidebarItem
+                      icon={ListBulletIcon}
+                      onClick={() => {
+                        setEditingEnum(schemaEnum.name);
+                      }}
+                    >
+                      {schemaEnum.name}
+                    </SidebarItem>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </Stack>
         </div>
       </Sidebar>

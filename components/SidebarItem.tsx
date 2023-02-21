@@ -26,7 +26,7 @@ export default function SidebarItem({
       {...rest}
       href={href}
       className={classNames(
-        "hover:bg-gray-100 px-2 py-1.5 -mx-2 rounded-md flex items-center gap-2.5 group w-full",
+        "hover:bg-gray-100 px-2 py-1.5 -mx-2 rounded-md flex items-center gap-2.5 group",
         "focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:bg-gray-100"
       )}
       onClick={

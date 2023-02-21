@@ -21,8 +21,12 @@
     @apply text-gray-500 text-sm mb-2 inline-block;
   }
 
+  .label-flat {
+    @apply text-gray-500 text-sm inline-block leading-none;
+  }
+
   .input {
-    @apply border text-sm border-gray-200 rounded-md p-2 shadow-sm hover:border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-500;
+    @apply border text-sm border-gray-300 rounded-md p-2 shadow-sm hover:border-gray-400 focus:outline-none focus:ring-0 focus:border-gray-500;
   }
 
   .fade-in {
@@ -41,12 +45,28 @@
     @apply opacity-100 outline-none;
   }
 
+  .icon-button-base {
+    @apply p-1.5 rounded-md focus:outline-none focus:ring-0 enabled:hover:text-inherit enabled:focus-visible:text-inherit;
+  }
+
   .icon-button {
-    @apply p-1.5 rounded-md enabled:hover:bg-gray-100 enabled:focus-visible:bg-gray-100 border border-transparent enabled:hover:border-gray-200 enabled:focus-visible:border-gray-200 focus:outline-none focus:ring-0 text-gray-500 enabled:hover:text-inherit enabled:focus-visible:text-inherit;
+    @apply enabled:hover:bg-gray-100 enabled:focus-visible:bg-gray-100 text-gray-500 icon-button-base;
+  }
+
+  .icon-button-light {
+    @apply enabled:hover:bg-gray-100 enabled:focus-visible:bg-gray-100 text-gray-400 icon-button-base;
+  }
+
+  .icon-button-dark {
+    @apply enabled:hover:bg-gray-200 enabled:focus-visible:bg-gray-200 text-gray-600 icon-button-base;
   }
 
   .icon-button-icon {
     @apply w-[18px];
+  }
+
+  .icon-button-icon-lg {
+    @apply w-5;
   }
 
   @keyframes fadeIn {

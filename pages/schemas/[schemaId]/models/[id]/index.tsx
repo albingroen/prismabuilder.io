@@ -8,10 +8,10 @@ import {
   Bars3Icon,
   ClipboardDocumentIcon,
   DocumentDuplicateIcon,
+  EllipsisVerticalIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import { Field, FieldType, Model } from "../../../../../lib/types";
 import { TYPES } from "../../../../../lib/fields";
 import { classNames } from "react-cmdk";
@@ -107,7 +107,7 @@ const Model = () => {
         <div className="flex-1 p-8 flex flex-col space-y-4">
           <Stack align="center" justify="between">
             <h2
-              className="text-2xl p-2 -m-2 hover:bg-gray-200 focus:bg-gray-300 transition rounded-md font-medium focus:outline-none"
+              className="text-2xl p-2 -m-2 hover:bg-gray-200 focus:bg-gray-200 transition rounded-md font-medium focus:outline-none"
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
@@ -172,8 +172,8 @@ const Model = () => {
                 },
               ]}
             >
-              <button type="button" className="icon-button">
-                <EllipsisVerticalIcon className="icon-button-icon" />
+              <button type="button" className="icon-button-dark">
+                <EllipsisVerticalIcon className="icon-button-icon-lg" />
               </button>
             </Dropdown>
           </Stack>
@@ -384,7 +384,7 @@ const Model = () => {
                     <button
                       type="button"
                       className={classNames(
-                        "rounded-lg bg-white shadow text-left border border-transparent focus:outline-none focus:ring-0 focus:border-indigo-500 hover:border-indigo-500 py-3 px-4 flex items-center space-x-3.5",
+                        "rounded-lg bg-white shadow text-left border border-transparent focus:outline-none focus:ring-0 focus:border-indigo-500 hover:border-indigo-500 py-3 px-4 flex items-center space-x-3.5 group",
                         type.type === "model" || type.type === "enum"
                           ? "bg-indigo-100"
                           : "bg-blue-100"
@@ -392,7 +392,7 @@ const Model = () => {
                       onClick={() => setAddingField(type.name as FieldType)}
                       key={type.name}
                     >
-                      <div className="rounded-md !bg-gray-100 flex items-center justify-center p-3">
+                      <div className="rounded-md bg-gray-100 text-gray-500 group-hover:text-inherit flex items-center justify-center p-3">
                         <Icon className={classNames("w-5")} />
                       </div>
 
