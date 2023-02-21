@@ -358,7 +358,7 @@ const Model = () => {
               </Droppable>
             </DragDropContext>
 
-            <div className="flex-1 max-w-sm model-fields overflow-y-auto bg-gray-200 dark:bg-neutral-900 rounded-lg p-4 flex flex-col space-y-4">
+            <div className="flex-1 max-w-xs model-fields overflow-y-auto bg-gray-200 dark:bg-neutral-900 rounded-lg p-4 flex flex-col space-y-4">
               <h2 className="font-medium text-xl">Add field</h2>
 
               <Stack direction="vertical">
