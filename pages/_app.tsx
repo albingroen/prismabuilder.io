@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "react-cmdk/dist/cmdk.css";
 import PricingModal from "../components/PricingModal";
 import Seo from "../components/Seo";
+import Stack from "../components/Stack";
 import WelcomeModal from "../components/WelcomeModal";
 import axios from "axios";
 import splitbee from "@splitbee/web";
@@ -9,9 +10,9 @@ import type { AppProps } from "next/app";
 import { Inter } from "@next/font/google";
 import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
+import { classNames } from "react-cmdk";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
-import { classNames } from "react-cmdk";
 
 export const inter = Inter({
   subsets: ["latin"],
@@ -106,7 +107,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           },
         }}
       >
-        <main className={classNames(inter.variable, "font-sans h-screen flex")}>
+        <main className={classNames(inter.variable, "font-sans")}>
           {!hasSeenWelcomeModal && (
             <WelcomeModal onClose={onCloseWelcomeModal} />
           )}
@@ -115,12 +116,30 @@ function MyApp({ Component, pageProps }: AppProps) {
             <PricingModal onClose={onClosePricingModal} />
           )}
 
-          <Component {...pageProps} />
-          <Toaster
-            toastOptions={{
-              className: "dark:!bg-neutral-900 dark:!text-white",
-            }}
-          />
+          <div className="h-screen flex">
+            <Component {...pageProps} />
+            <Toaster
+              toastOptions={{
+                className: "dark:!bg-neutral-900 dark:!text-white",
+              }}
+            />
+          </div>
+
+          <footer className="bg-gray-100 dark:bg-neutral-800 p-10 border-t dark:border-neutral-700">
+            <Stack align="center" justify="center">
+              <p className="text-sm text-gray-500 dark:text-neutral-400">
+                Maintained by{" "}
+                <a
+                  target="_blank"
+                  href="https://abgn.me"
+                  rel="noopener noreferrer"
+                  className="text-indigo-600 dark:text-blue-500 hover:underline"
+                >
+                  Albin Groen
+                </a>
+              </p>
+            </Stack>
+          </footer>
         </main>
       </SchemaContext.Provider>
     </>
