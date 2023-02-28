@@ -162,7 +162,7 @@ function renderItems(
   }
 
   return (
-    <Item asChild disabled={subItems.disabled}>
+    <Item asChild key={subItems.label} disabled={subItems.disabled}>
       {renderItem(subItems, false, renderLink)}
     </Item>
   );

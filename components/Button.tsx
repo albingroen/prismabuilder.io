@@ -39,7 +39,7 @@ const Button = (
       {...rest}
       disabled={disabled}
       className={classNames(
-        "font-medium rounded-md py-2 px-4 text-sm relative disabled:opacity-50",
+        "select-none font-medium rounded-md py-2 px-4 text-sm relative disabled:opacity-50",
         "focus:outline-none focus-visible:ring-1",
         {
           primary: classNames(

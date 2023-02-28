@@ -38,6 +38,12 @@ import { PRISMA_DATABASES } from "../lib/prisma";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../lib/context";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -76,7 +82,9 @@ export default function Models() {
   };
 
   const handleCreateModel = () => {
-    if (schema.models.some((model: Model) => model.name === "New")) {
+    const newModelName = "New";
+
+    if (schema.models.some((model: Model) => model.name === newModelName)) {
       toast.error("A model called New exists");
     } else {
       const newSchema = {
@@ -84,14 +92,14 @@ export default function Models() {
         models: [
           ...schema.models,
           {
-            name: "New",
+            name: newModelName,
             fields: [ID_FIELD],
             enums: [],
           },
         ],
       };
       setSchema(newSchema);
-      push(`/schemas/${schema.name}/models/${newSchema.models.length - 1}`);
+      push(`/schemas/${schema.name}/models/${newModelName}`);
     }
   };
 
@@ -203,6 +211,24 @@ export default function Models() {
   );
 
   if (!schema) return null;
+
+  function handleDragModelsEnd(result: DropResult) {
+    const newModels = [...schema.models];
+
+    if (result.destination) {
+      newModels.splice(result.source.index, 1);
+
+      newModels.splice(
+        result.destination.index,
+        0,
+        schema.models[result.source.index]
+      );
+
+      updateSchema({
+        models: newModels,
+      });
+    }
+  }
 
   return (
     <>
@@ -355,23 +381,49 @@ export default function Models() {
             </Stack>
 
             {schema.models.length ? (
-              <ul className="w-full">
-                {schema.models.map((model, i) => {
-                  const isActive = query.id === String(i);
+              <DragDropContext onDragEnd={handleDragModelsEnd}>
+                <Droppable droppableId="models" direction="vertical">
+                  {({ droppableProps, innerRef, placeholder }) => (
+                    <ul className="w-full" {...droppableProps} ref={innerRef}>
+                      {schema.models.map((model, i) => {
+                        const isActive = query.id === model.name;
 
-                  return (
-                    <li key={model.name}>
-                      <SidebarItem
-                        href={`/schemas/${schema.name}/models/${i}`}
-                        icon={isActive ? CubeIconSolid : CubeIcon}
-                        isActive={isActive}
-                      >
-                        {model.name}
-                      </SidebarItem>
-                    </li>
-                  );
-                })}
-              </ul>
+                        return (
+                          <li key={model.name}>
+                            <Draggable
+                              index={i}
+                              draggableId={model.name}
+                              disableInteractiveElementBlocking
+                            >
+                              {(
+                                { draggableProps, innerRef, dragHandleProps },
+                                { isDragging }
+                              ) => (
+                                <div
+                                  {...draggableProps}
+                                  {...dragHandleProps}
+                                  ref={innerRef}
+                                >
+                                  <SidebarItem
+                                    href={`/schemas/${schema.name}/models/${model.name}`}
+                                    icon={isActive ? CubeIconSolid : CubeIcon}
+                                    isDragging={isDragging}
+                                    isActive={isActive}
+                                  >
+                                    {model.name}
+                                  </SidebarItem>
+                                </div>
+                              )}
+                            </Draggable>
+                          </li>
+                        );
+                      })}
+
+                      {placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </DragDropContext>
             ) : null}
           </Stack>
 
