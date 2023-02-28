@@ -16,32 +16,38 @@ import { Field, FieldType, Model } from "../../../../../lib/types";
 import { TYPES } from "../../../../../lib/fields";
 import { classNames } from "react-cmdk";
 import { prismaTypesToIcons } from "../../../../../lib/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { useSchemaContext } from "../../../../../lib/context";
 
 const Model = () => {
   const { schema, setSchema } = useSchemaContext();
-  const { query, asPath, push } = useRouter();
+  const { query, push } = useRouter();
   const { id } = query;
 
-  const model = schema.models?.[Number(id)];
+  const model = schema.models?.find((m) => m.name === id);
 
   const [addingField, setAddingField] = useState<FieldType>();
   const [editingField, setEditingField] = useState<string>();
-  const [name, setName] = useState<string>("");
+
+  if (!schema) return null;
 
   const handleChangeName = (newName: string) => {
+    if (!model) return;
+
     if (newName && newName !== model.name) {
       if (schema.models.some((m: Model) => m.name === newName)) {
         toast.error(`A model called ${newName} already exists`);
       } else {
         updateModel({ name: newName });
+        push(`/schemas/${schema.name}/models/${newName}`);
       }
     }
   };
 
   const updateModel = (values: any) => {
+    if (!model) return;
+
     setSchema({
       ...schema,
       models: schema.models.map((m: Model) =>
@@ -55,17 +61,9 @@ const Model = () => {
     });
   };
 
-  useEffect(() => {
-    if (model?.name) {
-      setName(model.name);
-    }
-  }, [model]);
-
-  if (!schema) return null;
-
   return (
     <>
-      {addingField && (
+      {addingField && model && (
         <FieldComponent
           defaultType={addingField ?? ("" as FieldType)}
           onClose={() => setAddingField(undefined)}
@@ -80,7 +78,7 @@ const Model = () => {
         />
       )}
 
-      {editingField && (
+      {editingField && model && (
         <FieldComponent
           onClose={() => {
             setEditingField(undefined);
@@ -103,7 +101,7 @@ const Model = () => {
 
       <Models />
 
-      {model && (
+      {model ? (
         <Stack
           spacing="large"
           direction="vertical"
@@ -130,7 +128,7 @@ const Model = () => {
               }}
               contentEditable
             >
-              {name}
+              {model.name}
             </h2>
 
             <Dropdown
@@ -160,7 +158,7 @@ const Model = () => {
                       ],
                     });
                     push(
-                      `/schemas/${schema.name}/models/${schema.models.length}`
+                      `/schemas/${schema.name}/models/${duplicatedModelName}`
                     );
                   },
                 },
@@ -359,7 +357,7 @@ const Model = () => {
             </DragDropContext>
 
             <div className="flex-1 max-w-xs model-fields overflow-y-auto bg-gray-200 dark:bg-neutral-900 rounded-lg p-4 flex flex-col space-y-4">
-              <h2 className="font-medium text-xl">Add field</h2>
+              <h2 className="font-medium text-xl mt-0.5">Add field</h2>
 
               <Stack direction="vertical">
                 {[
@@ -415,6 +413,14 @@ const Model = () => {
               </Stack>
             </div>
           </div>
+        </Stack>
+      ) : (
+        <Stack className="flex-1" justify="center" align="center">
+          <Stack>
+            <h3 className="text-gray-500 dark:text-neutral-400 fade-in">
+              Model not found
+            </h3>
+          </Stack>
         </Stack>
       )}
     </>

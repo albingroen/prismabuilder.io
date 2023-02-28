@@ -120,8 +120,8 @@ export default function Schemas() {
       </CommandPalette>
 
       <Sidebar>
-        <Stack direction="vertical" className="p-5">
-          <p className="label-flat">My schemas</p>
+        <Stack direction="vertical" className="p-5" spacing="mini">
+          <p className="label">My schemas</p>
 
           <Stack direction="vertical" spacing="huge">
             <ul className="w-full">

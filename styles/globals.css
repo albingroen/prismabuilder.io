@@ -10,11 +10,11 @@
 
 @layer components {
   .label {
-    @apply text-gray-500 dark:text-neutral-500 text-sm mb-2 inline-block;
+    @apply select-none text-gray-500 dark:text-neutral-500 text-sm mb-2 inline-block;
   }
 
   .label-flat {
-    @apply text-gray-500 dark:text-neutral-500 text-sm inline-block leading-none;
+    @apply select-none text-gray-500 dark:text-neutral-500 text-sm inline-block leading-none;
   }
 
   .input {
