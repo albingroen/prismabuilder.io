@@ -88,6 +88,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Seo />
 
+      <style jsx global>
+        {`
+          :root {
+            --font-inter: ${inter.style.fontFamily};
+          }
+        `}
+      </style>
+
       <SchemaContext.Provider
         value={{
           schema,

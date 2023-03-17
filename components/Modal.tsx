@@ -36,7 +36,7 @@ const Modal = ({
 
   return (
     <Dialog
-      className="fixed z-10 inset-0 overflow-y-auto antialiased font-[Inter]"
+      className="fixed z-10 inset-0 overflow-y-auto antialiased"
       as="div"
       onClose={handleClose}
       open={isOpen}
