@@ -7,17 +7,12 @@ import WelcomeModal from "../components/WelcomeModal";
 import axios from "axios";
 import splitbee from "@splitbee/web";
 import type { AppProps } from "next/app";
-import { Inter } from "@next/font/google";
 import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
 import { classNames } from "react-cmdk";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
-
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+import { inter } from "../lib/font";
 
 splitbee.init();
 

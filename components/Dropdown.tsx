@@ -12,6 +12,7 @@ import {
 import { HeroIcon } from "../lib/types";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import classNames from "../lib/classNames";
+import { inter } from "../lib/font";
 
 type DropdownItem = {
   onClick?: () => void;
@@ -45,7 +46,8 @@ const itemStyles = (disabled?: boolean, isSubMenuTrigger?: boolean) =>
   classNames(
     "group py-2 px-2.5 rounded-md flex items-center justify-between gap-2 text-left w-full text-sm disabled:opacity-50 transition duration-75 dropdown-menu-item",
     isSubMenuTrigger && "cursor-default dropdown-menu-subtrigger",
-    disabled && "opacity-40 cursor-default"
+    disabled && "opacity-40 cursor-default",
+    inter.className
   );
 
 const contentStyles =
