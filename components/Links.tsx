@@ -4,6 +4,8 @@ import {
   CodeBracketIcon,
 } from "@heroicons/react/24/outline";
 import SidebarItem from "./SidebarItem";
+import SponsorButton from "./SponsorButton";
+import Stack from "./Stack";
 
 export const LINKS = [
   {
@@ -24,19 +26,23 @@ export const LINKS = [
 ];
 
 const Links = () => (
-  <ul className="mt-3 w-full">
-    {LINKS.map((LINK) => (
-      <SidebarItem
-        key={LINK.label}
-        href={LINK.href}
-        icon={LINK.icon}
-        target="_blank"
-        rel="noopener"
-      >
-        {LINK.label}
-      </SidebarItem>
-    ))}
-  </ul>
+  <Stack direction="vertical" spacing="large" className="mt-3">
+    <ul className="w-full">
+      {LINKS.map((LINK) => (
+        <SidebarItem
+          key={LINK.label}
+          href={LINK.href}
+          icon={LINK.icon}
+          target="_blank"
+          rel="noopener"
+        >
+          {LINK.label}
+        </SidebarItem>
+      ))}
+    </ul>
+
+    <SponsorButton />
+  </Stack>
 );
 
 export default Links;
