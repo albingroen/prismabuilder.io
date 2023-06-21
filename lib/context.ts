@@ -1,11 +1,11 @@
-import { createContext, useContext } from "react";
+import { Dispatch, SetStateAction, createContext, useContext } from "react";
 import { Schema } from "./types";
 
 export const SchemaContext = createContext<{
   schema: Schema;
   schemas: Schema[];
   setSchema: (schema: Schema) => void;
-  setSchemas: (schemas: Schema[]) => void;
+  setSchemas: Dispatch<SetStateAction<any[]>>;
 }>({
   schema: {} as Schema,
   schemas: [],
