@@ -7,6 +7,7 @@ import { ClipboardIcon } from "@heroicons/react/24/solid";
 import { SchemaContext } from "../lib/context";
 import { apiUrl } from "../lib/config";
 import { useContext, useEffect, useState } from "react";
+import { copyToClipboard } from "../lib/utils";
 
 type SchemaProps = {
   onCancel: () => void;
@@ -38,12 +39,7 @@ const Schema = ({ onCancel }: SchemaProps) => {
             <Button
               icon={ClipboardIcon}
               onClick={() => {
-                try {
-                  navigator.clipboard.writeText(result);
-                  toast.success("Copied schema to clipboard");
-                } catch {
-                  toast.error("Failed to copy to clipboard");
-                }
+                copyToClipboard(result, "schema");
               }}
             >
               Copy to clipboard

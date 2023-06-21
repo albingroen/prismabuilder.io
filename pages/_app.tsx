@@ -31,8 +31,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   useEffect(() => {
-    if (window && schemas.length) {
-      localStorage.setItem("schemas", JSON.stringify(schemas));
+    if (window) {
+      localStorage.setItem("schemas", JSON.stringify(schemas ?? []));
     }
   }, [schemas]);
 

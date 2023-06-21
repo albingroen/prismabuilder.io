@@ -21,8 +21,10 @@ import {
   CubeIcon,
   EllipsisVerticalIcon,
   EyeIcon,
+  LinkIcon,
   ListBulletIcon,
   PlusIcon,
+  ShareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { BoltIcon, CubeIcon as CubeIconSolid } from "@heroicons/react/24/solid";
@@ -44,6 +46,7 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
+import { copyToClipboard } from "../lib/utils";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -106,6 +109,13 @@ export default function Models() {
   const handleDeleteSchema = () => {
     setSchemas(schemas.filter((s: SchemaType) => s.name !== schema.name));
     push("/");
+  };
+
+  const handleShareSchema = () => {
+    copyToClipboard(
+      `${location.origin}/?importSchema=${JSON.stringify(schema)}`,
+      "link"
+    );
   };
 
   const filteredCommandPaletteItems = filterItems(
@@ -332,6 +342,11 @@ export default function Models() {
 
             <Dropdown
               items={[
+                {
+                  label: "Share schema",
+                  icon: LinkIcon,
+                  onClick: handleShareSchema,
+                },
                 {
                   label: "Delete schema",
                   icon: TrashIcon,
