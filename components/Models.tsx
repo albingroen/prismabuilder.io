@@ -306,7 +306,7 @@ export default function Models() {
         <div className="p-5">
           <Link
             href="/"
-            className="text-gray-600 dark:text-neutral-500 font-medium text-sm flex items-center gap-2 hover:underline underline-offset-4"
+            className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-neutral-500 hover:underline underline-offset-4"
           >
             <ArrowLeftIcon className="w-4" />
             <span>Back</span>
@@ -373,7 +373,7 @@ export default function Models() {
             }}
           >
             {PRISMA_DATABASES.map((PRISMA_DATABASE) => (
-              <option key={PRISMA_DATABASE.value} value={PRISMA_DATABASE.value}>
+              <option key={PRISMA_DATABASE.value} value={PRISMA_DATABASE.value} className="dark:bg-gray-600">
                 {PRISMA_DATABASE.label}
               </option>
             ))}
