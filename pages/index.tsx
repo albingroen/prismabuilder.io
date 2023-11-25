@@ -17,7 +17,7 @@ const Home = () => {
     if (importSchema) {
       try {
         const parsedImportSchema = JSON.parse(
-          decodeURIComponent(importSchema)
+          decodeURIComponent(importSchema),
         ) as Schema;
 
         if (!parsedImportSchema?.name) {
@@ -32,7 +32,7 @@ const Home = () => {
           setSchemas((schemas = []) => {
             if (schemas.some(({ name }) => name === parsedImportSchema.name)) {
               toast.error(
-                `You already have a schema called ${parsedImportSchema.name}`
+                `You already have a schema called ${parsedImportSchema.name}`,
               );
 
               return schemas;

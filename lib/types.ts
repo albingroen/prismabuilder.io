@@ -43,4 +43,12 @@ export type Enum = {
 
 export type PrismaDatabase = "postgresql" | "sqlite" | "mysql" | "sqlserver";
 
-export type HeroIcon = React.ComponentType<React.SVGProps<SVGSVGElement>>;
+type IconSVGProps = React.PropsWithoutRef<React.SVGProps<SVGSVGElement>> &
+  React.RefAttributes<SVGSVGElement>;
+
+type IconProps = IconSVGProps & {
+  title?: string;
+  titleId?: string;
+};
+
+export type HeroIcon = React.FC<IconProps>;

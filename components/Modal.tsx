@@ -47,7 +47,7 @@ const Modal = ({
         <Dialog.Panel
           className={classNames(
             "relative bg-white dark:bg-neutral-900 rounded-lg w-full shadow mx-auto max-w-screen-sm overflow-hidden",
-            className
+            className,
           )}
         >
           {(heading || description) && (

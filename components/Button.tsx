@@ -30,7 +30,7 @@ const Button = (
     children,
     ...rest
   }: ButtonProps,
-  ref: Ref<HTMLButtonElement>
+  ref: Ref<HTMLButtonElement>,
 ) => {
   const disabled = rest.disabled || isLoading;
 
@@ -44,15 +44,15 @@ const Button = (
         {
           primary: classNames(
             "bg-gray-900 enabled:hover:bg-gray-700 text-white enabled:focus-visible:ring-white enabled:focus-visible:bg-gray-700",
-            "dark:bg-white dark:enabled:hover:bg-neutral-200 dark:text-black dark:enabled:focus-visible:ring-white dark:enabled:focus-visible:bg-neutral-200"
+            "dark:bg-white dark:enabled:hover:bg-neutral-200 dark:text-black dark:enabled:focus-visible:ring-white dark:enabled:focus-visible:bg-neutral-200",
           ),
           secondary: classNames(
             "bg-gray-100 enabled:hover:bg-gray-200 enabled:focus-visible:ring-black enabled:focus-visible:bg-gray-200",
-            "dark:bg-neutral-800 dark:enabled:hover:bg-neutral-700 dark:enabled:focus-visible:ring-white dark:enabled:focus-visible:bg-neutral-700"
+            "dark:bg-neutral-800 dark:enabled:hover:bg-neutral-700 dark:enabled:focus-visible:ring-white dark:enabled:focus-visible:bg-neutral-700",
           ),
         }[variant],
         block && "w-full",
-        className
+        className,
       )}
       ref={ref}
     >

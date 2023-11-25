@@ -56,7 +56,7 @@ const Model = () => {
               ...model,
               ...values,
             }
-          : m
+          : m,
       ),
     });
   };
@@ -86,13 +86,13 @@ const Model = () => {
           model={model}
           defaultValues={
             model?.fields?.find(
-              (field: Field) => field.name === editingField
+              (field: Field) => field.name === editingField,
             ) ?? ({} as Field)
           }
           onSubmit={(field) => {
             updateModel({
               fields: model.fields.map((f: Field) =>
-                f.name === editingField ? field : f
+                f.name === editingField ? field : f,
               ),
             });
           }}
@@ -111,7 +111,7 @@ const Model = () => {
             <h2
               className={classNames(
                 "text-2xl p-2 -m-2 hover:bg-gray-200 focus:bg-gray-200 transition rounded-md font-medium focus:outline-none",
-                "dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
+                "dark:hover:bg-neutral-700 dark:focus:bg-neutral-700",
               )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -158,7 +158,7 @@ const Model = () => {
                       ],
                     });
                     push(
-                      `/schemas/${schema.name}/models/${duplicatedModelName}`
+                      `/schemas/${schema.name}/models/${duplicatedModelName}`,
                     );
                   },
                 },
@@ -169,7 +169,7 @@ const Model = () => {
                     setSchema({
                       ...schema,
                       models: schema.models.filter(
-                        (m: Model) => m.name !== model.name
+                        (m: Model) => m.name !== model.name,
                       ),
                     });
                     push(`/schemas/${schema.name}`);
@@ -196,7 +196,7 @@ const Model = () => {
                   newFields.splice(
                     result.destination.index,
                     0,
-                    model.fields[result.source.index]
+                    model.fields[result.source.index],
                   );
 
                   updateModel({
@@ -214,15 +214,15 @@ const Model = () => {
                   >
                     {model?.fields.map((field: Field, i) => {
                       const enumType = schema.enums.find(
-                        (e) => e.name === field.type && e.fields.length
+                        (e) => e.name === field.type && e.fields.length,
                       );
 
                       const Icon = enumType
                         ? prismaTypesToIcons.Enum
                         : field.relationField
-                        ? prismaTypesToIcons.Model
-                        : prismaTypesToIcons[field.type] ??
-                          prismaTypesToIcons.default;
+                          ? prismaTypesToIcons.Model
+                          : prismaTypesToIcons[field.type] ??
+                            prismaTypesToIcons.default;
 
                       return (
                         <Draggable
@@ -232,7 +232,7 @@ const Model = () => {
                         >
                           {(
                             { dragHandleProps, draggableProps, innerRef },
-                            { isDragging }
+                            { isDragging },
                           ) => (
                             <button
                               {...draggableProps}
@@ -243,7 +243,7 @@ const Model = () => {
                                 "dark:bg-[#333333] dark:shadow-neutral-900/80",
                                 isDragging
                                   ? "border-indigo-500 shadow-lg"
-                                  : "shadow border-white dark:border-neutral-700 hover:border-indigo-500 focus-visible:border-indigo-500 dark:hover:border-blue-600 dark:focus-visible:border-blue-600"
+                                  : "shadow border-white dark:border-neutral-700 hover:border-indigo-500 focus-visible:border-indigo-500 dark:hover:border-blue-600 dark:focus-visible:border-blue-600",
                               )}
                               onClick={() => setEditingField(field.name)}
                             >
@@ -254,7 +254,7 @@ const Model = () => {
                                       "w-5 transition",
                                       isDragging
                                         ? "text-inherit"
-                                        : "text-gray-400 dark:text-neutral-500 hover:text-inherit dark:hover:text-inherit"
+                                        : "text-gray-400 dark:text-neutral-500 hover:text-inherit dark:hover:text-inherit",
                                     )}
                                   />
                                 </div>
@@ -301,11 +301,11 @@ const Model = () => {
 
                                     if (
                                       model.fields.some(
-                                        (f) => f.name === duplicatedFieldName
+                                        (f) => f.name === duplicatedFieldName,
                                       )
                                     ) {
                                       toast.error(
-                                        "Field with this name already exists"
+                                        "Field with this name already exists",
                                       );
                                       return;
                                     }
@@ -334,7 +334,7 @@ const Model = () => {
 
                                     updateModel({
                                       fields: model.fields.filter(
-                                        (f: Field) => f.name !== field.name
+                                        (f: Field) => f.name !== field.name,
                                       ),
                                     });
                                   }}
@@ -383,16 +383,16 @@ const Model = () => {
                     type.type === "enum"
                       ? prismaTypesToIcons.Enum
                       : type.type === "model"
-                      ? prismaTypesToIcons.Model
-                      : prismaTypesToIcons[type.name] ??
-                        prismaTypesToIcons.default;
+                        ? prismaTypesToIcons.Model
+                        : prismaTypesToIcons[type.name] ??
+                          prismaTypesToIcons.default;
 
                   return (
                     <button
                       type="button"
                       className={classNames(
                         "rounded-lg bg-white shadow text-left border border-transparent focus:outline-none focus:ring-0 focus:border-indigo-500 hover:border-indigo-500 py-3 px-4 flex items-center space-x-3.5 group",
-                        "dark:bg-neutral-800 dark:hover:border-blue-600"
+                        "dark:bg-neutral-800 dark:hover:border-blue-600",
                       )}
                       onClick={() => setAddingField(type.name as FieldType)}
                       key={type.name}

@@ -114,7 +114,7 @@ export default function Models() {
   const handleShareSchema = () => {
     copyToClipboard(
       `${location.origin}/?importSchema=${JSON.stringify(schema)}`,
-      "link"
+      "link",
     );
   };
 
@@ -217,7 +217,7 @@ export default function Models() {
         })),
       },
     ],
-    commandPaletteSearch
+    commandPaletteSearch,
   );
 
   if (!schema) return null;
@@ -231,7 +231,7 @@ export default function Models() {
       newModels.splice(
         result.destination.index,
         0,
-        schema.models[result.source.index]
+        schema.models[result.source.index],
       );
 
       updateSchema({
@@ -316,7 +316,7 @@ export default function Models() {
             <h1
               className={classNames(
                 "text-2xl p-2 -m-2 hover:bg-gray-100 focus:bg-gray-100 transition rounded-md font-medium truncate leading-none focus:outline-none",
-                "dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+                "dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
               )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -373,7 +373,11 @@ export default function Models() {
             }}
           >
             {PRISMA_DATABASES.map((PRISMA_DATABASE) => (
-              <option key={PRISMA_DATABASE.value} value={PRISMA_DATABASE.value} className="dark:bg-gray-600">
+              <option
+                key={PRISMA_DATABASE.value}
+                value={PRISMA_DATABASE.value}
+                className="dark:bg-gray-600"
+              >
                 {PRISMA_DATABASE.label}
               </option>
             ))}
@@ -412,7 +416,7 @@ export default function Models() {
                             >
                               {(
                                 { draggableProps, innerRef, dragHandleProps },
-                                { isDragging }
+                                { isDragging },
                               ) => (
                                 <div
                                   {...draggableProps}

@@ -51,7 +51,7 @@ const Field = ({
         ...defaultValues,
         ...form.values,
         relationField: schema.models.some(
-          (model: Model) => model.name === form.values.type
+          (model: Model) => model.name === form.values.type,
         ),
       });
 
@@ -61,7 +61,7 @@ const Field = ({
   });
 
   const enumType = schema.enums.find(
-    (e) => e.name === form.values.type && e.fields.length
+    (e) => e.name === form.values.type && e.fields.length,
   );
 
   const defaultDefaultValues =
@@ -168,7 +168,7 @@ const Field = ({
               <Checkbox
                 label="Is ID"
                 disabled={model.fields.some(
-                  (field) => field.isId && field.name !== defaultValues.name
+                  (field) => field.isId && field.name !== defaultValues.name,
                 )}
                 id="isId"
                 name="isId"

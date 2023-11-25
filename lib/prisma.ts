@@ -37,15 +37,15 @@ export const PRISMA_DEFAULT_VALUES = (type: FieldType) => {
   switch (type) {
     case "Int":
       return ALL_DEFAULT_VALUES.filter(
-        ({ value }) => value === "autoincrement()"
+        ({ value }) => value === "autoincrement()",
       );
     case "String":
       return ALL_DEFAULT_VALUES.filter(({ value }) =>
-        ["uuid()", "cuid()"].includes(value)
+        ["uuid()", "cuid()"].includes(value),
       );
     case "Boolean":
       return ALL_DEFAULT_VALUES.filter(({ value }) =>
-        ["true", "false"].includes(value)
+        ["true", "false"].includes(value),
       );
     case "DateTime":
       return ALL_DEFAULT_VALUES.filter(({ value }) => value === "now()");

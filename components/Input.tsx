@@ -11,7 +11,7 @@ interface InputProps
 
 const Input = (
   { label, children, className, ...rest }: InputProps,
-  ref: Ref<HTMLInputElement>
+  ref: Ref<HTMLInputElement>,
 ) => {
   return (
     <div className={classNames("w-full", className)}>

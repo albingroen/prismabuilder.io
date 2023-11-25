@@ -1,9 +1,9 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse,
 ) {
   try {
     const response = await axios.post(
@@ -18,12 +18,11 @@ export default async function handler(
         headers: {
           Authorization: `Bearer ${process.env.LOGSNAG_API_TOKEN}`,
         },
-      }
+      },
     );
 
     res.send(response?.data);
-  } catch (e) {
-    console.log((e as AxiosError).response?.data.validation);
+  } catch (e: unknown) {
     res.status(500).send("Failed to send log");
   }
 }

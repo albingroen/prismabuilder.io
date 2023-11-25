@@ -1,5 +1,6 @@
 import "../styles/globals.css";
 import "react-cmdk/dist/cmdk.css";
+import "reactflow/dist/style.css";
 import PricingModal from "../components/PricingModal";
 import Seo from "../components/Seo";
 import Stack from "../components/Stack";
@@ -42,11 +43,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (localStorage) {
       setHasSeenWelcomeModal(
-        Boolean(localStorage.getItem("hasSeenWelcomeModal"))
+        Boolean(localStorage.getItem("hasSeenWelcomeModal")),
       );
 
       setHasSeenPricingModal(
-        Boolean(localStorage.getItem("hasSeenPricingModal"))
+        Boolean(localStorage.getItem("hasSeenPricingModal")),
       );
     }
   }, []);
@@ -104,8 +105,8 @@ function MyApp({ Component, pageProps }: AppProps) {
                       ...schema,
                       ...newValues,
                     }
-                  : s
-              )
+                  : s,
+              ),
             );
           },
         }}
