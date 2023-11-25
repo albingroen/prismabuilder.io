@@ -28,7 +28,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
             schema.models.some((model: Model) =>
               importedSchema.models
                 .map((m: Model) => m.name)
-                .includes(model.name)
+                .includes(model.name),
             )
           ) {
             toast.error("Some model has a colliding name");
@@ -36,7 +36,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
             schema.enums.some((enumValue: Enum) =>
               importedSchema.enums
                 .map((e: Enum) => e.name)
-                .includes(enumValue.name)
+                .includes(enumValue.name),
             )
           ) {
             toast.error("Some enum has a colliding name");
@@ -74,7 +74,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           onChange={form.handleChange}
           className={classNames(
             "bg-transparent rounded-lg p-4 placeholder-gray-300 focus:outline-none border-gray-300 focus:ring-0 focus:border-indigo-500 w-full resize-none pb-20 font-mono whitespace-pre-wrap overflow-auto",
-            "dark:border-neutral-700 dark:focus:border-blue-600 dark:placeholder-neutral-700"
+            "dark:border-neutral-700 dark:focus:border-blue-600 dark:placeholder-neutral-700",
           )}
           placeholder={`model User {
   id  String  @id @unique @default(cuid())

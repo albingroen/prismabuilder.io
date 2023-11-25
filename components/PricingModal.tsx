@@ -59,7 +59,7 @@ const PricingModal = ({ onClose }: PricingModalProps) => {
                     "rounded-lg border p-5 flex flex-col items-center transition",
                     PRICE === price
                       ? "border-indigo-500 dark:border-blue-600 bg-indigo-500 dark:bg-blue-600 text-white"
-                      : "border-gray-300 dark:border-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-800 hover:border-gray-400 dark:hover:border-neutral-700"
+                      : "border-gray-300 dark:border-neutral-700 hover:bg-gray-200 dark:hover:bg-neutral-800 hover:border-gray-400 dark:hover:border-neutral-700",
                   )}
                   onClick={() => {
                     setPrice(PRICE === price ? undefined : PRICE);

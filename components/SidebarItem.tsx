@@ -34,8 +34,8 @@ export default function SidebarItem({
           : classNames(
               "hover:bg-gray-100",
               "focus:outline-none focus-visible:ring-1 focus-visible:ring-black focus-visible:bg-gray-100",
-              "dark:hover:bg-neutral-800 dark:focus-visible:ring-white dark:focus-visible:bg-neutral-800"
-            )
+              "dark:hover:bg-neutral-800 dark:focus-visible:ring-white dark:focus-visible:bg-neutral-800",
+            ),
       )}
       onClick={
         onClick
@@ -50,7 +50,7 @@ export default function SidebarItem({
       <Icon
         className={classNames(
           "w-[18px] transition text-gray-500 group-hover:text-inherit group-focus-visible:text-inherit",
-          "dark:text-neutral-500"
+          "dark:text-neutral-500",
         )}
       />
       <p className="flex-1 truncate">{children}</p>

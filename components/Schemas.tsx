@@ -89,7 +89,7 @@ export default function Schemas() {
         })),
       },
     ],
-    commandPaletteSearch
+    commandPaletteSearch,
   );
 
   return (

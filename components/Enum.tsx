@@ -27,7 +27,7 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
       setSchema({
         ...schema,
         enums: schema.enums.map((e) =>
-          e.name === defaultValues.name ? form.values : e
+          e.name === defaultValues.name ? form.values : e,
         ),
         models: schema.models.map((model) => ({
           ...model,
@@ -37,7 +37,7 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
                   ...field,
                   type: form.values.name,
                 }
-              : field
+              : field,
           ),
         })),
       });
@@ -58,7 +58,7 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
       models: schema.models.map((model) => ({
         ...model,
         fields: model.fields.filter(
-          (field) => field.type !== defaultValues?.name
+          (field) => field.type !== defaultValues?.name,
         ),
       })),
     });
@@ -99,8 +99,8 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
                       form.setFieldValue(
                         "fields",
                         form.values.fields.map((v, vi) =>
-                          vi === i ? e.currentTarget.value : v
-                        )
+                          vi === i ? e.currentTarget.value : v,
+                        ),
                       );
                     }}
                   />
@@ -109,7 +109,7 @@ const Enum = ({ onCancel, defaultValues }: EnumProps) => {
                     onClick={() => {
                       form.setFieldValue(
                         "fields",
-                        form.values.fields.filter((_, vi) => vi !== i)
+                        form.values.fields.filter((_, vi) => vi !== i),
                       );
                     }}
                     title="Delete enum value"

@@ -47,7 +47,7 @@ const itemStyles = (disabled?: boolean, isSubMenuTrigger?: boolean) =>
     "group py-2 px-2.5 rounded-md flex items-center justify-between gap-2 text-left w-full text-sm disabled:opacity-50 transition duration-75 dropdown-menu-item",
     isSubMenuTrigger && "cursor-default dropdown-menu-subtrigger",
     disabled && "opacity-40 cursor-default",
-    inter.className
+    inter.className,
   );
 
 const contentStyles =
@@ -109,7 +109,7 @@ function renderItemContent(item: DropdownItem, isSubMenuTrigger?: boolean) {
 function renderItem(
   item: DropdownItem,
   isSubMenuTrigger?: boolean,
-  renderLink?: RenderLink
+  renderLink?: RenderLink,
 ) {
   if (item.href) {
     if (renderLink) {
@@ -141,7 +141,7 @@ function renderItem(
 function renderItems(
   subItems: DropdownItems[] | DropdownItems,
   dropdownClassName?: string,
-  renderLink?: RenderLink
+  renderLink?: RenderLink,
 ): ReactNode {
   const isArray = Array.isArray(subItems);
 

@@ -16,7 +16,7 @@ export const TYPES = (database: PrismaDatabase) => {
   switch (database) {
     case "sqlite":
       return ALL_TYPES.filter(
-        (type) => type.name !== "Json" && type.name !== "Bytes"
+        (type) => type.name !== "Json" && type.name !== "Bytes",
       );
     default:
       return ALL_TYPES;

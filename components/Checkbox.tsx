@@ -11,7 +11,7 @@ interface CheckboxProps
 
 const Checkbox = (
   { label, ...rest }: CheckboxProps,
-  ref: Ref<HTMLInputElement>
+  ref: Ref<HTMLInputElement>,
 ) => {
   return (
     <Stack direction="vertical" align="start" spacing="none">

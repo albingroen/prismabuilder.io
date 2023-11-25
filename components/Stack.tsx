@@ -49,7 +49,7 @@ const Stack = ({
         `flex items-${align} justify-${justify} gap-${spacingAmount}`,
         direction === "horizontal" ? "flex-row" : "flex-col",
         wrap && "flex-wrap",
-        rest.className
+        rest.className,
       )}
     >
       {children}
