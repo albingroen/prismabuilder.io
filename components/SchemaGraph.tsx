@@ -2,28 +2,30 @@ import ReactFlow, { Background, Controls, Edge, Node } from "reactflow";
 import { Enum, Field, Model } from "../lib/types";
 import { TYPES } from "../lib/fields";
 import { useSchemaContext } from "../lib/context";
+import { cn } from "../lib/utils";
 
 const SchemaGraph = () => {
   const { schema } = useSchemaContext();
 
   const models: Node[] = [
-    ...[...schema.models, ...schema.enums].map(
-      (model: Model | Enum, i: number) => ({
-        id: model.name,
-        data: {
-          label: <>{model.name}</>,
-        },
-        className: "dark:!bg-neutral-800 dark:!text-white dark:!border-white",
-        position: { x: i * 200, y: 0 },
-      }),
-    ),
+    ...[...schema.models, ...schema.enums].map((model: Model | Enum, i: number) => ({
+      id: model.name,
+      data: {
+        label: <>{model.name}</>,
+      },
+      className: cn(
+        "dark:!bg-neutral-800 dark:!text-white dark:!border-white",
+        model.name.length >= 20 && "!w-auto"
+      ),
+      position: { x: i * 200, y: 0 },
+    })),
   ];
 
   const modelsFields = schema.models.map((model: Model) =>
     model.fields.map((field) => ({
       ...field,
       model: model.name,
-    })),
+    }))
   );
 
   const nodes: Node[] = schema.models?.length
@@ -36,16 +38,13 @@ const SchemaGraph = () => {
               data: {
                 label: <>{field.name}</>,
               },
-              className:
+              className: cn(
                 "!p-1 dark:!bg-neutral-800 dark:!text-white !border-red-500",
+                field.name.length >= 20 && "!w-auto"
+              ),
               type: "output",
               position: {
-                x:
-                  schema.models.findIndex(
-                    (m: Model) => m.name === field.model,
-                  ) *
-                    200 +
-                  100,
+                x: schema.models.findIndex((m: Model) => m.name === field.model) * 200 + 100,
                 y: (i + 1) * 70,
               },
             }));
@@ -58,20 +57,17 @@ const SchemaGraph = () => {
     .map((fields: (Field & { model: string; relation?: any })[]) => {
       const relationFields = fields.filter((field) => {
         const typeMatchesSomeModel = schema.models.some(
-          (model: Model) => model.name === field.type,
+          (model: Model) => model.name === field.type
         );
 
         const isRelationField = field.relationField || field.relation;
 
         const isEnumField =
-          !isRelationField &&
-          !TYPES(schema.database).some((t) => t.name === field.type);
+          !isRelationField && !TYPES(schema.database).some((t) => t.name === field.type);
 
         return (
           isEnumField ||
-          (isRelationField
-            ? isRelationField && typeMatchesSomeModel
-            : typeMatchesSomeModel)
+          (isRelationField ? isRelationField && typeMatchesSomeModel : typeMatchesSomeModel)
         );
       });
 
@@ -104,12 +100,7 @@ const SchemaGraph = () => {
 
   return (
     <div className="h-full">
-      <ReactFlow
-        nodesConnectable={false}
-        nodesDraggable={false}
-        nodes={nodes}
-        edges={edges}
-      >
+      <ReactFlow nodesConnectable={false} nodesDraggable={false} nodes={nodes} edges={edges}>
         <Background />
         <Controls />
       </ReactFlow>
