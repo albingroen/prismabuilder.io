@@ -6,7 +6,7 @@ import Seo from "../components/Seo";
 import Stack from "../components/Stack";
 import WelcomeModal from "../components/WelcomeModal";
 import axios from "axios";
-import splitbee from "@splitbee/web";
+import { Analytics } from "@vercel/analytics/react";
 import type { AppProps } from "next/app";
 import { SchemaContext } from "../lib/context";
 import { Toaster } from "react-hot-toast";
@@ -14,8 +14,6 @@ import { classNames } from "react-cmdk";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import { inter } from "../lib/font";
-
-splitbee.init();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -146,6 +144,8 @@ function MyApp({ Component, pageProps }: AppProps) {
           </footer>
         </main>
       </SchemaContext.Provider>
+
+      <Analytics />
     </>
   );
 }
