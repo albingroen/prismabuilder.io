@@ -43,7 +43,7 @@ const Modal = ({
     >
       <div className="fixed inset-0 bg-gray-500/50 dark:bg-neutral-800/75" />
 
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-start py-[10vh] justify-center min-h-screen">
         <Dialog.Panel
           className={classNames(
             "relative bg-white dark:bg-neutral-900 rounded-lg w-full shadow mx-auto max-w-screen-sm overflow-hidden",
@@ -53,6 +53,7 @@ const Modal = ({
           {(heading || description) && (
             <Stack
               align="start"
+              justify="between"
               className="p-5 border-b dark:border-neutral-800 justify-between"
             >
               <Stack direction="vertical" spacing="small">

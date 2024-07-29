@@ -124,18 +124,24 @@ export default function Schemas() {
           <p className="label">My schemas</p>
 
           <Stack direction="vertical" spacing="huge">
-            <ul className="w-full">
-              {schemas.map((schema) => (
-                <li key={schema.name}>
-                  <SidebarItem
-                    href={`/schemas/${schema.name}`}
-                    icon={CircleStackIcon}
-                  >
-                    {schema.name}
-                  </SidebarItem>
-                </li>
-              ))}
-            </ul>
+            {schemas.length ? (
+              <ul className="w-full">
+                {schemas.map((schema) => (
+                  <li key={schema.name}>
+                    <SidebarItem
+                      href={`/schemas/${schema.name}`}
+                      icon={CircleStackIcon}
+                    >
+                      {schema.name}
+                    </SidebarItem>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-neutral-400 dark:text-neutral-500">
+                No schemas yet
+              </p>
+            )}
 
             <Button
               icon={PlusIcon}
