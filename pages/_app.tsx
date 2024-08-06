@@ -12,9 +12,14 @@ import { classNames } from "react-cmdk";
 import { inter } from "../lib/font";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import { ArrowUpRightIcon } from "@heroicons/react/24/outline";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
+import { format } from "date-fns";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  const [streamDateInLocalTZ, setStreamDateInLocalTZ] = useState<Date>();
 
   const [schemas, setSchemas] = useState<any[]>([]);
 
@@ -24,6 +29,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (lcValue) {
         setSchemas(JSON.parse(lcValue));
       }
+
+      const localTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      const streamDateInUTC = fromZonedTime(
+        new Date("2024-08-06 11:00 PM"),
+        "America/Los_Angeles",
+      );
+
+      setStreamDateInLocalTZ(toZonedTime(streamDateInUTC, localTZ));
     }
   }, []);
 
@@ -88,7 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <main className={classNames(inter.variable, "font-sans")}>
           {!hasSeenNewsModal && <NewsModal onClose={onCloseNewsModal} />}
 
-          <Stack spacing="none" direction="vertical" className="h-screen">
+          {/*<Stack spacing="none" direction="vertical" className="h-screen">
             <Stack
               spacing="mini"
               align="center"
@@ -107,6 +121,73 @@ function MyApp({ Component, pageProps }: AppProps) {
               >
                 Read the announcement &nbsp;📰
               </button>
+            </Stack>
+
+            <div className="flex-1 flex">
+              <Component {...pageProps} />
+              <Toaster
+                toastOptions={{
+                  className: "dark:!bg-neutral-900 dark:!text-white",
+                }}
+              />
+            </div>
+          </Stack>*/}
+
+          <Stack spacing="none" direction="vertical" className="h-screen">
+            <Stack
+              spacing="small"
+              align="center"
+              justify="center"
+              className="bg-[#9146FF] p-2"
+            >
+              <svg className="w-4" viewBox="0 0 2400 2800">
+                <g>
+                  <g id="Layer_1-2">
+                    <path
+                      className="fill-[#F0F0FF]"
+                      d="M500,0L0,500v1800h600v500l500-500h400l900-900V0H500z M2200,1300l-400,400h-400l-350,350v-350H600V200h1600    V1300z"
+                    />
+                    <rect
+                      x="1700"
+                      y="550"
+                      className="fill-[#F0F0FF]"
+                      width="200"
+                      height="600"
+                    />
+                    <rect
+                      x="1150"
+                      y="550"
+                      className="fill-[#F0F0FF]"
+                      width="200"
+                      height="600"
+                    />
+                  </g>
+                </g>
+              </svg>
+              <Stack align="center" spacing="mini">
+                <p className="text-sm font-semibold text-white">
+                  TypeScript | Rust | Designing the UI for Prisma Schema Builder
+                  2
+                </p>{" "}
+                <a
+                  href="https://twitch.tv/groenalbin"
+                  className="underline decoration-1 underline-offset-2 text-sm text-white font-medium animate-pulse"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  onClick={() => {
+                    setHasSeenNewsModal(false);
+                  }}
+                >
+                  Starts{" "}
+                  {streamDateInLocalTZ
+                    ? `at ${format(
+                        streamDateInLocalTZ,
+                        "MMM d hh:mm a, yyyy (O)",
+                      )}`
+                    : "soon"}
+                </a>
+                <ArrowUpRightIcon className="w-4" /> 🎬
+              </Stack>
             </Stack>
 
             <div className="flex-1 flex">
