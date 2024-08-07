@@ -138,7 +138,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               spacing="small"
               align="center"
               justify="center"
-              className="bg-[#9146FF] p-2"
+              className="bg-orange-600 p-2"
             >
               <svg className="w-4" viewBox="0 0 2400 2800">
                 <g>
@@ -178,15 +178,20 @@ function MyApp({ Component, pageProps }: AppProps) {
                     setHasSeenNewsModal(false);
                   }}
                 >
-                  Starts{" "}
-                  {streamDateInLocalTZ
-                    ? `at ${format(
-                        streamDateInLocalTZ,
-                        "MMM d hh:mm a, yyyy (O)",
-                      )}`
-                    : "soon"}
+                  Live now!
                 </a>
-                <ArrowUpRightIcon className="w-4" /> 🎬
+                <ArrowUpRightIcon className="w-4 stroke-white" /> 🎬 &nbsp;
+                <a
+                  href="https://www.youtube.com/watch?v=Nm1R4nWjqu8"
+                  className="underline decoration-1 underline-offset-2 text-sm text-white font-medium animate-pulse"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  onClick={() => {
+                    setHasSeenNewsModal(false);
+                  }}
+                >
+                  YouTube
+                </a>
               </Stack>
             </Stack>
 
