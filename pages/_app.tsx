@@ -167,8 +167,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               </svg>
               <Stack align="center" spacing="mini">
                 <p className="text-sm font-semibold text-white">
-                  TypeScript | Rust | Designing the UI for Prisma Schema Builder
-                  2
+                  Figuring out data storage for Prisma Schema Builder 2.
                 </p>{" "}
                 <a
                   href="https://twitch.tv/groenalbin"
