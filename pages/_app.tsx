@@ -189,7 +189,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </a>
                 <ArrowUpRightIcon className="w-4 stroke-white" /> 🎬 &nbsp;
                 <a
-                  href="https://www.youtube.com/watch?v=e3VyXH0lwGM"
+                  href="https://youtube.com/live/P5HtbOoqgas"
                   //href="https://www.youtube.com/@albingroen"
                   className="underline decoration-1 underline-offset-2 text-sm text-white font-medium animate-pulse"
                   rel="noopener noreferrer"
