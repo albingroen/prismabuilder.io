@@ -134,7 +134,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Stack>*/}
 
           <Stack spacing="none" direction="vertical" className="h-screen">
-            <Stack
+            {/*<Stack
               spacing="small"
               align="center"
               justify="center"
@@ -178,13 +178,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                     setHasSeenNewsModal(false);
                   }}
                 >
-                  {/*Starts{" "}
+                  Starts{" "}
                   {streamDateInLocalTZ
                     ? `at ${format(
                         streamDateInLocalTZ,
                         "MMM d hh:mm a, yyyy (O)",
                       )}`
-                    : "soon"}*/}
+                    : "soon"}
                   Live
                 </a>
                 <ArrowUpRightIcon className="w-4 stroke-white" /> 🎬 &nbsp;
@@ -202,6 +202,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 </a>
               </Stack>
             </Stack>
+      */}
 
             <div className="flex-1 flex">
               <Component {...pageProps} />
