@@ -100,7 +100,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       >
         <main className={classNames(inter.variable, "font-sans")}>
-          {!hasSeenNewsModal && <NewsModal onClose={onCloseNewsModal} />}
+          {/*!hasSeenNewsModal && <NewsModal onClose={onCloseNewsModal} />*/}
 
           {/*<Stack spacing="none" direction="vertical" className="h-screen">
             <Stack
