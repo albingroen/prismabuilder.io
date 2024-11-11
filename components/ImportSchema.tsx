@@ -70,11 +70,6 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
   return (
     <form onSubmit={form.handleSubmit}>
       <Stack direction="vertical" spacing="huge">
-        <p className="text-sm text-gray-700 dark:text-neutral-500">
-          Be wary that importing a schema will omit any default values on
-          fields.
-        </p>
-
         <textarea
           autoFocus
           rows={15}
