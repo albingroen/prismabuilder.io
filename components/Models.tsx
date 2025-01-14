@@ -373,11 +373,7 @@ export default function Models() {
             }}
           >
             {PRISMA_DATABASES.map((PRISMA_DATABASE) => (
-              <option
-                key={PRISMA_DATABASE.value}
-                value={PRISMA_DATABASE.value}
-                className="dark:bg-gray-600"
-              >
+              <option key={PRISMA_DATABASE.value} value={PRISMA_DATABASE.value}>
                 {PRISMA_DATABASE.label}
               </option>
             ))}
