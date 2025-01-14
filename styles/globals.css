@@ -6,6 +6,10 @@
   body {
     @apply antialiased bg-gray-100 dark:bg-neutral-800 text-black dark:text-white;
   }
+
+  select option {
+    @apply dark:bg-gray-600;
+  }
 }
 
 @layer components {
