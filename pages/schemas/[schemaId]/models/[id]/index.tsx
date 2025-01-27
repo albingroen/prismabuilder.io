@@ -281,8 +281,8 @@ const Model = () => {
                                     </Tag>
                                     {field.unique && <Tag>Unique</Tag>}
                                     {field.required && <Tag>Required</Tag>}
-                                    {field.default && (
-                                      <Tag>{field.default}</Tag>
+                                    {field.defaultValue && (
+                                      <Tag>{field.defaultValue}</Tag>
                                     )}
                                     {field.isUpdatedAt && <Tag>Updated At</Tag>}
                                     {field.isId && <Tag>ID</Tag>}

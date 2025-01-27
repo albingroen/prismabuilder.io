@@ -115,9 +115,9 @@ const Field = ({
           </Select>
 
           <Select
-            value={form.values.default}
+            value={form.values.defaultValue}
             onChange={(e) => {
-              form.setFieldValue("default", e.currentTarget.value);
+              form.setFieldValue("defaultValue", e.currentTarget.value);
             }}
             label="Default value"
           >
