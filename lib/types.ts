@@ -17,6 +17,7 @@ export type Field = {
   required: boolean;
   unique: boolean;
   default: string;
+  defaultValue: string;
   list: boolean;
   isId: boolean;
   kind: string;
