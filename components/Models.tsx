@@ -47,6 +47,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { copyToClipboard } from "../lib/utils";
+import EditableItem from "./EditableItem";
 
 export default function Models() {
   const { schema, schemas, setSchema, setSchemas } = useSchemaContext();
@@ -425,7 +426,10 @@ export default function Models() {
                                     isDragging={isDragging}
                                     isActive={isActive}
                                   >
-                                    {model.name}
+                                    <EditableItem
+                                      name={model.name}
+                                      schemaName={schema.name}
+                                    />
                                   </SidebarItem>
                                 </div>
                               )}
