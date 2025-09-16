@@ -24,6 +24,7 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
         .post(`${apiUrl}/parse`, { schema: values.schema })
         .then((res) => {
           const importedSchema = res.data;
+
           if (
             schema.models.some((model: Model) =>
               importedSchema.models
@@ -41,6 +42,14 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
           ) {
             toast.error("Some enum has a colliding name");
           } else if (importedSchema.models?.length) {
+            importedSchema.models.map((model: Model) => {
+              model.fields = model.fields.map((field: any) => {
+                field.default = field.defaultValue ? `@default(${field.defaultValue})` : null;
+
+                return field;
+              });
+            });
+
             setSchema({
               ...schema,
               models: [...schema.models, ...importedSchema.models],
@@ -61,11 +70,6 @@ const ImportSchema = ({ onClose }: ImportSchemaProps) => {
   return (
     <form onSubmit={form.handleSubmit}>
       <Stack direction="vertical" spacing="huge">
-        <p className="text-sm text-gray-700 dark:text-neutral-500">
-          Be wary that importing a schema will omit any default values on
-          fields.
-        </p>
-
         <textarea
           autoFocus
           rows={15}
